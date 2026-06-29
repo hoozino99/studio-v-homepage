@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title"><title id="title">Brompton Technology</title><style>.logo-text{font-family:Pretendard, Inter, Arial, sans-serif;fill:#f4f5f2;font-weight:800;letter-spacing:0}
+  .sub{font-size:15px;font-weight:700;opacity:.86}
+  .thin{font-weight:600}
+  .stroke{fill:none;stroke:#f4f5f2;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}</style><circle cx="70" cy="48" r="25" class="stroke"/><path d="M52 48h36M70 30v36M58 36l24 24M82 36 58 60" class="stroke" stroke-width="3"/><text class="logo-text" x="230" y="42" text-anchor="middle" font-size="28">BROMPTON</text><text class="logo-text thin" x="230" y="68" text-anchor="middle" font-size="24">TECHNOLOGY</text></svg>

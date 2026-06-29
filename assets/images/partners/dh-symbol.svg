@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title"><title id="title">DH</title><style>.logo-text{font-family:Pretendard, Inter, Arial, sans-serif;fill:#f4f5f2;font-weight:800;letter-spacing:0}
+  .sub{font-size:15px;font-weight:700;opacity:.86}
+  .thin{font-weight:600}
+  .stroke{fill:none;stroke:#f4f5f2;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}</style><rect x="128" y="18" width="104" height="60" class="stroke" stroke-width="4"/><path d="M148 22v52M169 22v52M190 22v52M211 22v52M132 39h96M132 57h96" class="stroke" stroke-width="3"/><text class="logo-text" x="180" y="60" text-anchor="middle" font-size="40">DH</text></svg>

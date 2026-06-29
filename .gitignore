@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+
+# Production source media is kept locally. GitHub rejects files over 100MB,
+# and the deployed site only needs the web-ready exports in assets/video/.
+assets/video/source/
+

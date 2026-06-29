@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio V | Virtual Production Stage</title>
+  <meta name="description" content="Studio V는 대전 스튜디오큐브의 대형 LED 기반 버추얼 프로덕션 스테이지입니다.">
+  <link rel="preload" as="image" href="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-partner-rail-1">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-usecase-fade-2">
+  <link rel="icon" href="data:,">
+</head>
+<body data-page="studio">
+  <div class="ambient-backplate" data-ambient-backplate aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <a class="brand" href="./index.html" aria-label="Studio V 홈">
+      <strong>Studio V</strong>
+      <span>Virtual Production Stage</span>
+    </a>
+    <nav class="nav-links" aria-label="주요 메뉴">
+      <a href="./index.html" aria-current="page">Studio</a>
+      <a href="./tour.html">3D Tour</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a href="./showreel.html">Showreel</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+    <button class="menu-button" type="button" data-menu-button aria-label="메뉴 열기">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="./index.html">Studio</a>
+    <a href="./tour.html">3D Tour</a>
+    <a href="./portfolio.html">Portfolio</a>
+    <a href="./showreel.html">Showreel</a>
+    <a href="./contact.html">Contact</a>
+  </div>
+
+  <main>
+    <section class="hero hero-home" data-hero-scrub>
+        <div class="hero-sticky">
+          <div class="hero-media" aria-hidden="true">
+          <video data-hero-video data-hero-loop muted playsinline autoplay loop preload="auto" poster="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-partner-rail-1" tabindex="-1">
+            <source src="./assets/video/cube-of-memory-main-web.mp4?v=studio-v-partner-rail-1" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content reveal">
+          <div class="hero-proof-lines">
+            <span>Large LED volume.</span>
+            <span>Cinematic production stage.</span>
+            <span>Film, commercial, live.</span>
+          </div>
+          <div class="hero-title-lockup">
+            <p class="section-kicker">Daejeon StudioCube</p>
+            <h1>Studio V</h1>
+            <strong>Virtual Production Stage</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section stage-overview">
+      <div class="stage-overview-head reveal">
+        <div class="stage-overview-title">
+          <p class="section-kicker">Stage Overview</p>
+          <h2>667평 플로어 위에 펼쳐지는<br>대형 LED 스테이지.</h2>
+        </div>
+      </div>
+      <div class="stage-scroll-gallery" data-stage-gallery aria-label="Studio V 스테이지 이미지">
+        <div class="stage-scroll-sticky">
+          <div class="stage-scroll-copy">
+            <span data-stage-count>01 / 03</span>
+            <strong data-stage-title>60m Main LED Wall</strong>
+            <p data-stage-caption>21K x 3K 해상도와 2.6mm Pixel Pitch 기반의 대형 LED 촬영 환경.</p>
+          </div>
+          <div class="stage-scroll-track">
+            <figure class="stage-scroll-frame is-active" data-title="60m Main LED Wall" data-caption="21K x 3K 해상도와 2.6mm Pixel Pitch 기반의 대형 LED 촬영 환경.">
+              <img src="./assets/images/stage-gallery-led-wall-wide.jpg" alt="Studio V 메인 LED Wall 풀샷" loading="lazy" decoding="async">
+              <figcaption>Main LED Wall</figcaption>
+            </figure>
+            <figure class="stage-scroll-frame" data-title="Side LED Wall" data-caption="촬영 앵글에 맞춰 배치되는 이동식 사이드 LED로 반사와 공간감을 확장합니다.">
+              <img src="./assets/images/stage-gallery-side-led.jpg" alt="Studio V Side LED Wall" loading="lazy" decoding="async">
+              <figcaption>Side LED Wall</figcaption>
+            </figure>
+            <figure class="stage-scroll-frame" data-title="Ceiling LED" data-caption="상부 LED가 조명과 반사 환경을 확장해 공간 전체의 일체감을 만듭니다.">
+              <img src="./assets/images/stage-gallery-ceiling-led.jpg" alt="Studio V Ceiling LED와 메인 LED Wall" loading="lazy" decoding="async">
+              <figcaption>Ceiling LED</figcaption>
+            </figure>
+          </div>
+          <div class="stage-scroll-progress" aria-hidden="true">
+            <span data-stage-progress></span>
+          </div>
+        </div>
+        <div class="stage-scroll-fallback">
+          <figure>
+          <img src="./assets/images/stage-gallery-led-wall-wide.jpg" alt="Studio V 메인 LED Wall 풀샷" loading="lazy" decoding="async">
+          <figcaption>Main LED Wall</figcaption>
+          </figure>
+          <figure>
+          <img src="./assets/images/stage-gallery-side-led.jpg" alt="Studio V Side LED Wall" loading="lazy" decoding="async">
+          <figcaption>Side LED Wall</figcaption>
+          </figure>
+          <figure>
+          <img src="./assets/images/stage-gallery-ceiling-led.jpg" alt="Studio V Ceiling LED와 메인 LED Wall" loading="lazy" decoding="async">
+          <figcaption>Ceiling LED</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-projects" data-home-projects aria-label="Studio V featured project archive"></section>
+
+    <section class="section production-flow usecase-scene" id="use-cases" data-usecase-scene>
+      <div class="usecase-backdrop" aria-hidden="true">
+        <figure class="usecase-bg usecase-bg--commercial is-active" data-usecase-bg>
+          <img class="usecase-bg-slide is-active" src="./assets/images/optimized/usecase-commercial-aion-01-clean-crop.jpg" alt="" loading="lazy" decoding="async" data-usecase-slide>
+          <img class="usecase-bg-slide" src="./assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg" alt="" loading="lazy" decoding="async" data-usecase-slide>
+          <img class="usecase-bg-slide" src="./assets/images/optimized/usecase-commercial-aion-03-clean-crop.jpg" alt="" loading="lazy" decoding="async" data-usecase-slide>
+        </figure>
+        <figure class="usecase-bg usecase-bg--film" data-usecase-bg>
+          <img class="usecase-bg-slide is-active" src="./assets/images/optimized/overview-1.jpg" alt="" loading="lazy" decoding="async" data-usecase-slide>
+        </figure>
+        <figure class="usecase-bg usecase-bg--event" data-usecase-bg>
+          <img class="usecase-bg-slide is-active" src="./assets/images/optimized/usecase-event-opening-outpaint.jpg" alt="" loading="lazy" decoding="async" data-usecase-slide>
+        </figure>
+      </div>
+      <div class="usecase-inner">
+        <div class="production-flow-head reveal">
+          <div>
+            <p class="section-kicker">Use Cases</p>
+            <h2>광고, 영화, 라이브까지.</h2>
+          </div>
+          <p>하나의 LED 스테이지에서 세트, 배경, 조명 환경을 빠르게 전환합니다.</p>
+        </div>
+        <div class="usecase-index reveal">
+          <div class="usecase-table" role="tablist" aria-label="Studio V Use Cases">
+            <button class="usecase-option is-active" type="button" role="tab" aria-selected="true" data-usecase-option data-usecase-index="0">
+              <span class="usecase-number">01</span>
+              <span class="usecase-label">
+                <em>Commercial</em>
+                <strong>광고 촬영</strong>
+              </span>
+              <span class="usecase-summary">제품과 세트, 배경 연출을 한 공간에서 빠르게 맞춥니다.</span>
+            </button>
+            <button class="usecase-option" type="button" role="tab" aria-selected="false" data-usecase-option data-usecase-index="1">
+              <span class="usecase-number">02</span>
+              <span class="usecase-label">
+                <em>Film & Drama</em>
+                <strong>영화·드라마</strong>
+              </span>
+              <span class="usecase-summary">세트와 조명 환경을 유지하며 장면 단위 촬영을 이어갑니다.</span>
+            </button>
+            <button class="usecase-option" type="button" role="tab" aria-selected="false" data-usecase-option data-usecase-index="2">
+              <span class="usecase-number">03</span>
+              <span class="usecase-label">
+                <em>Event</em>
+                <strong>행사·라이브</strong>
+              </span>
+              <span class="usecase-summary">쇼케이스와 라이브 콘텐츠를 대형 LED 무대 위에서 구성합니다.</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="partner-strip" data-partner-strip aria-label="Studio V production technology network"></section>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <strong>Studio V</strong>
+      <span>by KOCCA StudioCube</span>
+    </div>
+    <div class="footer-logo-strip" aria-label="운영 및 협력 로고">
+      <img src="./assets/images/logo-strip/kocca-mark.png" alt="KOCCA" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/mcst-new.png" alt="문화체육관광부" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/pgk-new.jpg" alt="PGK" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/xon.png" alt="XON" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/dexter.png" alt="Dexter Studios" loading="lazy" decoding="async">
+    </div>
+  </footer>
+
+  <script src="./assets/main.js?v=studio-v-usecase-fade-2"></script>
+</body>
+</html>

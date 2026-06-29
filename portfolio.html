@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio | Studio V</title>
+  <meta name="description" content="Studio V 포트폴리오. 슬라이드에 정리된 본편, 메이킹, 행사 기록 기반 제작 사례.">
+  <link rel="preload" as="image" href="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-partner-rail-1">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-partner-rail-1">
+  <link rel="icon" href="data:,">
+</head>
+<body data-page="portfolio">
+  <div class="ambient-backplate" data-ambient-backplate aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <a class="brand" href="./index.html" aria-label="Studio V 홈">
+      <strong>Studio V</strong>
+      <span>Virtual Production Stage</span>
+    </a>
+    <nav class="nav-links" aria-label="주요 메뉴">
+      <a href="./index.html">Studio</a>
+      <a href="./tour.html">3D Tour</a>
+      <a href="./portfolio.html" aria-current="page">Portfolio</a>
+      <a href="./showreel.html">Showreel</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+    <button class="menu-button" type="button" data-menu-button aria-label="메뉴 열기">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="./index.html">Studio</a>
+    <a href="./tour.html">3D Tour</a>
+    <a href="./portfolio.html">Portfolio</a>
+    <a href="./showreel.html">Showreel</a>
+    <a href="./contact.html">Contact</a>
+  </div>
+
+  <main>
+    <section class="sub-hero">
+      <img src="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-partner-rail-1" alt="" fetchpriority="high" decoding="async">
+      <div class="sub-hero-copy reveal">
+        <p class="section-kicker">Portfolio</p>
+        <h1>Production Archive</h1>
+        <p>Studio V에서 촬영된 프로젝트를 타이틀과 콘텐츠 포맷 중심으로 정리했습니다.</p>
+      </div>
+    </section>
+
+    <section class="section works-section">
+      <div class="works-top reveal">
+        <div>
+          <p class="section-kicker">Works</p>
+          <h2>Titles Shot in Volume</h2>
+        </div>
+        <div class="filter-bar" role="tablist" aria-label="포트폴리오 필터">
+          <button type="button" class="is-active" data-filter="all">All</button>
+          <button type="button" data-filter="film">Film</button>
+          <button type="button" data-filter="ad">AD</button>
+          <button type="button" data-filter="music">Music Video</button>
+          <button type="button" data-filter="event">Event</button>
+        </div>
+      </div>
+      <div class="works-grid" data-works-grid></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <strong>Studio V</strong>
+      <span>by KOCCA StudioCube</span>
+    </div>
+    <div class="footer-logo-strip" aria-label="운영 및 협력 로고">
+      <img src="./assets/images/logo-strip/kocca-mark.png" alt="KOCCA" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/mcst-new.png" alt="문화체육관광부" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/pgk-new.jpg" alt="PGK" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/xon.png" alt="XON" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/dexter.png" alt="Dexter Studios" loading="lazy" decoding="async">
+    </div>
+  </footer>
+
+  <script src="./assets/main.js?v=studio-v-partner-rail-1"></script>
+  <script src="./assets/works.js?v=studio-v-partner-rail-1"></script>
+</body>
+</html>

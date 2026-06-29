@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Showreel | Studio V</title>
+  <meta name="description" content="Studio V 쇼릴, 본편, 메이킹, 행사 기록 영상 아카이브.">
+  <link rel="preload" as="image" href="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-showreel-cards-1">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-showreel-cards-1">
+  <link rel="icon" href="data:,">
+</head>
+<body data-page="showreel">
+  <div class="ambient-backplate" data-ambient-backplate aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <a class="brand" href="./index.html" aria-label="Studio V 홈">
+      <strong>Studio V</strong>
+      <span>Virtual Production Stage</span>
+    </a>
+    <nav class="nav-links" aria-label="주요 메뉴">
+      <a href="./index.html">Studio</a>
+      <a href="./tour.html">3D Tour</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a href="./showreel.html" aria-current="page">Showreel</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+    <button class="menu-button" type="button" data-menu-button aria-label="메뉴 열기">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="./index.html">Studio</a>
+    <a href="./tour.html">3D Tour</a>
+    <a href="./portfolio.html">Portfolio</a>
+    <a href="./showreel.html">Showreel</a>
+    <a href="./contact.html">Contact</a>
+  </div>
+
+  <main>
+    <section class="showreel-hero">
+      <video muted playsinline autoplay loop preload="metadata" poster="./assets/video/cube-of-memory-hero-poster.jpg?v=studio-v-showreel-cards-1" aria-hidden="true" tabindex="-1">
+        <source src="./assets/video/cube-of-memory-main-web.mp4?v=studio-v-showreel-cards-1" type="video/mp4">
+      </video>
+      <div class="showreel-hero-shade" aria-hidden="true"></div>
+      <div class="showreel-hero-copy reveal">
+        <p class="section-kicker">Studio V</p>
+        <h1>Showreel</h1>
+        <p>Studio V에서 제작한 본편, 쇼릴, 메이킹, 쇼츠를 한 곳에 모았습니다.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#showreel-library">영상 목록</a>
+          <a class="button button-light" href="./contact.html">촬영 문의</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showreel-library" id="showreel-library" aria-label="쇼릴 영상 목록">
+      <div class="works-top reveal">
+        <div>
+          <p class="section-kicker">Contents</p>
+          <h2>Studio V Showreel</h2>
+        </div>
+        <p>큐브오브메모리, 개관식, 세미나, 기술시연회, AION2, 딜러 BTS까지 실제 영상 썸네일 중심으로 정리했습니다.</p>
+      </div>
+
+      <div class="showreel-grid" data-showreel-grid></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <strong>Studio V</strong>
+      <span>by KOCCA StudioCube</span>
+    </div>
+    <div class="footer-logo-strip" aria-label="운영 및 협력 로고">
+      <img src="./assets/images/logo-strip/kocca-mark.png" alt="KOCCA" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/mcst-new.png" alt="문화체육관광부" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/pgk-new.jpg" alt="PGK" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/xon.png" alt="XON" loading="lazy" decoding="async">
+      <img src="./assets/images/logo-strip/dexter.png" alt="Dexter Studios" loading="lazy" decoding="async">
+    </div>
+  </footer>
+
+  <script src="./assets/main.js?v=studio-v-showreel-cards-1"></script>
+  <script src="./assets/showreel.js?v=studio-v-showreel-cards-1"></script>
+</body>
+</html>

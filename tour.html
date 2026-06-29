@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D Studio Tour | Studio V</title>
+  <meta name="description" content="Studio V 3D 가상 스튜디오 투어. Main LED Wall, Ceiling LED, 플로어와 촬영 가능 영역을 확인하세요.">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-partner-rail-1">
+  <link rel="icon" href="data:,">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./assets/vendor/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body data-page="tour">
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <a class="brand" href="./index.html" aria-label="Studio V 홈">
+      <strong>Studio V</strong>
+      <span>Virtual Production Stage</span>
+    </a>
+    <nav class="nav-links" aria-label="주요 메뉴">
+      <a href="./index.html">Studio</a>
+      <a href="./tour.html" aria-current="page">3D Tour</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a href="./showreel.html">Showreel</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+    <button class="menu-button" type="button" data-menu-button aria-label="메뉴 열기">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" data-mobile-menu>
+    <a href="./index.html">Studio</a>
+    <a href="./tour.html">3D Tour</a>
+    <a href="./portfolio.html">Portfolio</a>
+    <a href="./showreel.html">Showreel</a>
+    <a href="./contact.html">Contact</a>
+  </div>
+
+  <main class="tour-page">
+    <section class="tour-shell" aria-label="Studio V 3D 가상 스튜디오 투어">
+      <aside class="tour-panel">
+        <div class="tour-panel-intro">
+          <p class="section-kicker">3D Virtual Studio Tour</p>
+          <h1>Studio V 미리보기</h1>
+          <p>Main LED Wall과 Ceiling LED, 플로어 규모를 3D로 확인합니다.</p>
+        </div>
+        <dl class="tour-specs">
+          <div><dt>Studio</dt><dd>667평 / 2,204㎡</dd></div>
+          <div><dt>Main LED</dt><dd>60m x 8m</dd></div>
+          <div><dt>Resolution</dt><dd>21K x 3K</dd></div>
+        </dl>
+        <div class="tour-control-group">
+          <div class="tour-control-title">
+            <strong>View</strong>
+            <span>camera preset</span>
+          </div>
+          <div class="tour-controls" aria-label="3D 보기 제어">
+            <button type="button" data-view="overview">Overview</button>
+            <button type="button" data-view="wall">LED Wall</button>
+            <button type="button" data-view="scale">Stage</button>
+            <button type="button" data-view="top">Plan</button>
+            <button type="button" data-auto>Auto Rotate</button>
+          </div>
+        </div>
+        <div class="tour-reference-panel tour-control-group" aria-label="스케일 기준물 위치 제어">
+          <div class="tour-video-head tour-control-title">
+            <strong>Scale Reference</strong>
+            <div class="tour-reference-toggle" role="group" aria-label="조작 대상 선택">
+              <button type="button" data-reference-target="vehicle" aria-pressed="true">Car</button>
+              <button type="button" data-reference-target="person" aria-pressed="false">Person</button>
+            </div>
+          </div>
+          <label>
+            <span>Left / Right <output data-reference-value="x">0.0m</output></span>
+            <input type="range" min="-15" max="15" step="0.1" value="0" data-reference-x>
+          </label>
+          <label>
+            <span>Front / Back <output data-reference-value="z">-13.6m</output></span>
+            <input type="range" min="-28" max="22" step="0.1" value="-13.6" data-reference-z>
+          </label>
+          <label>
+            <span>Rotate <output data-reference-value="rotation">-8°</output></span>
+            <input type="range" min="-180" max="180" step="1" value="-8" data-reference-rotation>
+          </label>
+        </div>
+        <div class="tour-video-panel tour-control-group" aria-label="LED 영상 제어">
+          <div class="tour-video-head tour-control-title">
+            <strong>LED Video</strong>
+            <button type="button" data-led-video-toggle aria-pressed="true">Stop</button>
+          </div>
+          <label>
+            <span>Scale <output data-led-video-value="scale">100%</output></span>
+            <input type="range" min="0.55" max="1.8" step="0.01" value="1" data-led-video-scale>
+          </label>
+          <label>
+            <span>Position X <output data-led-video-value="x">0</output></span>
+            <input type="range" min="-0.35" max="0.35" step="0.01" value="0" data-led-video-x>
+          </label>
+          <label>
+            <span>Position Y <output data-led-video-value="y">0</output></span>
+            <input type="range" min="-0.28" max="0.28" step="0.01" value="0" data-led-video-y>
+          </label>
+          <button class="tour-video-reset" type="button" data-led-video-reset>Reset Video</button>
+        </div>
+        <p class="control-note">마우스 드래그로 회전, 휠로 확대, 우클릭 드래그로 이동할 수 있습니다. 모바일에서는 한 손가락 회전, 두 손가락 줌을 사용합니다.</p>
+      </aside>
+      <section class="tour-stage" data-tour-stage>
+        <div class="tour-loading" data-tour-loading>
+          <strong>Studio V</strong>
+          <span>Loading studio model</span>
+          <i data-load-bar></i>
+        </div>
+        <canvas id="studioTour" aria-label="Studio V 3D 가상 스튜디오"></canvas>
+        <div class="tour-hud" aria-hidden="true">
+          <span>Floor 34.5m x 63.9m</span>
+          <span>Main LED 60m x 8m</span>
+          <span>GLE 4.94m L / 1.95m W</span>
+          <span>Person 1.75m H</span>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="./assets/main.js?v=studio-v-partner-rail-1"></script>
+  <script type="module" src="./assets/tour.js?v=studio-v-partner-rail-1"></script>
+</body>
+</html>
