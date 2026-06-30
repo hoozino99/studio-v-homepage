@@ -1,7 +1,11 @@
 .DS_Store
 Thumbs.db
+.wrangler/
 
 # Production source media is kept locally. GitHub rejects files over 100MB,
 # and the deployed site only needs the web-ready exports in assets/video/.
 assets/video/source/
-
+assets/video/cube-of-memory-main-web.mp4
+assets/video/*-hq.mp4
+assets/videos/*-hq.mp4
+*.mov

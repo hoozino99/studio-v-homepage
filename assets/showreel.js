@@ -11,7 +11,8 @@
       runtime: '16:9 / MOV',
       source: '0327_Cube of Memory_Edit_full_v008_master.mov',
       driveId: '1ZUX20pEH0LF1tWSTK8ITFTY54Yjzlaf1',
-      category: 'Cube of Memory'
+      category: 'Cube of Memory',
+      thumb: './assets/video/showreel-thumbs/cube-main-film.jpg'
     },
     {
       slug: 'cube-showreel',
@@ -21,7 +22,8 @@
       runtime: '16:9 / MOV',
       source: '0320_Cube of Memory_Showreel_final.mov',
       driveId: '1eVrCmDC0uqISlWLN872BCqF9KMnDJvDi',
-      category: 'Cube of Memory'
+      category: 'Cube of Memory',
+      thumb: './assets/video/showreel-thumbs/cube-making.jpg'
     },
     {
       slug: 'cube-of-memory-making',
@@ -31,7 +33,8 @@
       runtime: '16:9 / MP4',
       source: '큐브오브메모리_VER_9.mp4',
       driveId: '1cooFjFFyFMavmusrecZK8f5lxq_3bztp',
-      category: 'Cube of Memory'
+      category: 'Cube of Memory',
+      thumb: './assets/video/showreel-thumbs/cube-showreel.jpg'
     },
     {
       slug: 'opening-ceremony',
@@ -41,7 +44,8 @@
       runtime: '16:9 / MP4',
       source: '0226_스튜디오큐브홍보영상.mp4',
       driveId: '1k3KOYMHdL_wxoiW3HyqIxg5CC09X8n2G',
-      category: 'StudioCube'
+      category: 'StudioCube',
+      thumb: './assets/images/optimized/usecase-event-opening-outpaint.jpg'
     },
     {
       slug: 'broadcast-seminar',
@@ -51,7 +55,8 @@
       runtime: '16:9 / MP4',
       source: '방송기술인세미나_1차편집본.mp4',
       driveId: '18eRI-ttPLWAoUCywOepIyqkim8wXg6-A',
-      category: 'Seminar'
+      category: 'Seminar',
+      thumb: './assets/images/optimized/overview-1.jpg'
     },
     {
       slug: 'beyond-the-set',
@@ -61,7 +66,8 @@
       runtime: '16:9 / MP4',
       source: '기술시연회1회차.mp4',
       driveId: '1qB_5mW2gIA6dqOMo5dz8twkIGv1wXx4L',
-      category: 'Showcase'
+      category: 'Showcase',
+      thumb: './assets/images/stage-gallery-led-wall-wide.jpg'
     },
     {
       slug: 'aion2',
@@ -71,7 +77,8 @@
       runtime: '16:9 / MP4',
       source: 'Aion2_bts_260504.mp4',
       driveId: '110GMj21y1LWMT8V5U5T0bvQ_LLNpXTNH',
-      category: 'Commercial'
+      category: 'Commercial',
+      thumb: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
     },
     {
       slug: 'dealer',
@@ -81,7 +88,8 @@
       runtime: '16:9 / MP4',
       source: 'Dealer_0624.mp4',
       driveId: '14R3yiETLyxEAYDciz1GF_ERnoF8rVbji',
-      category: 'Commercial'
+      category: 'Commercial',
+      thumb: './assets/images/optimized/usecase-commercial-aion-03-extendonly-ledtop.jpg'
     },
     {
       slug: 'pd-shorts',
@@ -92,7 +100,8 @@
       source: '쇼츠_A_VER_5.mp4',
       driveId: '17kc0aMNfn25-TA5ohWkoIuiwAb-u9hKL',
       category: 'Cube of Memory',
-      aspect: 'portrait'
+      aspect: 'portrait',
+      thumb: './assets/video/showreel-thumbs/pd-shorts.jpg'
     },
     {
       slug: 'camera-lighting-shorts',
@@ -103,7 +112,8 @@
       source: '쇼츠_C_VER_6.mp4',
       driveId: '1fSleWSuuymOwfPzbh-QeZa9Y70dr2OLA',
       category: 'Cube of Memory',
-      aspect: 'portrait'
+      aspect: 'portrait',
+      thumb: './assets/video/showreel-thumbs/camera-lighting-shorts.jpg'
     },
     {
       slug: 'vfx-shorts',
@@ -114,7 +124,8 @@
       source: '쇼츠_B_VER_6.mp4',
       driveId: '1e3z4i-xiXDpauttAnmlCZ2gWGS-Ae_Cy',
       category: 'Cube of Memory',
-      aspect: 'portrait'
+      aspect: 'portrait',
+      thumb: './assets/video/showreel-thumbs/vfx-shorts.jpg'
     },
     {
       slug: 'showreel-shorts',
@@ -125,12 +136,14 @@
       source: '쇼츠_세로_VER_3.mp4',
       driveId: '1BjaSYnITwlMDEqo5PkU8cXn7nQ7BFaio',
       category: 'Cube of Memory',
-      aspect: 'portrait'
+      aspect: 'portrait',
+      thumb: './assets/video/showreel-thumbs/showreel-shorts.jpg'
     }
   ];
 
   const iframe = document.querySelector('[data-showreel-iframe]');
   const grid = document.querySelector('[data-showreel-grid]');
+  const shortsGrid = document.querySelector('[data-showreel-shorts-grid]');
   const player = document.querySelector('[data-showreel-player]');
   const title = document.querySelector('[data-showreel-title]');
   const copy = document.querySelector('[data-showreel-copy]');
@@ -169,11 +182,18 @@
   const modalCloseButtons = [...modal.querySelectorAll('[data-showreel-close]')];
   let activeModalIndex = -1;
 
-  grid.innerHTML = videos.map((video, index) => `
-    <button class="showreel-card reveal${index === 0 ? ' is-active' : ''}" type="button" data-video-index="${index}" data-video-slug="${video.slug}" style="--reveal-delay: ${Math.min(index, 5) * 54}ms">
-      <figure${video.aspect === 'portrait' ? ' class="is-portrait"' : ''}>
+  const landscapeVideos = videos
+    .map((video, index) => ({ video, index }))
+    .filter(({ video }) => video.aspect !== 'portrait');
+  const portraitVideos = videos
+    .map((video, index) => ({ video, index }))
+    .filter(({ video }) => video.aspect === 'portrait');
+
+  const renderCards = (items, options = {}) => items.map(({ video, index }, groupIndex) => `
+    <button class="showreel-card${options.portrait ? ' showreel-card--portrait' : ''} reveal${index === 0 ? ' is-active' : ''}" type="button" data-video-index="${index}" data-video-slug="${video.slug}" style="--reveal-delay: ${Math.min(groupIndex, 5) * 54}ms">
+      <figure${options.portrait ? ' class="is-portrait"' : ''}>
         <img src="${video.thumb || driveThumb(video.driveId)}" alt="" loading="lazy" decoding="async">
-        <span>${String(index + 1).padStart(2, '0')}</span>
+        <span>${String(groupIndex + 1).padStart(2, '0')}</span>
       </figure>
       <div class="showreel-card-copy">
         <small>${video.category} / ${video.type}</small>
@@ -183,8 +203,11 @@
     </button>
   `).join('');
 
-  const cards = [...grid.querySelectorAll('[data-video-index]')];
-  grid.querySelectorAll('img').forEach((image) => {
+  grid.innerHTML = renderCards(landscapeVideos);
+  if (shortsGrid) shortsGrid.innerHTML = renderCards(portraitVideos, { portrait: true });
+
+  const cards = [...document.querySelectorAll('[data-video-index]')];
+  document.querySelectorAll('[data-showreel-grid] img, [data-showreel-shorts-grid] img').forEach((image) => {
     image.addEventListener('error', () => {
       image.src = './assets/video/showreel-poster.jpg';
     }, { once: true });

@@ -7,7 +7,7 @@
       category: 'Film',
       title: 'Cube of Memory',
       format: 'Virtual Production Film',
-      image: './assets/video/cube-of-memory-hero-poster.jpg'
+      image: './assets/video/cube-of-memory-main-film-poster.jpg'
     },
     {
       slug: 'aion-commercial',
@@ -16,7 +16,7 @@
       category: 'AD',
       title: 'AION 2',
       format: 'AD',
-      image: './assets/images/optimized/usecase-commercial-aion-01-clean-crop.jpg'
+      image: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
     },
     {
       slug: 'dealer-driving-plate',
@@ -25,7 +25,7 @@
       category: 'AD',
       title: 'Dealer',
       format: 'AD',
-      image: './assets/images/optimized/usecase-commercial-aion-03-clean-crop.jpg'
+      pendingThumbnail: true
     },
     {
       slug: 'lesserafim-overwatch',
@@ -34,7 +34,7 @@
       category: 'Music Video',
       title: 'LE SSERAFIM x Overwatch',
       format: 'Music Video',
-      image: './assets/images/overview-4.jpg'
+      pendingThumbnail: true
     },
     {
       slug: 'studio-cube-opening',
@@ -59,36 +59,36 @@
       group: 'event',
       number: '07',
       category: 'Seminar',
-      title: 'VP Technical Seminar',
+      title: 'Technical Demonstration I',
       format: 'Technology Demonstration',
-      image: './assets/images/stage-gallery-side-led.jpg'
+      pendingThumbnail: true
     },
     {
       slug: 'genesis-print-campaign-01',
       group: 'ad',
       number: '08',
       category: 'AD',
-      title: 'Genesis I',
+      title: 'Genesis GV90 1',
       format: 'AD',
-      image: './assets/images/stage-gallery-ceiling-led.jpg'
+      restricted: true
     },
     {
       slug: 'genesis-print-campaign-02',
       group: 'ad',
       number: '09',
       category: 'AD',
-      title: 'Genesis II',
+      title: 'Genesis GV90 2',
       format: 'AD',
-      image: './assets/images/stage-gallery-side-led.jpg'
+      restricted: true
     },
     {
       slug: 'avante-print-campaign',
       group: 'ad',
       number: '10',
       category: 'AD',
-      title: 'Avante',
+      title: 'Avante DN8',
       format: 'AD',
-      image: './assets/images/stage-gallery-led-wall-wide.jpg'
+      restricted: true
     }
   ];
 
@@ -97,12 +97,31 @@
   const filters = ['film', 'ad', 'music', 'event'];
   if (!grid) return;
 
+  const getThumb = (work) => {
+    if (work.restricted) {
+      return `<div class="project-restricted-thumb" aria-label="${work.title} image restricted">
+        <span>Client Restricted</span>
+        <strong>${work.title}</strong>
+        <em>Preview Withheld</em>
+      </div>`;
+    }
+
+    if (work.pendingThumbnail) {
+      return `<div class="project-pending-thumb" aria-label="${work.title} thumbnail pending">
+        <span>Thumbnail Pending</span>
+        <strong>${work.title}</strong>
+      </div>`;
+    }
+
+    return `<img src="${work.image}" alt="${work.title}" loading="lazy" decoding="async">`;
+  };
+
   const render = (filter = 'all') => {
     const list = filter === 'all' ? works : works.filter((work) => work.group === filter);
     grid.innerHTML = list.map((work, index) => `
       <article class="work-card reveal" id="${work.slug}" style="--reveal-delay: ${Math.min(index, 8) * 42}ms">
-        <div class="work-image">
-          <img src="${work.image}" alt="${work.title}" loading="lazy" decoding="async">
+        <div class="work-image${work.restricted ? ' work-image--restricted' : ''}${work.pendingThumbnail ? ' work-image--pending' : ''}">
+          ${getThumb(work)}
           <span class="work-index">${work.number}</span>
           <span class="work-format">${work.format}</span>
         </div>

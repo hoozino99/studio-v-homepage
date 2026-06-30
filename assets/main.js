@@ -95,6 +95,7 @@
       const progress = clamp((0 - rect.top) / scrollRange, 0, 1);
 
       heroScrub.style.setProperty('--hero-progress', progress.toFixed(4));
+      heroScrub.style.setProperty('--hero-content-exit', clamp(progress * 1.08, 0, 1).toFixed(4));
       heroScrub.style.setProperty('--hero-lift', `${(-1 - progress * 3.6).toFixed(2)}%`);
       heroScrub.style.setProperty('--hero-scale', (1.045 + progress * 0.045).toFixed(4));
 
@@ -137,30 +138,78 @@
   const homeProjects = document.querySelector('[data-home-projects]');
   if (homeProjects) {
     const projects = [
-      ['Cube of Memory', 'Virtual Production Film', './assets/video/cube-of-memory-hero-poster.jpg'],
-      ['AION 2', 'AD', './assets/images/optimized/usecase-commercial-aion-01-clean-crop.jpg'],
-      ['Dealer', 'AD', './assets/images/optimized/usecase-commercial-aion-03-clean-crop.jpg'],
-      ['LE SSERAFIM x Overwatch', 'Music Video', './assets/images/overview-4.jpg'],
-      ['StudioCube Opening', 'Launch Film', './assets/images/optimized/usecase-event-opening-outpaint.jpg'],
-      ['Beyond the Set', 'VP Showcase', './assets/images/stage-gallery-led-wall-wide.jpg'],
-      ['VP Technical Seminar', 'Technology Demonstration', './assets/images/stage-gallery-side-led.jpg'],
-      ['Genesis', 'AD', './assets/images/stage-gallery-ceiling-led.jpg'],
-      ['Avante', 'AD', './assets/images/stage-gallery-led-wall-wide.jpg'],
+      {
+        title: 'Cube of Memory',
+        format: 'Virtual Production Film',
+        image: './assets/video/cube-of-memory-main-film-poster.jpg'
+      },
+      {
+        title: 'AION 2',
+        format: 'AD',
+        image: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
+      },
+      {
+        title: 'Dealer',
+        format: 'AD',
+        image: './assets/images/optimized/usecase-commercial-aion-03-extendonly-ledtop.jpg'
+      },
+      {
+        title: 'LE SSERAFIM x Overwatch',
+        format: 'Music Video',
+        image: './assets/images/overview-4.jpg'
+      },
+      {
+        title: 'StudioCube Opening',
+        format: 'Launch Film',
+        image: './assets/images/optimized/usecase-event-opening-outpaint.jpg'
+      },
+      {
+        title: 'Beyond the Set',
+        format: 'VP Showcase',
+        image: './assets/images/stage-gallery-led-wall-wide.jpg'
+      },
+      {
+        title: 'VP Technical Seminar',
+        format: 'Technology Demonstration',
+        image: './assets/images/stage-gallery-side-led.jpg'
+      },
+      {
+        title: 'Genesis GV90 1',
+        format: 'AD',
+        restricted: true
+      },
+      {
+        title: 'Genesis GV90 2',
+        format: 'AD',
+        restricted: true
+      },
+      {
+        title: 'Avante DN8',
+        format: 'AD',
+        restricted: true
+      },
     ];
-    const cardMarkup = projects.map(([title, format, image], index) => `
-      <article class="home-project-card">
-        <img src="${image}" alt="" loading="lazy" decoding="async">
-        <div>
-          <span>${String(index + 1).padStart(2, '0')} / ${format}</span>
-          <strong>${title}</strong>
+    const renderProjectMedia = (project) => project.restricted
+      ? `<div class="project-restricted-thumb" aria-label="${project.title} image restricted">
+          <span>Client Restricted</span>
+          <strong>${project.title}</strong>
+          <em>Preview Withheld</em>
+        </div>`
+      : `<img src="${project.image}" alt="" loading="lazy" decoding="async">`;
+    const cardMarkup = projects.map((project, index) => `
+      <article class="home-project-card${project.restricted ? ' home-project-card--restricted' : ''}">
+        ${renderProjectMedia(project)}
+        <div class="home-project-card-copy">
+          <span>${String(index + 1).padStart(2, '0')} / ${project.format}</span>
+          <strong>${project.title}</strong>
         </div>
       </article>
     `).join('');
 
     homeProjects.innerHTML = `
       <div class="home-projects-copy reveal">
-        <p class="section-kicker">Production Archive</p>
-        <h2>Recent work, moving through the volume.</h2>
+        <p class="section-kicker">Selected Projects</p>
+        <h2>Work captured on the Studio V volume.</h2>
       </div>
       <div class="home-project-marquee reveal" aria-label="Studio V project highlights">
         <div class="home-project-track">
@@ -173,14 +222,15 @@
 
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
-    const partnerLogos = [
+    const primaryPartnerLogos = [
       ['lg-electronics', 'LG Electronics', './assets/images/partners-official/lg-electronics.png', 'official'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],
-      ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
       ['mbc-ci', 'MBC C&I', './assets/images/partners-official/mbc-ci.png', 'official'],
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
+    ];
+    const supportPartnerLogos = [
       ['saeki-pnc', 'SAEKI P&C', './assets/images/partners/saeki-pnc.svg', 'recreated'],
       ['kol-corporation', 'KOL Corporation', './assets/images/partners/kol-corporation.svg', 'recreated'],
       ['petadata', 'PetaData', './assets/images/partners/petadata.svg', 'recreated'],
@@ -202,9 +252,9 @@
       ['dh-symbol', 'DH', './assets/images/partners/dh-symbol.svg', 'recreated'],
     ];
 
-    const logoMarkup = partnerLogos.map(([slug, name, src, source], index) => `
-      <li class="partner-logo-card partner-logo-card--${source}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-partner-rail-1" alt="${name}" loading="lazy" decoding="async">
+    const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
+      <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
+        <img src="${src}?v=studio-v-seamless-home-20" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 
@@ -213,11 +263,13 @@
         <div class="partner-strip-inner">
           <div class="partner-strip-copy reveal">
             <p>Powered by</p>
-            <h2>Studio V Technology Network</h2>
-            <span>Display · Camera · Tracking · Media Server · Stage Integration</span>
+            <h2>Technology Partners</h2>
           </div>
-          <ul class="partner-logo-wall reveal" aria-label="Studio V equipment suppliers">
-            ${logoMarkup}
+          <ul class="partner-logo-wall partner-logo-wall--primary reveal" aria-label="Studio V primary technology partners">
+            ${logoMarkup(primaryPartnerLogos, 'primary')}
+          </ul>
+          <ul class="partner-logo-wall partner-logo-wall--supporting reveal" aria-label="Studio V equipment suppliers">
+            ${logoMarkup(supportPartnerLogos, 'supporting')}
           </ul>
         </div>
       `;
@@ -274,11 +326,14 @@
       const viewport = window.innerHeight || document.documentElement.clientHeight;
       const galleryTop = rect.top + window.scrollY;
       const start = galleryTop - viewport * 0.16;
-      const end = galleryTop + stageGallery.offsetHeight - viewport * 0.95;
+      const end = galleryTop + stageGallery.offsetHeight - viewport * 0.28;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
-      const nextIndex = getFrameIndex(progress);
+      const frameProgress = clamp(progress / 0.86, 0, 1);
+      const copyExit = clamp((progress - 0.92) / 0.07, 0, 1);
+      const nextIndex = getFrameIndex(frameProgress);
       setActiveFrame(nextIndex);
+      stageGallery.style.setProperty('--stage-copy-exit', copyExit.toFixed(4));
       if (progressBar) progressBar.style.setProperty('--stage-progress', `${progress * 100}%`);
     };
 
@@ -334,6 +389,11 @@
 
     const setStaticUsecase = (index) => {
       const nextIndex = clamp(index, 0, Math.max(0, backgrounds.length - 1));
+      usecaseScene.style.setProperty('--usecase-scroll-progress', '0');
+      usecaseScene.style.setProperty('--usecase-copy-exit', '0');
+      usecaseScene.style.setProperty('--usecase-scene-exit', '0');
+      usecaseScene.style.setProperty('--usecase-image-lift', '0');
+      usecaseScene.style.setProperty('--usecase-sheen-opacity', '0.24');
       setActiveUsecase(nextIndex);
       backgrounds.forEach((background, backgroundIndex) => {
         const isActive = backgroundIndex === nextIndex;
@@ -405,11 +465,19 @@
       const viewport = window.innerHeight || document.documentElement.clientHeight;
       const sectionTop = rect.top + window.scrollY;
       const start = sectionTop;
-      const end = sectionTop + usecaseScene.offsetHeight - viewport * 1.04;
+      const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
+      const frameProgress = clamp(progress / 0.74, 0, 1);
+      const copyExit = clamp((progress - 0.82) / 0.14, 0, 1);
+      const imageLift = clamp((progress - 0.82) / 0.16, 0, 1);
+      const sceneExit = clamp((progress - 0.985) / 0.015, 0, 1);
       usecaseScene.style.setProperty('--usecase-scroll-progress', progress.toFixed(4));
-      setUsecaseFrame(progress * Math.max(0, frames.length - 1));
+      usecaseScene.style.setProperty('--usecase-copy-exit', copyExit.toFixed(4));
+      usecaseScene.style.setProperty('--usecase-scene-exit', sceneExit.toFixed(4));
+      usecaseScene.style.setProperty('--usecase-image-lift', imageLift.toFixed(4));
+      usecaseScene.style.setProperty('--usecase-sheen-opacity', (0.24 * (1 - sceneExit)).toFixed(4));
+      setUsecaseFrame(frameProgress * Math.max(0, frames.length - 1));
     };
 
     const requestUsecaseUpdate = () => {
@@ -426,12 +494,13 @@
       const viewport = window.innerHeight || document.documentElement.clientHeight;
       const sectionTop = usecaseScene.getBoundingClientRect().top + window.scrollY;
       const start = sectionTop;
-      const end = sectionTop + usecaseScene.offsetHeight - viewport * 1.04;
+      const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
       const travel = Math.max(1, end - start);
       const frameIndex = frameIndexByBackground[index] || 0;
       const progress = frames.length > 1 ? frameIndex / (frames.length - 1) : 0;
+      const scrollProgress = progress * 0.74;
       window.scrollTo({
-        top: start + progress * travel,
+        top: start + scrollProgress * travel,
         behavior: reducedMotionQuery.matches ? 'auto' : 'smooth',
       });
     };
