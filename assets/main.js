@@ -137,41 +137,43 @@
 
   const homeProjects = document.querySelector('[data-home-projects]');
   if (homeProjects) {
+    const projectAssetVersion = 'studio-v-lsf-thumb-01';
+    const versionedProjectAsset = (url) => url && url.startsWith('./') ? `${url}?v=${projectAssetVersion}` : url;
     const projects = [
       {
         title: 'Cube of Memory',
         format: 'Virtual Production Film',
-        image: './assets/video/cube-of-memory-main-film-poster.jpg'
+        image: './assets/video/showreel-thumbs/cube-main-film.jpg'
       },
       {
         title: 'AION 2',
         format: 'AD',
-        image: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
+        image: './assets/video/showreel-thumbs/aion2.jpg'
       },
       {
         title: 'Dealer',
         format: 'AD',
-        image: './assets/images/optimized/usecase-commercial-aion-03-extendonly-ledtop.jpg'
+        image: './assets/video/showreel-thumbs/dealer.jpg'
       },
       {
         title: 'LE SSERAFIM x Overwatch',
         format: 'Music Video',
-        image: './assets/images/overview-4.jpg'
+        image: './assets/video/showreel-thumbs/le-sserafim-overwatch.jpg'
       },
       {
         title: 'StudioCube Opening',
         format: 'Launch Film',
-        image: './assets/images/optimized/usecase-event-opening-outpaint.jpg'
+        image: './assets/video/showreel-thumbs/studiocube-opening.jpg'
       },
       {
         title: 'Beyond the Set',
         format: 'VP Showcase',
-        image: './assets/images/stage-gallery-led-wall-wide.jpg'
+        image: './assets/video/showreel-thumbs/beyond-the-set.jpg'
       },
       {
         title: 'VP Technical Seminar',
         format: 'Technology Demonstration',
-        image: './assets/images/stage-gallery-side-led.jpg'
+        image: './assets/video/showreel-thumbs/seminar-making.jpg'
       },
       {
         title: 'Genesis GV90 1',
@@ -191,11 +193,15 @@
     ];
     const renderProjectMedia = (project) => project.restricted
       ? `<div class="project-restricted-thumb" aria-label="${project.title} image restricted">
-          <span>Client Restricted</span>
+          <span>Confidential</span>
           <strong>${project.title}</strong>
-          <em>Preview Withheld</em>
         </div>`
-      : `<img src="${project.image}" alt="" loading="lazy" decoding="async">`;
+      : project.pendingThumbnail
+        ? `<div class="project-pending-thumb" aria-label="${project.title} thumbnail pending">
+            <span>${project.pendingLabel || 'Thumbnail Pending'}</span>
+            <strong>${project.title}</strong>
+          </div>`
+      : `<img src="${versionedProjectAsset(project.image)}" alt="" loading="lazy" decoding="async">`;
     const cardMarkup = projects.map((project, index) => `
       <article class="home-project-card${project.restricted ? ' home-project-card--restricted' : ''}">
         ${renderProjectMedia(project)}
@@ -254,7 +260,7 @@
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-seamless-home-20" alt="${name}" loading="lazy" decoding="async">
+        <img src="${src}?v=studio-v-lsf-thumb-01" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 
@@ -413,22 +419,23 @@
       });
     };
 
-    const setUsecaseFrame = (frameFloat) => {
+    const setUsecaseFrame = (frameProgress) => {
       if (!frames.length) {
         setActiveUsecase(0);
         return;
       }
 
       const maxFrame = Math.max(0, frames.length - 1);
-      const currentFrame = clamp(frameFloat, 0, maxFrame);
-      const activeFrame = frames[Math.round(currentFrame)] || frames[0];
+      const normalizedProgress = clamp(frameProgress, 0, 1);
+      const activeFrameIndex = frames.length <= 1
+        ? 0
+        : Math.min(maxFrame, Math.floor(normalizedProgress * frames.length));
+      const activeFrame = frames[activeFrameIndex] || frames[0];
 
       frames.forEach((frame, frameIndex) => {
-        const delta = frameIndex - currentFrame;
-        const distance = Math.abs(delta);
-        const opacity = clamp(1 - distance * 1.35, 0, 1);
-        const isActive = opacity > 0.02;
-        const scale = 1 + Math.min(distance * 0.004, 0.012);
+        const isActive = frameIndex === activeFrameIndex;
+        const opacity = isActive ? 1 : 0;
+        const scale = isActive ? 1 : 1.012;
 
         frame.slide.style.setProperty('--usecase-slide-opacity', opacity.toFixed(4));
         frame.slide.style.setProperty('--usecase-slide-x', '0');
@@ -437,14 +444,8 @@
       });
 
       backgrounds.forEach((background, backgroundIndex) => {
-        const groupFrames = frames.filter((frame) => frame.backgroundIndex === backgroundIndex);
-        const opacity = groupFrames.length
-          ? Math.max(...groupFrames.map((frame) => {
-            const frameIndex = frames.indexOf(frame);
-            return clamp(1 - Math.abs(frameIndex - currentFrame) * 1.35, 0, 1);
-          }))
-          : 0;
-        const isActive = opacity > 0.02;
+        const isActive = backgroundIndex === activeFrame.backgroundIndex;
+        const opacity = isActive ? 1 : 0;
         const scale = isActive ? 1 : 1.01;
         background.style.setProperty('--usecase-bg-opacity', opacity.toFixed(4));
         background.style.setProperty('--usecase-bg-x', '0');
@@ -468,16 +469,16 @@
       const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
-      const frameProgress = clamp(progress / 0.74, 0, 1);
-      const copyExit = clamp((progress - 0.82) / 0.14, 0, 1);
-      const imageLift = clamp((progress - 0.82) / 0.16, 0, 1);
+      const frameProgress = clamp(progress / 0.86, 0, 1);
+      const copyExit = clamp((progress - 0.92) / 0.07, 0, 1);
+      const imageLift = clamp((progress - 0.90) / 0.09, 0, 1);
       const sceneExit = clamp((progress - 0.985) / 0.015, 0, 1);
       usecaseScene.style.setProperty('--usecase-scroll-progress', progress.toFixed(4));
       usecaseScene.style.setProperty('--usecase-copy-exit', copyExit.toFixed(4));
       usecaseScene.style.setProperty('--usecase-scene-exit', sceneExit.toFixed(4));
       usecaseScene.style.setProperty('--usecase-image-lift', imageLift.toFixed(4));
       usecaseScene.style.setProperty('--usecase-sheen-opacity', (0.24 * (1 - sceneExit)).toFixed(4));
-      setUsecaseFrame(frameProgress * Math.max(0, frames.length - 1));
+      setUsecaseFrame(frameProgress);
     };
 
     const requestUsecaseUpdate = () => {
@@ -497,8 +498,8 @@
       const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
       const travel = Math.max(1, end - start);
       const frameIndex = frameIndexByBackground[index] || 0;
-      const progress = frames.length > 1 ? frameIndex / (frames.length - 1) : 0;
-      const scrollProgress = progress * 0.74;
+      const progress = frames.length > 1 ? frameIndex / frames.length : 0;
+      const scrollProgress = progress * 0.86;
       window.scrollTo({
         top: start + scrollProgress * travel,
         behavior: reducedMotionQuery.matches ? 'auto' : 'smooth',

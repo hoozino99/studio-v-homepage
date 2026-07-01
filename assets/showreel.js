@@ -1,6 +1,8 @@
 (() => {
   const drivePreview = (id) => `https://drive.google.com/file/d/${id}/preview`;
   const driveThumb = (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w1200`;
+  const assetVersion = 'studio-v-lsf-thumb-01';
+  const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
 
   const videos = [
     {
@@ -23,7 +25,7 @@
       source: '0320_Cube of Memory_Showreel_final.mov',
       driveId: '1eVrCmDC0uqISlWLN872BCqF9KMnDJvDi',
       category: 'Cube of Memory',
-      thumb: './assets/video/showreel-thumbs/cube-making.jpg'
+      thumb: './assets/video/showreel-thumbs/cube-showreel.jpg'
     },
     {
       slug: 'cube-of-memory-making',
@@ -34,7 +36,7 @@
       source: '큐브오브메모리_VER_9.mp4',
       driveId: '1cooFjFFyFMavmusrecZK8f5lxq_3bztp',
       category: 'Cube of Memory',
-      thumb: './assets/video/showreel-thumbs/cube-showreel.jpg'
+      thumb: './assets/video/showreel-thumbs/cube-making.jpg'
     },
     {
       slug: 'opening-ceremony',
@@ -45,7 +47,7 @@
       source: '0226_스튜디오큐브홍보영상.mp4',
       driveId: '1k3KOYMHdL_wxoiW3HyqIxg5CC09X8n2G',
       category: 'StudioCube',
-      thumb: './assets/images/optimized/usecase-event-opening-outpaint.jpg'
+      thumb: './assets/video/showreel-thumbs/studiocube-opening.jpg'
     },
     {
       slug: 'broadcast-seminar',
@@ -56,7 +58,7 @@
       source: '방송기술인세미나_1차편집본.mp4',
       driveId: '18eRI-ttPLWAoUCywOepIyqkim8wXg6-A',
       category: 'Seminar',
-      thumb: './assets/images/optimized/overview-1.jpg'
+      thumb: './assets/video/showreel-thumbs/seminar-making.jpg'
     },
     {
       slug: 'beyond-the-set',
@@ -67,7 +69,7 @@
       source: '기술시연회1회차.mp4',
       driveId: '1qB_5mW2gIA6dqOMo5dz8twkIGv1wXx4L',
       category: 'Showcase',
-      thumb: './assets/images/stage-gallery-led-wall-wide.jpg'
+      thumb: './assets/video/showreel-thumbs/beyond-the-set.jpg'
     },
     {
       slug: 'aion2',
@@ -78,7 +80,7 @@
       source: 'Aion2_bts_260504.mp4',
       driveId: '110GMj21y1LWMT8V5U5T0bvQ_LLNpXTNH',
       category: 'Commercial',
-      thumb: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
+      thumb: './assets/video/showreel-thumbs/aion2.jpg'
     },
     {
       slug: 'dealer',
@@ -89,7 +91,7 @@
       source: 'Dealer_0624.mp4',
       driveId: '14R3yiETLyxEAYDciz1GF_ERnoF8rVbji',
       category: 'Commercial',
-      thumb: './assets/images/optimized/usecase-commercial-aion-03-extendonly-ledtop.jpg'
+      thumb: './assets/video/showreel-thumbs/dealer.jpg'
     },
     {
       slug: 'pd-shorts',
@@ -192,7 +194,7 @@
   const renderCards = (items, options = {}) => items.map(({ video, index }, groupIndex) => `
     <button class="showreel-card${options.portrait ? ' showreel-card--portrait' : ''} reveal${index === 0 ? ' is-active' : ''}" type="button" data-video-index="${index}" data-video-slug="${video.slug}" style="--reveal-delay: ${Math.min(groupIndex, 5) * 54}ms">
       <figure${options.portrait ? ' class="is-portrait"' : ''}>
-        <img src="${video.thumb || driveThumb(video.driveId)}" alt="" loading="lazy" decoding="async">
+        <img src="${versionedAsset(video.thumb || driveThumb(video.driveId))}" alt="" loading="lazy" decoding="async">
         <span>${String(groupIndex + 1).padStart(2, '0')}</span>
       </figure>
       <div class="showreel-card-copy">

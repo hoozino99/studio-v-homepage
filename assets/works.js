@@ -1,4 +1,7 @@
 (() => {
+  const assetVersion = 'studio-v-lsf-thumb-01';
+  const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
+
   const works = [
     {
       slug: 'cube-of-memory',
@@ -7,7 +10,7 @@
       category: 'Film',
       title: 'Cube of Memory',
       format: 'Virtual Production Film',
-      image: './assets/video/cube-of-memory-main-film-poster.jpg'
+      image: './assets/video/showreel-thumbs/cube-main-film.jpg'
     },
     {
       slug: 'aion-commercial',
@@ -16,7 +19,7 @@
       category: 'AD',
       title: 'AION 2',
       format: 'AD',
-      image: './assets/images/optimized/usecase-commercial-aion-02-extendonly.jpg'
+      image: './assets/video/showreel-thumbs/aion2.jpg'
     },
     {
       slug: 'dealer-driving-plate',
@@ -25,7 +28,7 @@
       category: 'AD',
       title: 'Dealer',
       format: 'AD',
-      pendingThumbnail: true
+      image: './assets/video/showreel-thumbs/dealer.jpg'
     },
     {
       slug: 'lesserafim-overwatch',
@@ -34,7 +37,7 @@
       category: 'Music Video',
       title: 'LE SSERAFIM x Overwatch',
       format: 'Music Video',
-      pendingThumbnail: true
+      image: './assets/video/showreel-thumbs/le-sserafim-overwatch.jpg'
     },
     {
       slug: 'studio-cube-opening',
@@ -43,7 +46,7 @@
       category: 'Event',
       title: 'StudioCube Opening',
       format: 'Launch Film',
-      image: './assets/images/optimized/usecase-event-opening-outpaint.jpg'
+      image: './assets/video/showreel-thumbs/studiocube-opening.jpg'
     },
     {
       slug: 'beyond-the-set',
@@ -52,7 +55,7 @@
       category: 'Showcase',
       title: 'Beyond the Set',
       format: 'VP Showcase',
-      image: './assets/images/stage-gallery-led-wall-wide.jpg'
+      image: './assets/video/showreel-thumbs/beyond-the-set.jpg'
     },
     {
       slug: 'vp-technical-seminar',
@@ -61,7 +64,7 @@
       category: 'Seminar',
       title: 'Technical Demonstration I',
       format: 'Technology Demonstration',
-      pendingThumbnail: true
+      image: './assets/video/showreel-thumbs/seminar-making.jpg'
     },
     {
       slug: 'genesis-print-campaign-01',
@@ -100,20 +103,19 @@
   const getThumb = (work) => {
     if (work.restricted) {
       return `<div class="project-restricted-thumb" aria-label="${work.title} image restricted">
-        <span>Client Restricted</span>
+        <span>Confidential</span>
         <strong>${work.title}</strong>
-        <em>Preview Withheld</em>
       </div>`;
     }
 
     if (work.pendingThumbnail) {
       return `<div class="project-pending-thumb" aria-label="${work.title} thumbnail pending">
-        <span>Thumbnail Pending</span>
+        <span>${work.pendingLabel || 'Thumbnail Pending'}</span>
         <strong>${work.title}</strong>
       </div>`;
     }
 
-    return `<img src="${work.image}" alt="${work.title}" loading="lazy" decoding="async">`;
+    return `<img src="${versionedAsset(work.image)}" alt="${work.title}" loading="lazy" decoding="async">`;
   };
 
   const render = (filter = 'all') => {
@@ -122,7 +124,6 @@
       <article class="work-card reveal" id="${work.slug}" style="--reveal-delay: ${Math.min(index, 8) * 42}ms">
         <div class="work-image${work.restricted ? ' work-image--restricted' : ''}${work.pendingThumbnail ? ' work-image--pending' : ''}">
           ${getThumb(work)}
-          <span class="work-index">${work.number}</span>
           <span class="work-format">${work.format}</span>
         </div>
         <div class="work-body">
