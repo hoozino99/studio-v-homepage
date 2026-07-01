@@ -3026,8 +3026,8 @@ body.showreel-modal-open {
 }
 
 .partner-logo-card img {
-  width: min(96px, 100%);
-  height: 18px;
+  width: min(104px, 100%);
+  height: 20px;
   object-fit: contain;
   filter: brightness(0) invert(1) grayscale(1);
   opacity: 0.42;
@@ -3043,15 +3043,15 @@ body.showreel-modal-open {
 }
 
 .partner-logo-wall--primary .partner-logo-card img {
-  width: min(132px, 100%);
-  height: 30px;
-  opacity: 0.80;
+  width: min(128px, 100%);
+  height: 28px;
+  opacity: 0.78;
 }
 
 .partner-logo-wall--supporting .partner-logo-card img {
-  width: min(112px, 100%);
-  height: 25px;
-  opacity: 0.58;
+  width: min(122px, 100%);
+  height: 28px;
+  opacity: 0.62;
 }
 
 .partner-logo-card--official img {
@@ -3063,42 +3063,42 @@ body.showreel-modal-open {
 }
 
 .partner-logo-card--photo img {
-  width: min(110px, 94%);
-  height: 27px;
+  width: min(120px, 94%);
+  height: 30px;
   filter: grayscale(1) contrast(1.22) brightness(1.08);
   mix-blend-mode: screen;
   opacity: 0.64;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="lg-electronics"] img {
-  width: min(142px, 100%);
-  height: 28px;
+  width: min(132px, 100%);
+  height: 26px;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="brompton-technology"] img {
-  width: min(164px, 100%);
-  height: 33px;
+  width: min(150px, 100%);
+  height: 29px;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="arri"] img {
-  width: min(142px, 100%);
-  height: 38px;
-  opacity: 0.86;
+  width: min(132px, 100%);
+  height: 32px;
+  opacity: 0.84;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="mbc-ci"] img {
-  width: min(148px, 92%);
-  height: 30px;
+  width: min(136px, 92%);
+  height: 28px;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="optitrack"] img {
-  width: min(150px, 94%);
-  height: 30px;
+  width: min(138px, 94%);
+  height: 28px;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="av-stumpfl"] img {
-  width: min(142px, 94%);
-  height: 32px;
+  width: min(132px, 94%);
+  height: 29px;
 }
 
 .site-footer {
@@ -3145,7 +3145,7 @@ body.showreel-modal-open {
 }
 
 .footer-logo-strip .footer-logo--kocca {
-  height: 24px;
+  height: 20px;
 }
 
 .footer-logo-strip .footer-logo--dexter {
@@ -3435,13 +3435,13 @@ body.showreel-modal-open {
   }
 
   .partner-logo-wall--primary .partner-logo-card img {
-    width: min(132px, 94%);
-    height: 28px;
+    width: min(124px, 94%);
+    height: 26px;
   }
 
   .partner-logo-wall--supporting .partner-logo-card img {
-    width: min(96px, 94%);
-    height: 23px;
+    width: min(106px, 94%);
+    height: 25px;
   }
 
   .hero-proof-lines {
