@@ -1,0 +1,11 @@
+{
+  "name": "studio-v-homepage",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npm run check:syntax && npm run check:assets",
+    "check:syntax": "node --check assets/main.js && node --check assets/works.js && node --check assets/showreel.js && node --check assets/tour.js",
+    "check:assets": "node scripts/check-static-site.mjs"
+  }
+}
