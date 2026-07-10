@@ -72,9 +72,161 @@ main {
   overflow: visible;
 }
 
+body.has-depth-v01 main {
+  isolation: isolate;
+}
+
+body.has-depth-v01 main > :not(.depth-field) {
+  position: relative;
+  z-index: 1;
+}
+
 .site-footer {
   position: relative;
   z-index: 1;
+}
+
+.depth-field {
+  --depth-far-y: 0px;
+  --depth-mid-y: 0px;
+  --depth-near-y: 0px;
+  position: absolute;
+  inset: var(--header-h) 0 0;
+  z-index: 0;
+  overflow: clip;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.72);
+  contain: paint;
+}
+
+body[data-page="studio"] .depth-field {
+  inset: 78svh 0 0;
+  opacity: 0.72;
+}
+
+body[data-page="portfolio"] .depth-field,
+body[data-page="showreel"] .depth-field,
+body[data-page="contact"] .depth-field {
+  opacity: 0.54;
+}
+
+.depth-plane {
+  position: absolute;
+  left: 50%;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.depth-plane--far {
+  top: clamp(520px, 58svh, 820px);
+  width: min(1580px, 118vw);
+  height: clamp(520px, 74svh, 920px);
+  opacity: 0.28;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.065) 1px, transparent 1px) 50% 0 / clamp(72px, 9vw, 132px) clamp(72px, 9vw, 132px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 50% 0 / clamp(72px, 9vw, 132px) clamp(72px, 9vw, 132px),
+    radial-gradient(ellipse at 50% 36%, rgba(68, 96, 108, 0.18), transparent 62%);
+  transform:
+    translate3d(-50%, var(--depth-far-y), 0)
+    perspective(980px)
+    rotateX(66deg)
+    rotateZ(-7deg);
+  transform-origin: 50% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.72) 14%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.72) 14%, #000 55%, transparent 100%);
+}
+
+.depth-plane--mid {
+  top: clamp(720px, 84svh, 1120px);
+  width: min(860px, 58vw);
+  height: min(360px, 28vw);
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  opacity: 0.26;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.025) inset,
+    0 24px 90px rgba(0, 0, 0, 0.22);
+  transform:
+    translate3d(-50%, var(--depth-mid-y), 0)
+    perspective(1200px)
+    rotateX(11deg)
+    rotateY(-12deg)
+    rotateZ(-3deg);
+}
+
+.depth-plane--mid::before,
+.depth-plane--mid::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 48%),
+    rgba(255, 255, 255, 0.006);
+}
+
+.depth-plane--mid::before {
+  width: 42%;
+  height: 42%;
+  right: -13%;
+  top: 16%;
+}
+
+.depth-plane--mid::after {
+  width: 34%;
+  height: 34%;
+  left: -16%;
+  bottom: -18%;
+}
+
+.depth-plane--near {
+  top: clamp(420px, 48svh, 720px);
+  width: 128vw;
+  height: clamp(720px, 96svh, 1180px);
+  opacity: 0.20;
+  background:
+    linear-gradient(114deg,
+      transparent 0 36%,
+      rgba(255, 255, 255, 0.13) 44%,
+      rgba(255, 255, 255, 0.028) 48%,
+      transparent 58%),
+    linear-gradient(66deg,
+      transparent 0 58%,
+      rgba(184, 121, 61, 0.11) 64%,
+      transparent 74%);
+  mix-blend-mode: screen;
+  transform:
+    translate3d(-50%, var(--depth-near-y), 0)
+    rotateZ(-5deg);
+  filter: blur(0.4px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 74%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 74%, transparent 100%);
+}
+
+.depth-marker {
+  position: absolute;
+  display: block;
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate3d(0, var(--depth-mid-y), 0);
+}
+
+.depth-marker--a {
+  top: clamp(740px, 92svh, 1180px);
+  left: 9vw;
+}
+
+.depth-marker--b {
+  top: clamp(1260px, 148svh, 1680px);
+  right: 11vw;
+}
+
+.depth-marker--c {
+  top: clamp(1960px, 230svh, 2460px);
+  left: 14vw;
 }
 
 .ambient-backplate {
@@ -3334,6 +3486,31 @@ body.showreel-modal-open {
 @media (max-width: 780px) {
   :root {
     --header-h: 64px;
+  }
+
+  .depth-field {
+    opacity: 0.34;
+  }
+
+  body[data-page="studio"] .depth-field {
+    inset: 76svh 0 0;
+    opacity: 0.36;
+  }
+
+  .depth-plane--far {
+    top: 440px;
+    width: 130vw;
+    opacity: 0.20;
+  }
+
+  .depth-plane--mid,
+  .depth-marker {
+    display: none;
+  }
+
+  .depth-plane--near {
+    width: 150vw;
+    opacity: 0.14;
   }
 
   .site-header {

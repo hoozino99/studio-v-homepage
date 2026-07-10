@@ -66,6 +66,50 @@
     }
   }
 
+  const depthHost = document.querySelector('main');
+  const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (depthHost && !document.body.matches('[data-page="tour"]')) {
+    const depthField = document.createElement('div');
+    depthField.className = 'depth-field depth-field--v01';
+    depthField.dataset.depthField = 'depth-v01';
+    depthField.setAttribute('aria-hidden', 'true');
+    depthField.innerHTML = `
+      <span class="depth-plane depth-plane--far"></span>
+      <span class="depth-plane depth-plane--mid"></span>
+      <span class="depth-plane depth-plane--near"></span>
+      <span class="depth-marker depth-marker--a">VOL GRID</span>
+      <span class="depth-marker depth-marker--b">TRACKING FIELD</span>
+      <span class="depth-marker depth-marker--c">LED PLANE</span>
+    `;
+    depthHost.prepend(depthField);
+    document.body.classList.add('has-depth-v01');
+
+    if (!reducedDepthMotion.matches) {
+      let ticking = false;
+
+      const updateDepth = () => {
+        ticking = false;
+        const viewport = window.innerHeight || document.documentElement.clientHeight;
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - viewport);
+        const progress = clamp(window.scrollY / maxScroll, 0, 1);
+
+        depthField.style.setProperty('--depth-far-y', `${(progress * -170).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-mid-y', `${(progress * -310).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-near-y', `${(progress * -470).toFixed(1)}px`);
+      };
+
+      const requestDepthUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateDepth);
+      };
+
+      updateDepth();
+      window.addEventListener('scroll', requestDepthUpdate, { passive: true });
+      window.addEventListener('resize', requestDepthUpdate);
+    }
+  }
+
   if (menuButton && mobileMenu) {
     menuButton.addEventListener('click', () => {
       const isOpen = menuButton.classList.toggle('is-open');
