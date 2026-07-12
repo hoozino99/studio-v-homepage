@@ -75,20 +75,20 @@ scene.background = new THREE.Color(0x181b1c);
 scene.fog = new THREE.Fog(0x181b1c, 72, 170);
 scene.environment = makeReflectionEnvironment();
 
-const camera = new THREE.PerspectiveCamera(44, 1, 0.1, 420);
+const camera = new THREE.PerspectiveCamera(44, 1, 0.05, 420);
 camera.position.set(42, 26, 52);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.055;
+controls.dampingFactor = 0.082;
 controls.target.set(0, 4, 0);
-controls.minDistance = 2.6;
-controls.maxDistance = 112;
+controls.minDistance = 0.65;
+controls.maxDistance = 120;
 controls.minPolarAngle = Math.PI * 0.06;
-controls.maxPolarAngle = Math.PI * 0.68;
-controls.rotateSpeed = 0.46;
-controls.zoomSpeed = 0.82;
-controls.panSpeed = 0.72;
+controls.maxPolarAngle = Math.PI * 0.76;
+controls.rotateSpeed = 0.56;
+controls.zoomSpeed = 1.02;
+controls.panSpeed = 0.88;
 controls.zoomToCursor = true;
 controls.screenSpacePanning = true;
 
@@ -1175,8 +1175,12 @@ function setView(name) {
   if (!view) return;
   targetCamera.copy(view.camera);
   targetLook.copy(view.target);
-  transitionFrames = 90;
-  viewButtons.forEach((button) => button.classList.toggle('is-active', button.dataset.view === name));
+  transitionFrames = 72;
+  viewButtons.forEach((button) => {
+    const isActive = button.dataset.view === name;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
 }
 
 viewButtons.forEach((button) => {
@@ -1194,8 +1198,9 @@ controls.addEventListener('start', () => {
 if (autoButton) {
   autoButton.addEventListener('click', () => {
     controls.autoRotate = !controls.autoRotate;
-    controls.autoRotateSpeed = 0.45;
+    controls.autoRotateSpeed = 0.36;
     autoButton.classList.toggle('is-on', controls.autoRotate);
+    autoButton.setAttribute('aria-pressed', String(controls.autoRotate));
   });
 }
 
@@ -1227,8 +1232,8 @@ function animate() {
   ceilingTex.offset.y += (pointerState.y * 0.001 - ceilingTex.offset.y) * 0.035;
   renderer.toneMappingExposure += ((pointerState.active ? 0.9 : 0.86) - renderer.toneMappingExposure) * 0.035;
   if (transitionFrames > 0) {
-    camera.position.lerp(targetCamera, 0.065);
-    controls.target.lerp(targetLook, 0.065);
+    camera.position.lerp(targetCamera, 0.088);
+    controls.target.lerp(targetLook, 0.088);
     transitionFrames -= 1;
   }
   controls.update();

@@ -72,11 +72,11 @@ main {
   overflow: visible;
 }
 
-body.has-depth-v01 main {
+body.has-depth-v02 main {
   isolation: isolate;
 }
 
-body.has-depth-v01 main > :not(.depth-field) {
+body.has-depth-v02 main > :not(.depth-field) {
   position: relative;
   z-index: 1;
 }
@@ -4424,5 +4424,386 @@ body[data-page="studio"] .partner-strip::before {
   body[data-page="studio"] .partner-strip {
     margin-top: 96px;
     padding-top: 72px;
+  }
+}
+
+/* depth-v02: real stage imagery moving on separate depth planes. */
+.depth-field--v02 {
+  --depth-media-a-y: 0px;
+  --depth-media-b-y: 0px;
+  --depth-media-c-y: 0px;
+}
+
+.depth-field--v02 .depth-plane--far {
+  opacity: 0.42;
+}
+
+.depth-field--v02 .depth-plane--mid {
+  opacity: 0.36;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.depth-field--v02 .depth-plane--near {
+  opacity: 0.30;
+}
+
+.depth-field--v02 .depth-marker {
+  color: rgba(255, 255, 255, 0.26);
+}
+
+.depth-media {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: grayscale(1) contrast(1.18) brightness(0.55);
+  mix-blend-mode: screen;
+  will-change: transform;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, rgba(0, 0, 0, 0.84) 42%, rgba(0, 0, 0, 0.30) 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, rgba(0, 0, 0, 0.84) 42%, rgba(0, 0, 0, 0.30) 72%, transparent 100%);
+}
+
+body[data-page="studio"] .depth-media--a {
+  top: 410svh;
+  right: -8vw;
+  width: min(980px, 72vw);
+  aspect-ratio: 1.7;
+  opacity: 0.23;
+  background-image: url("./images/stage-gallery-ceiling-led.jpg");
+  transform: translate3d(var(--depth-pointer-x, 0px), var(--depth-media-a-y), 0) rotate(-2deg) scale(1.04);
+}
+
+body[data-page="studio"] .depth-media--b {
+  top: 650svh;
+  left: -11vw;
+  width: min(920px, 68vw);
+  aspect-ratio: 1.72;
+  opacity: 0.16;
+  background-image: url("./images/stage-gallery-side-led.jpg");
+  transform: translate3d(var(--depth-pointer-x-reverse, 0px), var(--depth-media-b-y), 0) rotate(2.5deg) scale(1.06);
+}
+
+body[data-page="studio"] .depth-media--c {
+  top: 900svh;
+  right: -7vw;
+  width: min(1040px, 76vw);
+  aspect-ratio: 1.76;
+  opacity: 0.14;
+  background-image: url("./images/stage-gallery-led-wall-wide.jpg");
+  transform: translate3d(var(--depth-pointer-x-soft, 0px), var(--depth-media-c-y), 0) rotate(-1.5deg) scale(1.08);
+}
+
+body[data-page="portfolio"] .depth-media,
+body[data-page="showreel"] .depth-media,
+body[data-page="contact"] .depth-media {
+  width: min(920px, 72vw);
+  aspect-ratio: 1.72;
+  opacity: 0.17;
+}
+
+body[data-page="portfolio"] .depth-media--a,
+body[data-page="showreel"] .depth-media--a,
+body[data-page="contact"] .depth-media--a {
+  top: 12svh;
+  right: -10vw;
+  background-image: url("./images/stage-gallery-ceiling-led.jpg");
+  transform: translate3d(var(--depth-pointer-x, 0px), var(--depth-media-a-y), 0) rotate(-3deg) scale(1.05);
+}
+
+body[data-page="portfolio"] .depth-media--b,
+body[data-page="showreel"] .depth-media--b,
+body[data-page="contact"] .depth-media--b {
+  top: 112svh;
+  left: -12vw;
+  background-image: url("./images/stage-gallery-led-wall-wide.jpg");
+  transform: translate3d(var(--depth-pointer-x-reverse, 0px), var(--depth-media-b-y), 0) rotate(2deg) scale(1.06);
+}
+
+body[data-page="portfolio"] .depth-media--c,
+body[data-page="showreel"] .depth-media--c,
+body[data-page="contact"] .depth-media--c {
+  top: 224svh;
+  right: -8vw;
+  background-image: url("./images/stage-gallery-side-led.jpg");
+  transform: translate3d(var(--depth-pointer-x-soft, 0px), var(--depth-media-c-y), 0) rotate(-2deg) scale(1.08);
+}
+
+/* Tour control surface. */
+.tour-shell {
+  grid-template-columns: minmax(336px, 366px) minmax(0, 1fr);
+}
+
+.tour-panel {
+  gap: 15px;
+  padding: 20px 18px;
+  background:
+    radial-gradient(420px 300px at 20% 0%, rgba(184, 121, 61, 0.10), transparent 72%),
+    linear-gradient(180deg, rgba(15, 19, 20, 0.99), rgba(8, 11, 12, 0.99));
+}
+
+.tour-panel-intro {
+  gap: 8px;
+}
+
+.tour-panel h1 {
+  max-width: none;
+  font-size: clamp(25px, 2vw, 30px);
+}
+
+.tour-specs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.tour-specs div,
+.tour-specs div:first-child {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: space-between;
+  gap: 8px;
+  min-height: 68px;
+  padding: 10px;
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.026);
+}
+
+.tour-specs dt {
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tour-specs dd {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.18;
+  white-space: nowrap;
+}
+
+.tour-control-group {
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.tour-control-title strong,
+.tour-control-title span {
+  letter-spacing: 0;
+}
+
+.tour-controls {
+  gap: 5px;
+}
+
+.tour-controls button,
+.tour-video-head button,
+.tour-video-reset,
+.tour-reference-toggle button {
+  min-height: 36px;
+  border-color: rgba(255, 255, 255, 0.10);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.tour-controls button.is-active,
+.tour-controls button.is-on,
+.tour-video-head button.is-on,
+.tour-reference-toggle button.is-active {
+  background: rgba(169, 108, 52, 0.94);
+  border-color: rgba(203, 139, 76, 0.72);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.10);
+}
+
+.tour-video-panel,
+.tour-reference-panel {
+  gap: 12px;
+  padding: 14px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 0;
+  background: transparent;
+}
+
+.tour-video-panel input[type="range"],
+.tour-reference-panel input[type="range"] {
+  height: 18px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.tour-video-panel input[type="range"]::-webkit-slider-runnable-track,
+.tour-reference-panel input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.tour-video-panel input[type="range"]::-webkit-slider-thumb,
+.tour-reference-panel input[type="range"]::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5.5px;
+  border: 2px solid rgba(9, 12, 13, 0.92);
+  border-radius: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: #cb8b4c;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.tour-video-panel input[type="range"]::-moz-range-track,
+.tour-reference-panel input[type="range"]::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.tour-video-panel input[type="range"]::-moz-range-thumb,
+.tour-reference-panel input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(9, 12, 13, 0.92);
+  border-radius: 50%;
+  background: #cb8b4c;
+}
+
+#studioTour {
+  cursor: grab;
+  touch-action: none;
+}
+
+#studioTour:active {
+  cursor: grabbing;
+}
+
+.tour-stage {
+  background: radial-gradient(ellipse at 50% 40%, #20292b 0%, #111617 56%, #080a0b 100%);
+}
+
+/* Shared polish for the archive pages. */
+body[data-page="portfolio"] .work-image,
+body[data-page="showreel"] .showreel-card figure {
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 4px;
+  box-shadow: 0 22px 64px rgba(0, 0, 0, 0.20);
+}
+
+.nav-links a,
+.mobile-menu a,
+.work-card-link,
+.showreel-card,
+.tour-panel button,
+.tour-panel input {
+  outline: none;
+}
+
+.nav-links a:focus-visible,
+.mobile-menu a:focus-visible,
+.work-card-link:focus-visible,
+.showreel-card:focus-visible,
+.tour-panel button:focus-visible,
+.tour-panel input:focus-visible {
+  outline: 2px solid rgba(203, 139, 76, 0.92);
+  outline-offset: 3px;
+}
+
+/* Normalize the visible height of differently padded source logos. */
+.footer-logo-strip {
+  gap: clamp(16px, 1.8vw, 26px);
+}
+
+.footer-logo-strip .footer-logo--mcst {
+  height: 27px;
+}
+
+.footer-logo-strip .footer-logo--kocca {
+  height: 18px;
+}
+
+.footer-logo-strip .footer-logo--dexter {
+  height: 19px;
+}
+
+.footer-logo-strip .footer-logo--xon {
+  height: 19px;
+}
+
+@media (max-width: 1040px) {
+  .tour-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-panel {
+    padding: 28px 20px 36px;
+  }
+}
+
+@media (max-width: 780px) {
+  .depth-field--v02 {
+    opacity: 0.48;
+  }
+
+  .depth-field--v02 .depth-plane--far {
+    opacity: 0.34;
+  }
+
+  .depth-field--v02 .depth-plane--near {
+    opacity: 0.20;
+  }
+
+  .depth-field--v02 .depth-media--a {
+    top: 190svh;
+    right: -36vw;
+    width: 132vw;
+    opacity: 0.12;
+  }
+
+  .depth-field--v02 .depth-media--b,
+  .depth-field--v02 .depth-media--c {
+    display: none;
+  }
+
+  body[data-page="portfolio"] .depth-field--v02 .depth-media--a,
+  body[data-page="showreel"] .depth-field--v02 .depth-media--a,
+  body[data-page="contact"] .depth-field--v02 .depth-media--a {
+    top: 24svh;
+  }
+
+  .tour-panel {
+    gap: 16px;
+    padding: 28px 18px 34px;
+  }
+
+  .tour-specs div,
+  .tour-specs div:first-child {
+    min-height: 66px;
+    padding: 9px;
+  }
+
+  .footer-logo-strip {
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .footer-logo-strip .footer-logo--mcst {
+    height: 22px;
+  }
+
+  .footer-logo-strip .footer-logo--kocca {
+    height: 14px;
+  }
+
+  .footer-logo-strip .footer-logo--dexter,
+  .footer-logo-strip .footer-logo--xon {
+    height: 15px;
   }
 }

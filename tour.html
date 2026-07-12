@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3D Studio Tour | Studio V</title>
   <meta name="description" content="Studio V 3D 가상 스튜디오 투어. Main LED Wall, Ceiling LED, 플로어와 촬영 가능 영역을 확인하세요.">
-  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-depth-v01">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-depth-v02">
   <link rel="icon" href="data:,">
   <script type="importmap">
     {
@@ -62,11 +62,11 @@
             <span>camera preset</span>
           </div>
           <div class="tour-controls" aria-label="3D 보기 제어">
-            <button type="button" data-view="overview">Overview</button>
-            <button type="button" data-view="wall">LED Wall</button>
-            <button type="button" data-view="scale">Stage</button>
-            <button type="button" data-view="top">Plan</button>
-            <button type="button" data-auto>Auto Rotate</button>
+            <button type="button" data-view="overview" aria-pressed="true">Overview</button>
+            <button type="button" data-view="wall" aria-pressed="false">LED Wall</button>
+            <button type="button" data-view="scale" aria-pressed="false">Stage</button>
+            <button type="button" data-view="top" aria-pressed="false">Plan</button>
+            <button type="button" data-auto aria-pressed="false">Auto Rotate</button>
           </div>
         </div>
         <div class="tour-reference-panel tour-control-group" aria-label="스케일 기준물 위치 제어">
@@ -109,7 +109,6 @@
           </label>
           <button class="tour-video-reset" type="button" data-led-video-reset>Reset Video</button>
         </div>
-        <p class="control-note">마우스 드래그로 회전, 휠로 확대, 우클릭 드래그로 이동할 수 있습니다. 모바일에서는 한 손가락 회전, 두 손가락 줌을 사용합니다.</p>
       </aside>
       <section class="tour-stage" data-tour-stage>
         <div class="tour-loading" data-tour-loading>
@@ -128,7 +127,7 @@
     </section>
   </main>
 
-  <script src="./assets/main.js?v=studio-v-depth-v01"></script>
-  <script type="module" src="./assets/tour.js?v=studio-v-lsf-thumb-01"></script>
+  <script src="./assets/main.js?v=studio-v-depth-v02"></script>
+  <script type="module" src="./assets/tour.js?v=studio-v-depth-v02"></script>
 </body>
 </html>

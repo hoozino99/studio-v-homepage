@@ -62,6 +62,10 @@
         const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
         document.body.style.setProperty('--ambient-pointer-x', x.toFixed(3));
         document.body.style.setProperty('--ambient-pointer-y', y.toFixed(3));
+        document.body.style.setProperty('--depth-pointer-x', `${(x * 24).toFixed(1)}px`);
+        document.body.style.setProperty('--depth-pointer-x-reverse', `${(x * -16).toFixed(1)}px`);
+        document.body.style.setProperty('--depth-pointer-x-soft', `${(x * 11).toFixed(1)}px`);
+        document.body.style.setProperty('--depth-pointer-y', `${(y * 16).toFixed(1)}px`);
       }, { passive: true });
     }
   }
@@ -70,19 +74,22 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthField = document.createElement('div');
-    depthField.className = 'depth-field depth-field--v01';
-    depthField.dataset.depthField = 'depth-v01';
+    depthField.className = 'depth-field depth-field--v02';
+    depthField.dataset.depthField = 'depth-v02';
     depthField.setAttribute('aria-hidden', 'true');
     depthField.innerHTML = `
       <span class="depth-plane depth-plane--far"></span>
       <span class="depth-plane depth-plane--mid"></span>
       <span class="depth-plane depth-plane--near"></span>
+      <span class="depth-media depth-media--a"></span>
+      <span class="depth-media depth-media--b"></span>
+      <span class="depth-media depth-media--c"></span>
       <span class="depth-marker depth-marker--a">VOL GRID</span>
       <span class="depth-marker depth-marker--b">TRACKING FIELD</span>
       <span class="depth-marker depth-marker--c">LED PLANE</span>
     `;
     depthHost.prepend(depthField);
-    document.body.classList.add('has-depth-v01');
+    document.body.classList.add('has-depth-v02');
 
     if (!reducedDepthMotion.matches) {
       let ticking = false;
@@ -90,12 +97,15 @@
       const updateDepth = () => {
         ticking = false;
         const viewport = window.innerHeight || document.documentElement.clientHeight;
-        const maxScroll = Math.max(1, document.documentElement.scrollHeight - viewport);
-        const progress = clamp(window.scrollY / maxScroll, 0, 1);
+        const scrollY = Math.max(0, window.scrollY);
+        const depthLimit = Math.max(viewport * 1.2, document.documentElement.scrollHeight * 0.12);
 
-        depthField.style.setProperty('--depth-far-y', `${(progress * -170).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-mid-y', `${(progress * -310).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-near-y', `${(progress * -470).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-far-y', `${(-Math.min(scrollY * 0.035, depthLimit)).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-mid-y', `${(-Math.min(scrollY * 0.072, depthLimit * 1.7)).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-near-y', `${(-Math.min(scrollY * 0.12, depthLimit * 2.4)).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-media-a-y', `${(-Math.min(scrollY * 0.024, depthLimit * 0.9)).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-media-b-y', `${(-Math.min(scrollY * 0.052, depthLimit * 1.5)).toFixed(1)}px`);
+        depthField.style.setProperty('--depth-media-c-y', `${(-Math.min(scrollY * 0.086, depthLimit * 2)).toFixed(1)}px`);
       };
 
       const requestDepthUpdate = () => {
@@ -335,7 +345,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.16 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
     revealItems.forEach((item) => observer.observe(item));
   } else {
     revealItems.forEach((item) => item.classList.add('is-visible'));
