@@ -62,10 +62,6 @@
         const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
         document.body.style.setProperty('--ambient-pointer-x', x.toFixed(3));
         document.body.style.setProperty('--ambient-pointer-y', y.toFixed(3));
-        document.body.style.setProperty('--depth-pointer-x', `${(x * 24).toFixed(1)}px`);
-        document.body.style.setProperty('--depth-pointer-x-reverse', `${(x * -16).toFixed(1)}px`);
-        document.body.style.setProperty('--depth-pointer-x-soft', `${(x * 11).toFixed(1)}px`);
-        document.body.style.setProperty('--depth-pointer-y', `${(y * 16).toFixed(1)}px`);
       }, { passive: true });
     }
   }
@@ -73,50 +69,197 @@
   const depthHost = document.querySelector('main');
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
-    const depthField = document.createElement('div');
-    depthField.className = 'depth-field depth-field--v02';
-    depthField.dataset.depthField = 'depth-v02';
-    depthField.setAttribute('aria-hidden', 'true');
-    depthField.innerHTML = `
-      <span class="depth-plane depth-plane--far"></span>
-      <span class="depth-plane depth-plane--mid"></span>
-      <span class="depth-plane depth-plane--near"></span>
-      <span class="depth-media depth-media--a"></span>
-      <span class="depth-media depth-media--b"></span>
-      <span class="depth-media depth-media--c"></span>
-      <span class="depth-marker depth-marker--a">VOL GRID</span>
-      <span class="depth-marker depth-marker--b">TRACKING FIELD</span>
-      <span class="depth-marker depth-marker--c">LED PLANE</span>
-    `;
-    depthHost.prepend(depthField);
-    document.body.classList.add('has-depth-v02');
+    const depthCanvas = document.createElement('canvas');
+    depthCanvas.className = 'depth-canvas depth-canvas--v03';
+    depthCanvas.dataset.depthCanvas = 'depth-v03';
+    depthCanvas.setAttribute('aria-hidden', 'true');
+    depthHost.prepend(depthCanvas);
+    document.body.classList.add('has-depth-v03');
 
-    if (!reducedDepthMotion.matches) {
-      let ticking = false;
+    const depthContext = depthCanvas.getContext('2d', { alpha: true });
+    if (depthContext) {
+      const depthState = {
+        width: 0,
+        height: 0,
+        pointerX: 0,
+        pointerY: 0,
+        targetX: 0,
+        targetY: 0,
+        compact: false,
+        lastFrame: 0,
+        frameId: 0
+      };
+      const depthMarkers = Array.from({ length: 28 }, (_, index) => ({
+        x: ((index * 47) % 97) / 96,
+        y: ((index * 71) % 89) / 88,
+        depth: 0.26 + (index % 6) * 0.13,
+        length: 4 + (index % 4) * 3
+      }));
 
-      const updateDepth = () => {
-        ticking = false;
-        const viewport = window.innerHeight || document.documentElement.clientHeight;
-        const scrollY = Math.max(0, window.scrollY);
-        const depthLimit = Math.max(viewport * 1.2, document.documentElement.scrollHeight * 0.12);
-
-        depthField.style.setProperty('--depth-far-y', `${(-Math.min(scrollY * 0.035, depthLimit)).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-mid-y', `${(-Math.min(scrollY * 0.072, depthLimit * 1.7)).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-near-y', `${(-Math.min(scrollY * 0.12, depthLimit * 2.4)).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-media-a-y', `${(-Math.min(scrollY * 0.024, depthLimit * 0.9)).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-media-b-y', `${(-Math.min(scrollY * 0.052, depthLimit * 1.5)).toFixed(1)}px`);
-        depthField.style.setProperty('--depth-media-c-y', `${(-Math.min(scrollY * 0.086, depthLimit * 2)).toFixed(1)}px`);
+      const resizeDepthCanvas = () => {
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        const compact = width < 780;
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, compact ? 1 : 1.25);
+        depthState.width = width;
+        depthState.height = height;
+        depthState.compact = compact;
+        depthCanvas.width = Math.max(1, Math.round(width * pixelRatio));
+        depthCanvas.height = Math.max(1, Math.round(height * pixelRatio));
+        depthCanvas.style.width = `${width}px`;
+        depthCanvas.style.height = `${height}px`;
+        depthContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       };
 
-      const requestDepthUpdate = () => {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(updateDepth);
+      const drawCornerFrame = (centerX, centerY, width, height, alpha) => {
+        const corner = Math.min(width, height) * 0.22;
+        const left = centerX - width / 2;
+        const right = centerX + width / 2;
+        const top = centerY - height / 2;
+        const bottom = centerY + height / 2;
+        depthContext.strokeStyle = `rgba(154, 185, 194, ${alpha})`;
+        depthContext.lineWidth = 1;
+        depthContext.beginPath();
+        depthContext.moveTo(left + corner, top);
+        depthContext.lineTo(left, top);
+        depthContext.lineTo(left, top + corner);
+        depthContext.moveTo(right - corner, top);
+        depthContext.lineTo(right, top);
+        depthContext.lineTo(right, top + corner);
+        depthContext.moveTo(left, bottom - corner);
+        depthContext.lineTo(left, bottom);
+        depthContext.lineTo(left + corner, bottom);
+        depthContext.moveTo(right, bottom - corner);
+        depthContext.lineTo(right, bottom);
+        depthContext.lineTo(right - corner, bottom);
+        depthContext.stroke();
       };
 
-      updateDepth();
-      window.addEventListener('scroll', requestDepthUpdate, { passive: true });
-      window.addEventListener('resize', requestDepthUpdate);
+      const drawDepthCanvas = (time) => {
+        const { width, height, compact } = depthState;
+        if (!width || !height) return;
+        const scroll = reducedDepthMotion.matches ? 0 : Math.max(0, window.scrollY);
+        const drift = reducedDepthMotion.matches ? 0 : time * 0.000035;
+        depthState.pointerX += (depthState.targetX - depthState.pointerX) * 0.055;
+        depthState.pointerY += (depthState.targetY - depthState.pointerY) * 0.055;
+        const pointerX = depthState.pointerX;
+        const pointerY = depthState.pointerY;
+        const vanishingX = width * (0.52 + pointerX * 0.045);
+        const horizonY = height * (0.58 + pointerY * 0.025);
+
+        depthContext.clearRect(0, 0, width, height);
+        depthContext.save();
+        depthContext.globalCompositeOperation = 'lighter';
+
+        const ambientGlow = depthContext.createRadialGradient(
+          vanishingX,
+          horizonY,
+          0,
+          vanishingX,
+          horizonY,
+          Math.max(width, height) * 0.72
+        );
+        ambientGlow.addColorStop(0, 'rgba(91, 129, 140, 0.085)');
+        ambientGlow.addColorStop(0.42, 'rgba(70, 101, 110, 0.035)');
+        ambientGlow.addColorStop(1, 'rgba(5, 6, 7, 0)');
+        depthContext.fillStyle = ambientGlow;
+        depthContext.fillRect(0, 0, width, height);
+
+        const rayCount = compact ? 7 : 12;
+        for (let index = 0; index < rayCount; index += 1) {
+          const ratio = index / Math.max(1, rayCount - 1);
+          const bottomX = -width * 0.16 + ratio * width * 1.32 + pointerX * (index % 2 ? 16 : -12);
+          const alpha = 0.025 + (index % 3) * 0.012;
+          depthContext.strokeStyle = `rgba(136, 167, 176, ${alpha})`;
+          depthContext.lineWidth = index % 4 === 0 ? 1.25 : 0.7;
+          depthContext.beginPath();
+          depthContext.moveTo(vanishingX, horizonY);
+          depthContext.lineTo(bottomX, height + 24);
+          depthContext.stroke();
+        }
+
+        const sliceCount = compact ? 6 : 11;
+        const sliceShift = scroll * 0.000075 + drift;
+        for (let index = 0; index < sliceCount; index += 1) {
+          const phase = (index / sliceCount + sliceShift) % 1;
+          const depth = phase * phase;
+          const y = horizonY + depth * (height - horizonY + 70);
+          const halfWidth = width * (0.055 + depth * 0.69);
+          depthContext.strokeStyle = `rgba(153, 181, 188, ${0.018 + phase * 0.075})`;
+          depthContext.lineWidth = 0.7 + phase * 0.7;
+          depthContext.beginPath();
+          depthContext.moveTo(vanishingX - halfWidth, y);
+          depthContext.lineTo(vanishingX + halfWidth, y);
+          depthContext.stroke();
+        }
+
+        const frameOffsets = [0.08, 0.42, 0.74];
+        frameOffsets.forEach((offset, index) => {
+          const phase = (offset + scroll * (0.000025 + index * 0.000012) + drift * (0.6 + index * 0.18)) % 1;
+          const depth = 0.18 + phase * 0.74;
+          const side = index === 1 ? -1 : 1;
+          const frameWidth = width * (0.11 + depth * 0.22);
+          const frameHeight = height * (0.07 + depth * 0.13);
+          const centerX = vanishingX + side * width * (0.18 + depth * 0.20) + pointerX * (22 + index * 8);
+          const centerY = horizonY + depth * (height - horizonY) * 0.72 - pointerY * (10 + index * 5);
+          drawCornerFrame(centerX, centerY, frameWidth, frameHeight, 0.045 + depth * 0.09);
+        });
+
+        const markerCount = compact ? 14 : depthMarkers.length;
+        for (let index = 0; index < markerCount; index += 1) {
+          const marker = depthMarkers[index];
+          const y = ((marker.y * height + scroll * marker.depth * 0.028 + drift * 120) % (height + 80)) - 40;
+          const x = marker.x * width + pointerX * marker.depth * 28;
+          depthContext.strokeStyle = `rgba(184, 121, 61, ${0.025 + marker.depth * 0.07})`;
+          depthContext.lineWidth = marker.depth > 0.7 ? 1.25 : 0.75;
+          depthContext.beginPath();
+          depthContext.moveTo(x, y);
+          depthContext.lineTo(x, y + marker.length * marker.depth);
+          depthContext.stroke();
+        }
+
+        depthContext.translate(width * 0.56 + pointerX * 30, height * 0.48 + pointerY * 18);
+        depthContext.rotate(-0.16);
+        const sweep = depthContext.createLinearGradient(-width * 0.65, 0, width * 0.65, 0);
+        sweep.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        sweep.addColorStop(0.44, 'rgba(180, 203, 209, 0)');
+        sweep.addColorStop(0.50, 'rgba(180, 203, 209, 0.025)');
+        sweep.addColorStop(0.56, 'rgba(184, 121, 61, 0.018)');
+        sweep.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        depthContext.fillStyle = sweep;
+        depthContext.fillRect(-width * 0.65, -height * 0.55, width * 1.3, height * 1.1);
+        depthContext.restore();
+      };
+
+      const renderDepthCanvas = (time) => {
+        const interval = depthState.compact ? 50 : 33;
+        if (time - depthState.lastFrame >= interval) {
+          depthState.lastFrame = time;
+          drawDepthCanvas(time);
+        }
+        depthState.frameId = window.requestAnimationFrame(renderDepthCanvas);
+      };
+
+      resizeDepthCanvas();
+      if (reducedDepthMotion.matches) {
+        drawDepthCanvas(0);
+      } else {
+        depthState.frameId = window.requestAnimationFrame(renderDepthCanvas);
+        window.addEventListener('pointermove', (event) => {
+          depthState.targetX = ((event.clientX / Math.max(1, window.innerWidth)) - 0.5) * 2;
+          depthState.targetY = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
+        }, { passive: true });
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden && depthState.frameId) {
+            window.cancelAnimationFrame(depthState.frameId);
+            depthState.frameId = 0;
+          } else if (!document.hidden && !depthState.frameId) {
+            depthState.lastFrame = 0;
+            depthState.frameId = window.requestAnimationFrame(renderDepthCanvas);
+          }
+        });
+      }
+      window.addEventListener('resize', resizeDepthCanvas, { passive: true });
     }
   }
 
@@ -255,7 +398,7 @@
             <span>${project.pendingLabel || 'Thumbnail Pending'}</span>
             <strong>${project.title}</strong>
           </div>`
-      : `<img src="${versionedProjectAsset(project.image)}" alt="" loading="lazy" decoding="async">`;
+      : `<img src="${versionedProjectAsset(project.image)}" alt="" loading="eager" fetchpriority="low" decoding="async">`;
     const cardMarkup = projects.map((project, index) => `
       <article class="home-project-card${project.restricted ? ' home-project-card--restricted' : ''}">
         ${renderProjectMedia(project)}
@@ -273,11 +416,44 @@
       </div>
       <div class="home-project-marquee reveal" aria-label="Studio V project highlights">
         <div class="home-project-track">
-          ${cardMarkup}
-          ${cardMarkup}
+          <div class="home-project-set" data-project-set>${cardMarkup}</div>
+          <div class="home-project-set" aria-hidden="true">${cardMarkup}</div>
         </div>
       </div>
     `;
+
+    const projectMarquee = homeProjects.querySelector('.home-project-marquee');
+    const projectTrack = homeProjects.querySelector('.home-project-track');
+    const projectSet = homeProjects.querySelector('[data-project-set]');
+    if (projectMarquee && projectTrack && projectSet) {
+      let projectInView = false;
+      const syncProjectLoop = () => {
+        const trackStyles = window.getComputedStyle(projectTrack);
+        const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+        const loopDistance = Math.round(projectSet.getBoundingClientRect().width + gap);
+        projectTrack.style.setProperty('--project-loop-distance', `${-loopDistance}px`);
+      };
+      const updateProjectPlayback = () => {
+        projectTrack.classList.toggle('is-running', projectInView && !document.hidden);
+      };
+
+      window.requestAnimationFrame(syncProjectLoop);
+      window.addEventListener('resize', syncProjectLoop, { passive: true });
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(syncProjectLoop).observe(projectSet);
+      }
+      if ('IntersectionObserver' in window) {
+        const projectObserver = new IntersectionObserver((entries) => {
+          projectInView = entries.some((entry) => entry.isIntersecting);
+          updateProjectPlayback();
+        }, { threshold: 0.08 });
+        projectObserver.observe(projectMarquee);
+      } else {
+        projectInView = true;
+        updateProjectPlayback();
+      }
+      document.addEventListener('visibilitychange', updateProjectPlayback);
+    }
   }
 
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
