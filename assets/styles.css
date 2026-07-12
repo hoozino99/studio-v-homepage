@@ -7,7 +7,7 @@
   --line: rgba(22, 26, 29, 0.16);
   --steel: #44606c;
   --steel-dark: #263841;
-  --amber: #b8793d;
+  --accent: #9fcbd2;
   --graphite: #111517;
   --smoke: #d5d5ce;
   --shadow-soft: 0 18px 50px rgba(22, 26, 29, 0.12);
@@ -631,7 +631,7 @@ body:not([data-page="studio"]):not([data-page="tour"]):not([data-page="showreel"
   align-items: center;
   gap: 10px;
   margin: 0 0 12px;
-  color: var(--amber);
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -793,7 +793,7 @@ dd {
       rgba(89, 104, 108, 0.05) 44%,
       rgba(89, 104, 108, 0) 76%),
     radial-gradient(700px 360px at calc(10% + var(--ambient-pointer-x) * -5%) 62%,
-      rgba(184, 121, 61, 0.055) 0%,
+      rgba(159, 203, 210, 0.055) 0%,
       rgba(85, 103, 108, 0) 74%),
     linear-gradient(180deg,
       rgba(5, 6, 7, 0) 0%,
@@ -1062,8 +1062,8 @@ dd {
   box-shadow: none;
   background:
     radial-gradient(1120px 520px at calc(82% + var(--ambient-pointer-x) * 7%) 8%,
-      rgba(184, 121, 61, 0.085),
-      rgba(184, 121, 61, 0) 68%),
+      rgba(159, 203, 210, 0.085),
+      rgba(159, 203, 210, 0) 68%),
     radial-gradient(920px 520px at calc(18% + var(--ambient-pointer-x) * -5%) 36%,
       rgba(80, 96, 100, 0.12),
       rgba(80, 96, 100, 0) 70%),
@@ -1168,10 +1168,6 @@ dd {
 
 .home-project-track.is-running {
   animation-play-state: running;
-}
-
-.home-project-marquee:hover .home-project-track {
-  animation-play-state: paused;
 }
 
 .home-project-set {
@@ -1281,13 +1277,13 @@ dd {
   border-color: rgba(255, 255, 255, 0.20);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 42%),
-    linear-gradient(180deg, rgba(196, 133, 67, 0.055), transparent 52%),
+    linear-gradient(180deg, rgba(145, 186, 193, 0.055), transparent 52%),
     #070909;
 }
 
 .project-pending-thumb {
   background:
-    linear-gradient(145deg, rgba(184, 121, 61, 0.075), transparent 42%),
+    linear-gradient(145deg, rgba(159, 203, 210, 0.075), transparent 42%),
     #070909;
 }
 
@@ -1386,7 +1382,7 @@ dd {
 .usecase-scene::after {
   z-index: 1;
   background:
-    linear-gradient(112deg, rgba(38, 135, 154, 0.12) 0%, rgba(38, 135, 154, 0) 42%, rgba(184, 121, 61, 0.10) 100%);
+    linear-gradient(112deg, rgba(38, 135, 154, 0.12) 0%, rgba(38, 135, 154, 0) 42%, rgba(159, 203, 210, 0.10) 100%);
   mix-blend-mode: screen;
   opacity: 0.34;
 }
@@ -1569,7 +1565,7 @@ dd {
   left: -14px;
   width: 3px;
   height: auto;
-  background: var(--amber);
+  background: var(--accent);
   opacity: 0;
   transform: scaleY(0.28);
   transform-origin: top;
@@ -1888,7 +1884,7 @@ body[data-page="portfolio"] .sub-hero img {
 
 body[data-page="portfolio"] .sub-hero::after {
   background:
-    radial-gradient(720px 360px at 75% 22%, rgba(184, 121, 61, 0.18), rgba(184, 121, 61, 0) 68%),
+    radial-gradient(720px 360px at 75% 22%, rgba(159, 203, 210, 0.18), rgba(159, 203, 210, 0) 68%),
     linear-gradient(90deg, rgba(5, 6, 7, 0.90) 0%, rgba(5, 6, 7, 0.54) 42%, rgba(5, 6, 7, 0.18) 100%),
     linear-gradient(0deg, #050607 0%, rgba(5, 6, 7, 0.14) 58%);
 }
@@ -1914,7 +1910,7 @@ body[data-page="portfolio"] main {
   padding-top: var(--header-h);
   color: var(--white);
   background:
-    radial-gradient(760px 420px at 82% 8%, rgba(184, 121, 61, 0.08), transparent 68%),
+    radial-gradient(760px 420px at 82% 8%, rgba(159, 203, 210, 0.08), transparent 68%),
     linear-gradient(180deg, #050607 0%, #070909 48%, #050607 100%);
 }
 
@@ -2352,7 +2348,7 @@ body[data-page="portfolio"] .work-card:hover .work-image img {
 }
 
 .showreel-card.is-active small {
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .showreel-card strong {
@@ -2437,7 +2433,7 @@ body[data-page="portfolio"] .work-card:hover .work-image img {
 }
 
 .showreel-modal-head small {
-  color: var(--amber);
+  color: var(--accent);
   font-size: 11px;
   font-weight: 850;
   letter-spacing: 0.08em;
@@ -2596,7 +2592,7 @@ body.showreel-modal-open {
   border-right: 1px solid rgba(255, 255, 255, 0.10);
   background:
     linear-gradient(180deg, rgba(18, 22, 23, 0.985), rgba(11, 14, 15, 0.985)),
-    radial-gradient(circle at 18% 0%, rgba(184, 121, 61, 0.18), transparent 32%);
+    radial-gradient(circle at 18% 0%, rgba(159, 203, 210, 0.18), transparent 32%);
   color: var(--white);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -2725,8 +2721,8 @@ body.showreel-modal-open {
 .tour-controls button.is-active,
 .tour-controls button.is-on {
   color: var(--white);
-  background: rgba(184, 121, 61, 0.92);
-  border-color: rgba(184, 121, 61, 0.92);
+  background: rgba(159, 203, 210, 0.92);
+  border-color: rgba(159, 203, 210, 0.92);
 }
 
 .tour-video-panel,
@@ -2780,7 +2776,7 @@ body.showreel-modal-open {
 .tour-video-panel input[type="range"],
 .tour-reference-panel input[type="range"] {
   width: 100%;
-  accent-color: var(--amber);
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
@@ -2806,8 +2802,8 @@ body.showreel-modal-open {
 .tour-video-head button.is-on,
 .tour-reference-toggle button.is-active {
   color: var(--white);
-  background: rgba(184, 121, 61, 0.92);
-  border-color: rgba(184, 121, 61, 0.92);
+  background: rgba(159, 203, 210, 0.92);
+  border-color: rgba(159, 203, 210, 0.92);
 }
 
 .tour-video-reset {
@@ -2905,7 +2901,7 @@ body.showreel-modal-open {
   display: block;
   width: var(--load-progress, 12%);
   height: 100%;
-  background: var(--amber);
+  background: var(--accent);
   transition: width 220ms ease;
 }
 
@@ -2962,7 +2958,7 @@ body.showreel-modal-open {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--white);
   background:
-    radial-gradient(720px 320px at 50% 0%, rgba(196, 133, 67, 0.075), rgba(196, 133, 67, 0) 70%),
+    radial-gradient(720px 320px at 50% 0%, rgba(145, 186, 193, 0.075), rgba(145, 186, 193, 0) 70%),
     radial-gradient(880px 420px at calc(50% + var(--ambient-pointer-x, 0) * 7%) 70%, rgba(68, 96, 108, 0.11), rgba(68, 96, 108, 0) 72%),
     linear-gradient(180deg, #050607 0%, #070909 52%, #050607 100%);
   isolation: isolate;
@@ -3573,8 +3569,8 @@ body.showreel-modal-open {
   body[data-page="portfolio"] .filter-bar button.is-active,
   body[data-page="portfolio"] .filter-bar button:hover {
     color: rgba(255, 255, 255, 0.96);
-    background: rgba(184, 121, 61, 0.26);
-    border-color: rgba(184, 121, 61, 0.48);
+    background: rgba(159, 203, 210, 0.26);
+    border-color: rgba(159, 203, 210, 0.48);
   }
 
   body[data-page="portfolio"] .work-card,
@@ -3905,8 +3901,8 @@ body[data-page="studio"] {
       rgba(68, 96, 108, 0.11),
       rgba(68, 96, 108, 0) 72%),
     radial-gradient(920px 620px at calc(18% + var(--ambient-pointer-x) * -6%) 68%,
-      rgba(184, 121, 61, 0.055),
-      rgba(184, 121, 61, 0) 74%),
+      rgba(159, 203, 210, 0.055),
+      rgba(159, 203, 210, 0) 74%),
     #050607;
   color: var(--white);
 }
@@ -3918,8 +3914,8 @@ body[data-page="studio"] main {
       rgba(79, 99, 104, 0.12),
       rgba(79, 99, 104, 0) 70%),
     radial-gradient(1040px 640px at calc(18% + var(--ambient-pointer-x) * -5%) 57%,
-      rgba(184, 121, 61, 0.052),
-      rgba(184, 121, 61, 0) 76%),
+      rgba(159, 203, 210, 0.052),
+      rgba(159, 203, 210, 0) 76%),
     linear-gradient(180deg,
       #050607 0%,
       #050607 24%,
@@ -4077,7 +4073,7 @@ body[data-page="studio"] .stage-scroll-sticky::after {
       rgba(5, 6, 7, 0.03) 64%,
       rgba(5, 6, 7, 0.66) 91%,
       #050607 100%),
-    radial-gradient(980px 460px at 70% 84%, rgba(184, 121, 61, 0.10), transparent 70%);
+    radial-gradient(980px 460px at 70% 84%, rgba(159, 203, 210, 0.10), transparent 70%);
 }
 
 body[data-page="studio"] .stage-scroll-copy {
@@ -4213,7 +4209,7 @@ body[data-page="studio"] .partner-strip {
   padding-top: clamp(146px, 12vw, 190px);
   border-top: 0;
   background:
-    radial-gradient(620px 260px at 50% 8%, rgba(196, 133, 67, 0.060), rgba(196, 133, 67, 0) 70%),
+    radial-gradient(620px 260px at 50% 8%, rgba(145, 186, 193, 0.060), rgba(145, 186, 193, 0) 70%),
     radial-gradient(720px 360px at 50% 86%, rgba(68, 96, 108, 0.085), rgba(68, 96, 108, 0) 74%),
     linear-gradient(180deg,
       rgba(5, 6, 7, 0) 0%,
@@ -4310,7 +4306,7 @@ body[data-page="studio"] .partner-strip::before {
   gap: 15px;
   padding: 20px 18px;
   background:
-    radial-gradient(420px 300px at 20% 0%, rgba(184, 121, 61, 0.10), transparent 72%),
+    radial-gradient(420px 300px at 20% 0%, rgba(159, 203, 210, 0.10), transparent 72%),
     linear-gradient(180deg, rgba(15, 19, 20, 0.99), rgba(8, 11, 12, 0.99));
 }
 
@@ -4385,7 +4381,7 @@ body[data-page="studio"] .partner-strip::before {
 .tour-video-head button.is-on,
 .tour-reference-toggle button.is-active {
   background: rgba(169, 108, 52, 0.94);
-  border-color: rgba(203, 139, 76, 0.72);
+  border-color: rgba(199, 239, 242, 0.72);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.10);
 }
 
@@ -4424,7 +4420,7 @@ body[data-page="studio"] .partner-strip::before {
   border-radius: 50%;
   appearance: none;
   -webkit-appearance: none;
-  background: #cb8b4c;
+  background: #c7eff2;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28);
 }
 
@@ -4441,7 +4437,7 @@ body[data-page="studio"] .partner-strip::before {
   height: 12px;
   border: 2px solid rgba(9, 12, 13, 0.92);
   border-radius: 50%;
-  background: #cb8b4c;
+  background: #c7eff2;
 }
 
 #studioTour {
@@ -4480,7 +4476,7 @@ body[data-page="showreel"] .showreel-card figure {
 .showreel-card:focus-visible,
 .tour-panel button:focus-visible,
 .tour-panel input:focus-visible {
-  outline: 2px solid rgba(203, 139, 76, 0.92);
+  outline: 2px solid rgba(199, 239, 242, 0.92);
   outline-offset: 3px;
 }
 
@@ -4521,34 +4517,16 @@ body[data-page="showreel"] .showreel-card figure {
   }
 
   .home-project-marquee {
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .home-project-marquee::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
+    touch-action: pan-y;
   }
 
   .home-project-track {
-    animation: none !important;
-    transform: none !important;
+    --project-track-gap: 24px;
+    animation-duration: 72s;
     padding-right: 18px;
     padding-left: 18px;
-    will-change: auto;
-  }
-
-  .home-project-set {
-    --project-track-gap: 24px;
-  }
-
-  .home-project-set[aria-hidden="true"] {
-    display: none;
-  }
-
-  .home-project-card {
-    scroll-snap-align: start;
+    will-change: transform;
   }
 
   .tour-panel {

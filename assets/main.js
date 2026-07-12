@@ -210,7 +210,7 @@
           const marker = depthMarkers[index];
           const y = ((marker.y * height + scroll * marker.depth * 0.028 + drift * 120) % (height + 80)) - 40;
           const x = marker.x * width + pointerX * marker.depth * 28;
-          depthContext.strokeStyle = `rgba(184, 121, 61, ${0.025 + marker.depth * 0.07})`;
+          depthContext.strokeStyle = `rgba(159, 203, 210, ${0.025 + marker.depth * 0.07})`;
           depthContext.lineWidth = marker.depth > 0.7 ? 1.25 : 0.75;
           depthContext.beginPath();
           depthContext.moveTo(x, y);
@@ -224,7 +224,7 @@
         sweep.addColorStop(0, 'rgba(255, 255, 255, 0)');
         sweep.addColorStop(0.44, 'rgba(180, 203, 209, 0)');
         sweep.addColorStop(0.50, 'rgba(180, 203, 209, 0.025)');
-        sweep.addColorStop(0.56, 'rgba(184, 121, 61, 0.018)');
+        sweep.addColorStop(0.56, 'rgba(159, 203, 210, 0.018)');
         sweep.addColorStop(1, 'rgba(255, 255, 255, 0)');
         depthContext.fillStyle = sweep;
         depthContext.fillRect(-width * 0.65, -height * 0.55, width * 1.3, height * 1.1);
@@ -411,8 +411,8 @@
 
     homeProjects.innerHTML = `
       <div class="home-projects-copy reveal">
-        <p class="section-kicker">Selected Projects</p>
-        <h2>Work captured on the Studio V volume.</h2>
+        <p class="section-kicker">Projects</p>
+        <h2>Made at Studio V.</h2>
       </div>
       <div class="home-project-marquee reveal" aria-label="Studio V project highlights">
         <div class="home-project-track">
