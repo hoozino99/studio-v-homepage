@@ -4934,3 +4934,222 @@ body[data-page="studio"].has-depth-v08 .usecase-scene::before {
     will-change: auto;
   }
 }
+
+/* depth-v09: mobile composition pass. */
+body[data-page="tour"] .site-header.is-solid {
+  color: var(--white);
+  background: rgba(6, 8, 8, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.11);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.24);
+}
+
+body[data-page="tour"] .site-header.is-solid .nav-links a:hover,
+body[data-page="tour"] .site-header.is-solid .nav-links a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 780px) {
+  :root {
+    --mobile-gutter: 18px;
+  }
+
+  .site-header {
+    padding-left: max(var(--mobile-gutter), env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-menu {
+    left: max(14px, env(safe-area-inset-left));
+    right: max(14px, env(safe-area-inset-right));
+  }
+
+  .hero-home {
+    min-height: 110svh;
+  }
+
+  .hero-sticky {
+    padding: calc(var(--header-h) + 48px) var(--mobile-gutter) 62px;
+  }
+
+  .hero-content {
+    gap: 20px;
+  }
+
+  .hero-content h1,
+  .showreel-hero-copy h1 {
+    font-size: clamp(38px, 10.8vw, 44px);
+  }
+
+  .hero-proof-lines {
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.48;
+  }
+
+  body[data-page="studio"].has-depth-v08 .stage-overview {
+    padding-top: 168px;
+    padding-bottom: 74px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .stage-overview-head {
+    margin-bottom: 46px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .stage-scroll-gallery {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .stage-scroll-fallback {
+    grid-auto-columns: minmax(260px, calc(100vw - 54px));
+    gap: 12px;
+    padding-bottom: 10px;
+    scroll-padding-inline: 0;
+  }
+
+  body[data-page="studio"].has-depth-v08 .stage-scroll-fallback figure {
+    min-height: 218px;
+    border-radius: 6px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .home-projects {
+    padding-top: 88px;
+    padding-bottom: 112px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .home-projects-copy {
+    margin-bottom: 44px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .home-project-card {
+    flex-basis: min(82vw, 320px);
+    gap: 14px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .home-project-card-copy {
+    min-height: 58px;
+    gap: 5px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .usecase-scene {
+    min-height: calc(100svh - var(--header-h));
+  }
+
+  body[data-page="studio"].has-depth-v08 .usecase-inner {
+    align-content: center;
+    min-height: calc(100svh - var(--header-h));
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .usecase-index {
+    margin-top: 24px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .usecase-option {
+    min-height: 68px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  body[data-page="studio"].has-depth-v08 .partner-strip {
+    margin-top: 0;
+    padding-top: 94px;
+    padding-bottom: 100px;
+  }
+
+  .partner-logo-wall--primary {
+    gap: 18px 16px;
+  }
+
+  .partner-logo-wall--supporting {
+    gap: 16px 18px;
+  }
+
+  .partner-logo-card--supporting {
+    min-height: 42px;
+  }
+
+  body[data-page="portfolio"] .works-section,
+  body[data-page="showreel"] .showreel-watch,
+  body[data-page="showreel"] .showreel-library,
+  body[data-page="showreel"] .showreel-shorts {
+    padding-left: var(--mobile-gutter);
+    padding-right: var(--mobile-gutter);
+  }
+
+  body[data-page="portfolio"] .works-grid,
+  body[data-page="showreel"] .showreel-grid {
+    gap: 34px;
+  }
+
+  body[data-page="portfolio"] .work-body,
+  body[data-page="showreel"] .showreel-card {
+    gap: 8px;
+  }
+
+  .showreel-hero {
+    min-height: min(620px, 72svh);
+  }
+
+  .tour-stage,
+  #studioTour {
+    height: 66svh;
+    min-height: 520px;
+  }
+
+  .tour-panel {
+    height: auto;
+    gap: 14px;
+    padding: 28px var(--mobile-gutter) 42px;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scrollbar-gutter: auto;
+  }
+
+  .tour-panel h1 {
+    font-size: clamp(29px, 8.4vw, 33px);
+  }
+
+  .tour-specs dt {
+    font-size: 9.5px;
+  }
+
+  .tour-specs dd {
+    font-size: 11.5px;
+  }
+
+  .tour-controls button,
+  .tour-video-head button,
+  .tour-video-reset,
+  .tour-reference-toggle button {
+    min-height: 42px;
+  }
+
+  .site-footer {
+    gap: 24px;
+    padding-left: max(var(--mobile-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--mobile-gutter), env(safe-area-inset-right));
+    padding-bottom: max(30px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-sticky {
+    padding-bottom: 54px;
+  }
+
+  .partner-logo-wall--primary .partner-logo-card img {
+    width: min(116px, 92%);
+  }
+
+  .partner-logo-wall--supporting .partner-logo-card img {
+    width: min(100px, 92%);
+  }
+
+  .footer-logo-strip {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px 18px;
+  }
+}

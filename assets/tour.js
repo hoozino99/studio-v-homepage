@@ -1134,12 +1134,33 @@ const views = {
   }
 };
 
+const portraitViews = {
+  overview: {
+    camera: new THREE.Vector3(LED.arcCenterX, 14.5, LED.arcCenterZ + 34.5),
+    target: new THREE.Vector3(LED.arcCenterX, 2.1, LED.arcCenterZ)
+  },
+  wall: {
+    camera: new THREE.Vector3(LED.arcCenterX, 5.8, LED.arcCenterZ + 13.6),
+    target: new THREE.Vector3(LED.arcCenterX, 3.6, LED.arcCenterZ - 5.2)
+  },
+  scale: {
+    camera: new THREE.Vector3(11.5, 6.4, LED.arcCenterZ + 14.6),
+    target: new THREE.Vector3(1.5, 1.9, LED.arcCenterZ + 3.8)
+  },
+  top: views.top
+};
+
+const resolveView = (name) => {
+  const isPortrait = stage.clientWidth <= 780 && stage.clientHeight > stage.clientWidth;
+  return isPortrait ? portraitViews[name] || views[name] : views[name];
+};
+
 const targetCamera = views.overview.camera.clone();
 const targetLook = views.overview.target.clone();
 let transitionFrames = 0;
 
 function setView(name) {
-  const view = views[name];
+  const view = resolveView(name);
   if (!view) return;
   targetCamera.copy(view.camera);
   targetLook.copy(view.target);

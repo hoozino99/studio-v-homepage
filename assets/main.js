@@ -885,6 +885,27 @@
       option.addEventListener('click', () => scrollToUsecase(index));
     });
 
+    let usecaseTouchStart = null;
+    usecaseScene.addEventListener('touchstart', (event) => {
+      if (shouldUseScrollUsecase() || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      usecaseTouchStart = { x: touch.clientX, y: touch.clientY };
+    }, { passive: true });
+
+    usecaseScene.addEventListener('touchend', (event) => {
+      if (!usecaseTouchStart || shouldUseScrollUsecase() || !event.changedTouches.length) {
+        usecaseTouchStart = null;
+        return;
+      }
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - usecaseTouchStart.x;
+      const deltaY = touch.clientY - usecaseTouchStart.y;
+      usecaseTouchStart = null;
+      if (Math.abs(deltaX) < 54 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+      const direction = deltaX < 0 ? 1 : -1;
+      setStaticUsecase(clamp(activeIndex + direction, 0, backgrounds.length - 1));
+    }, { passive: true });
+
     setStaticUsecase(0);
     updateUsecaseByScroll();
     window.addEventListener('scroll', requestUsecaseUpdate, { passive: true });
