@@ -4724,3 +4724,74 @@ body[data-page="showreel"] .showreel-card figure {
     height: 15px;
   }
 }
+
+/* depth-v06: one page-scale field with organic, layered motion. */
+body.has-depth-v06 main {
+  isolation: isolate;
+}
+
+body.has-depth-v06 main > :not(.depth-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.depth-canvas--v06 {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100svh;
+  max-width: none;
+  pointer-events: none;
+  opacity: 0.94;
+  mix-blend-mode: screen;
+  filter: saturate(0.7) contrast(1.04);
+}
+
+body[data-page="studio"].has-depth-v06 {
+  background: #050607;
+  color: var(--white);
+}
+
+body[data-page="studio"].has-depth-v06 main {
+  background: #050607;
+}
+
+body[data-page="studio"].has-depth-v06 .ambient-backplate,
+body[data-page="studio"].has-depth-v06 main::before,
+body[data-page="studio"].has-depth-v06 .stage-overview::before,
+body[data-page="studio"].has-depth-v06 .stage-overview::after,
+body[data-page="studio"].has-depth-v06 .home-projects::before,
+body[data-page="studio"].has-depth-v06 .home-projects::after,
+body[data-page="studio"].has-depth-v06 .partner-strip::before {
+  display: none;
+}
+
+body[data-page="studio"].has-depth-v06 .stage-overview,
+body[data-page="studio"].has-depth-v06 .home-projects,
+body[data-page="studio"].has-depth-v06 .partner-strip,
+body[data-page="studio"].has-depth-v06 .usecase-scene,
+body[data-page="studio"].has-depth-v06 .usecase-backdrop {
+  background: transparent;
+}
+
+body[data-page="studio"].has-depth-v06 .home-projects {
+  margin-top: 0;
+}
+
+body[data-page="studio"].has-depth-v06 .partner-strip {
+  border-top: 0;
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+@media (max-width: 780px) {
+  .depth-canvas--v06 {
+    opacity: 0.76;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-canvas--v06 {
+    opacity: 0.72;
+  }
+}

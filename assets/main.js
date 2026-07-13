@@ -70,11 +70,11 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthCanvas = document.createElement('canvas');
-    depthCanvas.className = 'depth-canvas depth-canvas--v05';
-    depthCanvas.dataset.depthCanvas = 'depth-v05';
+    depthCanvas.className = 'depth-canvas depth-canvas--v06';
+    depthCanvas.dataset.depthCanvas = 'depth-v06';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v05');
+    document.body.classList.add('has-depth-v06');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
@@ -89,12 +89,12 @@
         lastFrame: 0,
         frameId: 0
       };
-      const depthMarkers = Array.from({ length: 28 }, (_, index) => ({
-        x: ((index * 47) % 97) / 96,
-        y: ((index * 71) % 89) / 88,
-        depth: 0.26 + (index % 6) * 0.13,
-        length: 4 + (index % 4) * 3
-      }));
+      const lightRibbons = [
+        { y: 0.17, amplitude: 0.08, depth: 0.28, width: 56, alpha: 0.055, phase: 0.4 },
+        { y: 0.38, amplitude: 0.12, depth: 0.46, width: 92, alpha: 0.072, phase: 2.2 },
+        { y: 0.62, amplitude: 0.10, depth: 0.68, width: 128, alpha: 0.082, phase: 4.1 },
+        { y: 0.84, amplitude: 0.07, depth: 0.88, width: 168, alpha: 0.065, phase: 5.5 }
+      ];
 
       const resizeDepthCanvas = () => {
         const width = window.innerWidth || document.documentElement.clientWidth;
@@ -111,176 +111,112 @@
         depthContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       };
 
-      const drawCornerFrame = (centerX, centerY, width, height, alpha) => {
-        const corner = Math.min(width, height) * 0.22;
-        const left = centerX - width / 2;
-        const right = centerX + width / 2;
-        const top = centerY - height / 2;
-        const bottom = centerY + height / 2;
-        depthContext.strokeStyle = `rgba(154, 185, 194, ${alpha})`;
-        depthContext.lineWidth = 1;
+      const traceRibbon = (baseY, amplitude, phase, offsetY = 0) => {
+        const overscan = depthState.width * 0.12;
+        const span = depthState.width + overscan * 2;
+        const segments = depthState.compact ? 18 : 30;
         depthContext.beginPath();
-        depthContext.moveTo(left + corner, top);
-        depthContext.lineTo(left, top);
-        depthContext.lineTo(left, top + corner);
-        depthContext.moveTo(right - corner, top);
-        depthContext.lineTo(right, top);
-        depthContext.lineTo(right, top + corner);
-        depthContext.moveTo(left, bottom - corner);
-        depthContext.lineTo(left, bottom);
-        depthContext.lineTo(left + corner, bottom);
-        depthContext.moveTo(right, bottom - corner);
-        depthContext.lineTo(right, bottom);
-        depthContext.lineTo(right - corner, bottom);
-        depthContext.stroke();
+        for (let index = 0; index <= segments; index += 1) {
+          const ratio = index / segments;
+          const x = -overscan + span * ratio;
+          const primary = Math.sin(ratio * Math.PI * 2.15 + phase);
+          const harmonic = Math.sin(ratio * Math.PI * 4.6 - phase * 0.74) * 0.28;
+          const y = baseY + (primary + harmonic) * amplitude + offsetY;
+          if (index === 0) depthContext.moveTo(x, y);
+          else depthContext.lineTo(x, y);
+        }
       };
 
-      const drawVolumePlane = (centerX, centerY, planeWidth, planeHeight, rotation, alpha, edgeAlpha) => {
+      const drawLightRibbon = (ribbon, scrollPhase, timePhase, pointerX, pointerY) => {
+        const { width, height } = depthState;
+        const phase = ribbon.phase + timePhase * (0.34 + ribbon.depth * 0.2) + scrollPhase * (0.5 + ribbon.depth * 1.05);
+        const baseY = height * ribbon.y + pointerY * height * ribbon.depth * 0.035;
+        const amplitude = height * ribbon.amplitude;
+        const offsetY = Math.sin(scrollPhase * 0.72 + ribbon.phase) * height * 0.045 * ribbon.depth;
+        const ribbonGradient = depthContext.createLinearGradient(-width * 0.08, 0, width * 1.08, 0);
+        ribbonGradient.addColorStop(0, 'rgba(111, 152, 161, 0)');
+        ribbonGradient.addColorStop(0.22, `rgba(111, 152, 161, ${ribbon.alpha * 0.48})`);
+        ribbonGradient.addColorStop(0.52 + pointerX * 0.06, `rgba(179, 210, 215, ${ribbon.alpha})`);
+        ribbonGradient.addColorStop(0.78, `rgba(92, 137, 148, ${ribbon.alpha * 0.42})`);
+        ribbonGradient.addColorStop(1, 'rgba(92, 137, 148, 0)');
+
         depthContext.save();
-        depthContext.translate(centerX, centerY);
-        depthContext.rotate(rotation);
-        const skew = planeWidth * 0.12;
-        const planeGradient = depthContext.createLinearGradient(-planeWidth / 2, 0, planeWidth / 2, 0);
-        planeGradient.addColorStop(0, 'rgba(135, 177, 187, 0)');
-        planeGradient.addColorStop(0.46, `rgba(120, 166, 176, ${alpha * 0.32})`);
-        planeGradient.addColorStop(0.72, `rgba(183, 218, 224, ${alpha})`);
-        planeGradient.addColorStop(1, 'rgba(135, 177, 187, 0)');
-        depthContext.fillStyle = planeGradient;
-        depthContext.strokeStyle = `rgba(184, 215, 221, ${edgeAlpha})`;
-        depthContext.lineWidth = 0.8;
-        depthContext.beginPath();
-        depthContext.moveTo(-planeWidth / 2 + skew, -planeHeight / 2);
-        depthContext.lineTo(planeWidth / 2, -planeHeight / 2);
-        depthContext.lineTo(planeWidth / 2 - skew, planeHeight / 2);
-        depthContext.lineTo(-planeWidth / 2, planeHeight / 2);
-        depthContext.closePath();
-        depthContext.fill();
+        depthContext.translate(pointerX * width * ribbon.depth * 0.024, 0);
+        depthContext.strokeStyle = ribbonGradient;
+        depthContext.lineCap = 'round';
+        depthContext.lineJoin = 'round';
+        depthContext.filter = `blur(${Math.round(ribbon.width * 0.28)}px)`;
+        depthContext.lineWidth = ribbon.width;
+        traceRibbon(baseY, amplitude, phase, offsetY);
+        depthContext.stroke();
+
+        depthContext.filter = `blur(${Math.max(2, Math.round(ribbon.width * 0.055))}px)`;
+        depthContext.lineWidth = Math.max(1, ribbon.width * 0.032);
+        depthContext.strokeStyle = `rgba(190, 219, 223, ${ribbon.alpha * 0.78})`;
+        traceRibbon(baseY, amplitude, phase, offsetY);
         depthContext.stroke();
         depthContext.restore();
+      };
+
+      const drawRefractionVeil = (scrollPhase, timePhase, pointerX, pointerY) => {
+        const { width, height } = depthState;
+        const centerX = width * (0.72 + pointerX * 0.045);
+        const veilWidth = width * (depthState.compact ? 0.42 : 0.30);
+        const sway = Math.sin(scrollPhase * 0.68 + timePhase * 0.28) * width * 0.055;
+        const gradient = depthContext.createLinearGradient(centerX - veilWidth, 0, centerX + veilWidth, 0);
+        gradient.addColorStop(0, 'rgba(108, 151, 161, 0)');
+        gradient.addColorStop(0.36, 'rgba(108, 151, 161, 0.015)');
+        gradient.addColorStop(0.52, 'rgba(181, 211, 216, 0.065)');
+        gradient.addColorStop(0.68, 'rgba(101, 143, 153, 0.018)');
+        gradient.addColorStop(1, 'rgba(101, 143, 153, 0)');
+        depthContext.save();
+        depthContext.translate(sway, pointerY * height * 0.018);
+        depthContext.rotate(-0.12 + pointerX * 0.018);
+        depthContext.filter = `blur(${depthState.compact ? 34 : 52}px)`;
+        depthContext.fillStyle = gradient;
+        depthContext.fillRect(centerX - veilWidth, -height * 0.28, veilWidth * 2, height * 1.56);
+        depthContext.restore();
+      };
+
+      const drawSignalTraces = (scrollPhase, timePhase, pointerX, pointerY) => {
+        const { width, height, compact } = depthState;
+        const traceCount = compact ? 3 : 5;
+        for (let index = 0; index < traceCount; index += 1) {
+          const depth = 0.32 + index * 0.13;
+          const phase = timePhase * (0.22 + index * 0.035) - scrollPhase * (0.74 + depth) + index * 1.55;
+          const baseY = height * (0.18 + index * 0.17) + pointerY * height * depth * 0.022;
+          const amplitude = height * (0.018 + index * 0.005);
+          depthContext.save();
+          depthContext.translate(pointerX * width * depth * -0.018, 0);
+          depthContext.strokeStyle = `rgba(164, 198, 204, ${0.032 + depth * 0.035})`;
+          depthContext.lineWidth = index % 2 === 0 ? 0.9 : 0.55;
+          depthContext.filter = 'blur(0.25px)';
+          traceRibbon(baseY, amplitude, phase, 0);
+          depthContext.stroke();
+          depthContext.restore();
+        }
       };
 
       const drawDepthCanvas = (time) => {
         const { width, height, compact } = depthState;
         if (!width || !height) return;
         const scroll = reducedDepthMotion.matches ? 0 : Math.max(0, window.scrollY);
-        const drift = reducedDepthMotion.matches ? 0 : time * 0.000035;
+        const timePhase = reducedDepthMotion.matches ? 0 : time * 0.00016;
         depthState.pointerX += (depthState.targetX - depthState.pointerX) * 0.055;
         depthState.pointerY += (depthState.targetY - depthState.pointerY) * 0.055;
         const pointerX = depthState.pointerX;
         const pointerY = depthState.pointerY;
-        const vanishingX = width * (0.52 + pointerX * 0.045);
-        const horizonY = height * (0.58 + pointerY * 0.025);
+        const scrollPhase = scroll / Math.max(1, height);
 
         depthContext.clearRect(0, 0, width, height);
         depthContext.save();
         depthContext.globalCompositeOperation = 'lighter';
 
-        const ambientGlow = depthContext.createRadialGradient(
-          vanishingX,
-          horizonY,
-          0,
-          vanishingX,
-          horizonY,
-          Math.max(width, height) * 0.72
-        );
-        ambientGlow.addColorStop(0, 'rgba(91, 129, 140, 0.085)');
-        ambientGlow.addColorStop(0.42, 'rgba(70, 101, 110, 0.035)');
-        ambientGlow.addColorStop(1, 'rgba(5, 6, 7, 0)');
-        depthContext.fillStyle = ambientGlow;
-        depthContext.fillRect(0, 0, width, height);
-
-        const planePhase = scroll / Math.max(1, height);
-        drawVolumePlane(
-          width * 0.82 + pointerX * 42,
-          height * 0.20 + Math.sin(planePhase * 0.72) * 58 + pointerY * 18,
-          width * (compact ? 0.62 : 0.48),
-          height * 0.22,
-          -0.16,
-          compact ? 0.055 : 0.075,
-          compact ? 0.055 : 0.09
-        );
-        drawVolumePlane(
-          width * 0.18 - pointerX * 28,
-          height * 0.66 + Math.sin(planePhase * 0.48 + 1.7) * 76 - pointerY * 12,
-          width * (compact ? 0.72 : 0.54),
-          height * 0.17,
-          0.11,
-          compact ? 0.035 : 0.055,
-          compact ? 0.04 : 0.07
-        );
-        drawVolumePlane(
-          width * 0.58 + pointerX * 20,
-          height * 0.48 + Math.sin(planePhase * 0.34 + 3.2) * 42,
-          width * (compact ? 0.84 : 0.66),
-          height * 0.085,
-          -0.045,
-          compact ? 0.024 : 0.04,
-          compact ? 0.03 : 0.055
-        );
-
-        const rayCount = compact ? 7 : 12;
-        for (let index = 0; index < rayCount; index += 1) {
-          const ratio = index / Math.max(1, rayCount - 1);
-          const bottomX = -width * 0.16 + ratio * width * 1.32 + pointerX * (index % 2 ? 16 : -12);
-          const alpha = 0.025 + (index % 3) * 0.012;
-          depthContext.strokeStyle = `rgba(136, 167, 176, ${alpha})`;
-          depthContext.lineWidth = index % 4 === 0 ? 1.25 : 0.7;
-          depthContext.beginPath();
-          depthContext.moveTo(vanishingX, horizonY);
-          depthContext.lineTo(bottomX, height + 24);
-          depthContext.stroke();
-        }
-
-        const sliceCount = compact ? 6 : 11;
-        const sliceShift = scroll * 0.000075 + drift;
-        for (let index = 0; index < sliceCount; index += 1) {
-          const phase = (index / sliceCount + sliceShift) % 1;
-          const depth = phase * phase;
-          const y = horizonY + depth * (height - horizonY + 70);
-          const halfWidth = width * (0.055 + depth * 0.69);
-          depthContext.strokeStyle = `rgba(153, 181, 188, ${0.018 + phase * 0.075})`;
-          depthContext.lineWidth = 0.7 + phase * 0.7;
-          depthContext.beginPath();
-          depthContext.moveTo(vanishingX - halfWidth, y);
-          depthContext.lineTo(vanishingX + halfWidth, y);
-          depthContext.stroke();
-        }
-
-        const frameOffsets = [0.08, 0.42, 0.74];
-        frameOffsets.forEach((offset, index) => {
-          const phase = (offset + scroll * (0.000025 + index * 0.000012) + drift * (0.6 + index * 0.18)) % 1;
-          const depth = 0.18 + phase * 0.74;
-          const side = index === 1 ? -1 : 1;
-          const frameWidth = width * (0.11 + depth * 0.22);
-          const frameHeight = height * (0.07 + depth * 0.13);
-          const centerX = vanishingX + side * width * (0.18 + depth * 0.20) + pointerX * (22 + index * 8);
-          const centerY = horizonY + depth * (height - horizonY) * 0.72 - pointerY * (10 + index * 5);
-          drawCornerFrame(centerX, centerY, frameWidth, frameHeight, 0.045 + depth * 0.09);
+        drawRefractionVeil(scrollPhase, timePhase, pointerX, pointerY);
+        lightRibbons.forEach((ribbon) => {
+          drawLightRibbon(ribbon, scrollPhase, timePhase, pointerX, pointerY);
         });
-
-        const markerCount = compact ? 14 : depthMarkers.length;
-        for (let index = 0; index < markerCount; index += 1) {
-          const marker = depthMarkers[index];
-          const y = ((marker.y * height + scroll * marker.depth * 0.028 + drift * 120) % (height + 80)) - 40;
-          const x = marker.x * width + pointerX * marker.depth * 28;
-          depthContext.strokeStyle = `rgba(159, 203, 210, ${0.025 + marker.depth * 0.07})`;
-          depthContext.lineWidth = marker.depth > 0.7 ? 1.25 : 0.75;
-          depthContext.beginPath();
-          depthContext.moveTo(x, y);
-          depthContext.lineTo(x, y + marker.length * marker.depth);
-          depthContext.stroke();
-        }
-
-        depthContext.translate(width * 0.56 + pointerX * 30, height * 0.48 + pointerY * 18);
-        depthContext.rotate(-0.16);
-        const sweep = depthContext.createLinearGradient(-width * 0.65, 0, width * 0.65, 0);
-        sweep.addColorStop(0, 'rgba(255, 255, 255, 0)');
-        sweep.addColorStop(0.44, 'rgba(180, 203, 209, 0)');
-        sweep.addColorStop(0.50, 'rgba(180, 203, 209, 0.025)');
-        sweep.addColorStop(0.56, 'rgba(159, 203, 210, 0.018)');
-        sweep.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        depthContext.fillStyle = sweep;
-        depthContext.fillRect(-width * 0.65, -height * 0.55, width * 1.3, height * 1.1);
+        drawSignalTraces(scrollPhase, timePhase, pointerX, pointerY);
         depthContext.restore();
       };
 
