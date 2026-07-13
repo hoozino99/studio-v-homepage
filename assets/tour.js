@@ -140,17 +140,38 @@ const setProgress = (value) => {
 };
 setProgress(0.18);
 
+const tourLoadState = {
+  firstFrame: false,
+  vehicleSettled: false,
+  finalized: false
+};
+
+function finalizeTourLoading() {
+  if (tourLoadState.finalized || !tourLoadState.firstFrame || !tourLoadState.vehicleSettled) return;
+  tourLoadState.finalized = true;
+  window.__studioVTourReady = true;
+  setProgress(1);
+  window.setTimeout(() => loading?.classList.add('is-done'), 180);
+}
+
 const STUDIO = { w: 34.5, l: 63.9, h: 16 };
 const LED = {
   h: 8,
   flat: 20,
   curved: 36.5,
-  side: 3.5
+  side: 3.5,
+  rearGap: 5
 };
 LED.total = LED.flat + LED.curved + LED.side;
 LED.radius = LED.curved / Math.PI;
 LED.arcCenterX = 0;
-LED.arcCenterZ = -(STUDIO.l / 2 - LED.radius);
+LED.arcCenterZ = -(STUDIO.l / 2 - LED.radius - LED.rearGap);
+window.__studioVTourGeometry = {
+  rearGap: LED.rearGap,
+  rearWallZ: -STUDIO.l / 2,
+  ledRearEdgeZ: LED.arcCenterZ - LED.radius,
+  ledCenterZ: LED.arcCenterZ
+};
 
 const CEILING = {
   w: 21,
@@ -183,7 +204,7 @@ const REFERENCE_DEFAULTS = {
 };
 const REFERENCE_LIMITS = {
   x: { min: -15, max: 15 },
-  z: { min: -28, max: 22 },
+  z: { min: LED.arcCenterZ - LED.radius + 1.5, max: 22 },
   rotation: { min: -180, max: 180 }
 };
 const referenceState = {
@@ -292,7 +313,8 @@ function readReferenceControls() {
 }
 
 function setReferenceTarget(key) {
-  if (!referenceState[key]) return;
+  const button = referenceButtons.find((candidate) => candidate.dataset.referenceTarget === key);
+  if (!referenceState[key] || button?.classList.contains('is-unavailable')) return;
   selectedReference = key;
   syncReferenceControls();
 }
@@ -382,7 +404,7 @@ function makeLEDMaterial(texture, intensity) {
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       color: 0xffffff,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
       toneMapped: true
     });
     const grade = {
@@ -637,52 +659,21 @@ const materials = {
     side: THREE.DoubleSide
   }),
   led: makeLEDMaterial(ledVideoTex, 1.18),
+  ledBack: new THREE.MeshStandardMaterial({
+    color: 0x080b0c,
+    emissive: 0x050708,
+    emissiveIntensity: 0.08,
+    roughness: 0.94,
+    metalness: 0.18,
+    side: THREE.BackSide
+  }),
   ceilingTile: makeLEDMaterial(ceilingTex, 0.64),
-  ledDark: new THREE.MeshStandardMaterial({ color: 0x0f181b, emissive: 0x17282d, emissiveIntensity: 0.85, roughness: 0.36 }),
-  rail: new THREE.LineBasicMaterial({ color: 0xd8d0c2, transparent: true, opacity: 0.68 }),
-  person: new THREE.MeshStandardMaterial({ color: 0xd6d1c4, roughness: 0.7 }),
   personSkin: new THREE.MeshStandardMaterial({ color: 0xc7a585, roughness: 0.64, metalness: 0.02 }),
   personHair: new THREE.MeshStandardMaterial({ color: 0x171311, roughness: 0.72, metalness: 0.02 }),
   personJacket: new THREE.MeshStandardMaterial({ color: 0xd8d2c6, roughness: 0.66, metalness: 0.03 }),
   personShirt: new THREE.MeshStandardMaterial({ color: 0x24292a, roughness: 0.7, metalness: 0.02 }),
   personPants: new THREE.MeshStandardMaterial({ color: 0x17191b, roughness: 0.78, metalness: 0.02 }),
-  personShoes: new THREE.MeshStandardMaterial({ color: 0x090a0b, roughness: 0.74, metalness: 0.08 }),
-  vehicle: new THREE.MeshStandardMaterial({ color: 0xced7d8, roughness: 0.58, metalness: 0.16 }),
-  vehicleBody: new THREE.MeshPhysicalMaterial({
-    color: 0xb8bdb9,
-    emissive: 0x0b0c0c,
-    emissiveIntensity: 0.02,
-    roughness: 0.16,
-    metalness: 0.56,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.10,
-    envMapIntensity: 2.05,
-    side: THREE.DoubleSide
-  }),
-  vehicleGlass: new THREE.MeshPhysicalMaterial({
-    color: 0x12181a,
-    emissive: 0x05090a,
-    emissiveIntensity: 0.10,
-    roughness: 0.06,
-    metalness: 0.04,
-    clearcoat: 0.9,
-    clearcoatRoughness: 0.08,
-    transmission: 0.04,
-    transparent: true,
-    opacity: 0.62,
-    envMapIntensity: 1.85,
-    side: THREE.DoubleSide
-  }),
-  vehicleTrim: new THREE.MeshStandardMaterial({ color: 0xaeb6b8, roughness: 0.18, metalness: 0.72, envMapIntensity: 1.55, side: THREE.DoubleSide }),
-  vehicleLamp: new THREE.MeshStandardMaterial({ color: 0xf6f0df, emissive: 0xf6efe2, emissiveIntensity: 0.34, roughness: 0.18, side: THREE.DoubleSide }),
-  tire: new THREE.MeshStandardMaterial({ color: 0x090a0a, roughness: 0.88, metalness: 0.02, side: THREE.DoubleSide }),
-  camera: new THREE.MeshStandardMaterial({ color: 0x1b1d1f, roughness: 0.5, metalness: 0.2 }),
-  ceiling: new THREE.MeshStandardMaterial({ color: 0x28383c, emissive: 0x192a2f, emissiveIntensity: 0.85, roughness: 0.44 }),
-  matteBlack: new THREE.MeshStandardMaterial({ color: 0x111315, roughness: 0.88, metalness: 0.08 }),
-  metal: new THREE.MeshStandardMaterial({ color: 0x8d9594, roughness: 0.46, metalness: 0.36 }),
-  monitor: new THREE.MeshStandardMaterial({ color: 0x0a0c0e, emissive: 0x8fb5bd, emissiveIntensity: 0.9, roughness: 0.3 }),
-  warmPanel: new THREE.MeshStandardMaterial({ color: 0xfff3da, emissive: 0xffd99a, emissiveIntensity: 1.35, roughness: 0.42 }),
-  lensGlass: new THREE.MeshStandardMaterial({ color: 0x050607, emissive: 0x0d2930, emissiveIntensity: 0.35, roughness: 0.18, metalness: 0.22 })
+  personShoes: new THREE.MeshStandardMaterial({ color: 0x090a0b, roughness: 0.74, metalness: 0.08 })
 };
 materials.ceilingTile.color.setHex(0x0a2027);
 materials.ceilingTile.transparent = true;
@@ -867,7 +858,19 @@ function addLedSystem() {
   mainLedPath = jPath;
   const jWallGeometry = buildRibbonGeometry(jPath, LED.h);
   const jWall = new THREE.Mesh(jWallGeometry, materials.led);
-  ledGroup.add(jWall);
+  jWall.name = 'main-led-front';
+  const jWallBack = new THREE.Mesh(jWallGeometry, materials.ledBack);
+  jWallBack.name = 'main-led-back';
+  ledGroup.add(jWallBack, jWall);
+
+  const rearClearance = new THREE.Mesh(
+    new THREE.PlaneGeometry(STUDIO.w, LED.rearGap),
+    new THREE.MeshBasicMaterial({ color: 0x101719, transparent: true, opacity: 0.28, depthWrite: false })
+  );
+  rearClearance.name = 'rear-service-clearance';
+  rearClearance.rotation.x = -Math.PI / 2;
+  rearClearance.position.set(0, 0.008, -STUDIO.l / 2 + LED.rearGap / 2);
+  ledGroup.add(rearClearance);
 
   ledGroup.add(buildCeilingTiles());
   ledGroup.add(new THREE.Line(
@@ -1006,50 +1009,6 @@ function makePerson({ x, z, rotation = 0, scale = 1, color = 0xd6d1c4 }) {
   return group;
 }
 
-function makeFallbackVehicle() {
-  const group = new THREE.Group();
-  group.name = 'vehicle-scale-reference';
-
-  const body = new THREE.Mesh(new THREE.BoxGeometry(VEHICLE_DIMENSIONS.length, 0.72, VEHICLE_DIMENSIONS.width), materials.vehicleBody);
-  body.position.y = 0.72;
-  group.add(body);
-
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(2.35, 0.72, VEHICLE_DIMENSIONS.width * 0.86), materials.vehicleGlass);
-  cabin.position.set(-0.32, 1.23, 0);
-  group.add(cabin);
-
-  const hood = new THREE.Mesh(new THREE.BoxGeometry(1.38, 0.36, VEHICLE_DIMENSIONS.width * 0.94), materials.vehicleTrim);
-  hood.position.set(1.68, 1.03, 0);
-  group.add(hood);
-
-  const lampGeo = new THREE.BoxGeometry(0.08, 0.18, 0.42);
-  [-0.48, 0.48].forEach((side) => {
-    const lamp = new THREE.Mesh(lampGeo, materials.vehicleLamp);
-    lamp.position.set(VEHICLE_DIMENSIONS.length / 2 + 0.02, 0.82, side * VEHICLE_DIMENSIONS.width * 0.78);
-    group.add(lamp);
-  });
-
-  const wheelGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.32, 24);
-  [-1.56, 1.56].forEach((x) => {
-    [-0.98, 0.98].forEach((z) => {
-      const wheel = new THREE.Mesh(wheelGeo, materials.tire);
-      wheel.position.set(x, 0.36, z);
-      wheel.rotation.x = Math.PI / 2;
-      group.add(wheel);
-    });
-  });
-
-  const label = makeLabel('GLE 4.94m L / 1.95m W', 3.9, 0.38);
-  label.position.set(0, VEHICLE_DIMENSIONS.height + 0.35, 0);
-  group.add(label);
-
-  group.position.set(REFERENCE_DEFAULTS.vehicle.x, 0.02, REFERENCE_DEFAULTS.vehicle.z);
-  group.rotation.y = THREE.MathUtils.degToRad(REFERENCE_DEFAULTS.vehicle.rotation);
-  group.userData.dimensions = { ...VEHICLE_DIMENSIONS, sourceAsset: 'fallback' };
-  window.__studioVVehicleDimensions = group.userData.dimensions;
-  return group;
-}
-
 function normalizeVehicleModel(object) {
   const wrapper = new THREE.Group();
   wrapper.name = 'vehicle-scale-reference';
@@ -1099,24 +1058,33 @@ function normalizeVehicleModel(object) {
 }
 
 function addVehicleReference() {
-  const fallback = makeFallbackVehicle();
-  referenceObjects.vehicle = fallback;
-  applyReferenceTransform('vehicle');
-  scene.add(fallback);
-
+  const vehicleButton = referenceButtons.find((button) => button.dataset.referenceTarget === 'vehicle');
+  vehicleButton?.classList.add('is-loading');
+  vehicleButton?.setAttribute('aria-busy', 'true');
   const loader = new FBXLoader();
   loader.load(
     './assets/models/mercedes-gls-580.fbx',
     (object) => {
       const model = normalizeVehicleModel(object);
-      scene.remove(fallback);
       referenceObjects.vehicle = model;
       applyReferenceTransform('vehicle');
       scene.add(model);
+      vehicleButton?.classList.remove('is-loading');
+      vehicleButton?.setAttribute('aria-busy', 'false');
+      tourLoadState.vehicleSettled = true;
+      setProgress(0.96);
+      finalizeTourLoading();
     },
     undefined,
     () => {
-      fallback.visible = true;
+      vehicleButton?.classList.remove('is-loading');
+      vehicleButton?.classList.add('is-unavailable');
+      vehicleButton?.setAttribute('aria-busy', 'false');
+      vehicleButton?.setAttribute('aria-disabled', 'true');
+      if (selectedReference === 'vehicle') setReferenceTarget('person');
+      tourLoadState.vehicleSettled = true;
+      setProgress(0.96);
+      finalizeTourLoading();
     }
   );
 }
@@ -1240,9 +1208,8 @@ function animate() {
   renderer.render(scene, camera);
   if (firstFrame) {
     firstFrame = false;
-    window.__studioVTourReady = true;
-    setProgress(1);
-    window.setTimeout(() => loading?.classList.add('is-done'), 250);
+    tourLoadState.firstFrame = true;
+    finalizeTourLoading();
   }
 }
 

@@ -70,11 +70,11 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthCanvas = document.createElement('canvas');
-    depthCanvas.className = 'depth-canvas depth-canvas--v06';
-    depthCanvas.dataset.depthCanvas = 'depth-v06';
+    depthCanvas.className = 'depth-canvas depth-canvas--v08';
+    depthCanvas.dataset.depthCanvas = 'depth-v08';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v06');
+    document.body.classList.add('has-depth-v08');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
@@ -86,15 +86,38 @@
         targetX: 0,
         targetY: 0,
         compact: false,
+        visualScroll: Math.max(0, window.scrollY) / Math.max(1, window.innerHeight),
+        lastScroll: Math.max(0, window.scrollY),
+        scrollVelocity: 0,
         lastFrame: 0,
         frameId: 0
       };
       const lightRibbons = [
-        { y: 0.17, amplitude: 0.08, depth: 0.28, width: 56, alpha: 0.055, phase: 0.4 },
-        { y: 0.38, amplitude: 0.12, depth: 0.46, width: 92, alpha: 0.072, phase: 2.2 },
-        { y: 0.62, amplitude: 0.10, depth: 0.68, width: 128, alpha: 0.082, phase: 4.1 },
-        { y: 0.84, amplitude: 0.07, depth: 0.88, width: 168, alpha: 0.065, phase: 5.5 }
+        { y: 0.18, amplitude: 0.09, depth: 0.24, width: 74, alpha: 0.058, phase: 0.4 },
+        { y: 0.46, amplitude: 0.14, depth: 0.52, width: 132, alpha: 0.076, phase: 2.2 },
+        { y: 0.78, amplitude: 0.11, depth: 0.84, width: 196, alpha: 0.072, phase: 4.6 }
       ];
+      const membranes = [
+        { y: 0.08, thickness: 0.17, amplitude: 0.06, depth: 0.22, alpha: 0.046, phase: 0.6, blur: 34 },
+        { y: 0.36, thickness: 0.24, amplitude: 0.10, depth: 0.56, alpha: 0.058, phase: 2.8, blur: 52 },
+        { y: 0.69, thickness: 0.30, amplitude: 0.08, depth: 0.92, alpha: 0.050, phase: 5.1, blur: 72 }
+      ];
+      const grainCanvas = document.createElement('canvas');
+      grainCanvas.width = 96;
+      grainCanvas.height = 96;
+      const grainContext = grainCanvas.getContext('2d');
+      if (grainContext) {
+        const grain = grainContext.createImageData(grainCanvas.width, grainCanvas.height);
+        for (let index = 0; index < grain.data.length; index += 4) {
+          const value = 112 + Math.round(Math.random() * 72);
+          grain.data[index] = value;
+          grain.data[index + 1] = value;
+          grain.data[index + 2] = value;
+          grain.data[index + 3] = Math.round(Math.random() * 30);
+        }
+        grainContext.putImageData(grain, 0, 0);
+      }
+      const grainPattern = grainContext ? depthContext.createPattern(grainCanvas, 'repeat') : null;
 
       const resizeDepthCanvas = () => {
         const width = window.innerWidth || document.documentElement.clientWidth;
@@ -178,23 +201,93 @@
         depthContext.restore();
       };
 
-      const drawSignalTraces = (scrollPhase, timePhase, pointerX, pointerY) => {
+      const membraneY = (ratio, baseY, amplitude, phase) => {
+        const primary = Math.sin(ratio * Math.PI * 1.65 + phase);
+        const fold = Math.sin(ratio * Math.PI * 4.2 - phase * 0.63) * 0.32;
+        return baseY + (primary + fold) * amplitude;
+      };
+
+      const drawMembrane = (membrane, scrollPhase, timePhase, pointerX, pointerY, velocity) => {
         const { width, height, compact } = depthState;
-        const traceCount = compact ? 3 : 5;
-        for (let index = 0; index < traceCount; index += 1) {
-          const depth = 0.32 + index * 0.13;
-          const phase = timePhase * (0.22 + index * 0.035) - scrollPhase * (0.74 + depth) + index * 1.55;
-          const baseY = height * (0.18 + index * 0.17) + pointerY * height * depth * 0.022;
-          const amplitude = height * (0.018 + index * 0.005);
-          depthContext.save();
-          depthContext.translate(pointerX * width * depth * -0.018, 0);
-          depthContext.strokeStyle = `rgba(164, 198, 204, ${0.032 + depth * 0.035})`;
-          depthContext.lineWidth = index % 2 === 0 ? 0.9 : 0.55;
-          depthContext.filter = 'blur(0.25px)';
-          traceRibbon(baseY, amplitude, phase, 0);
-          depthContext.stroke();
-          depthContext.restore();
+        const overscan = width * 0.18;
+        const span = width + overscan * 2;
+        const segments = compact ? 16 : 28;
+        const phase = membrane.phase + timePhase * (0.18 + membrane.depth * 0.12) - scrollPhase * (0.62 + membrane.depth * 0.72);
+        const baseY = height * membrane.y
+          + pointerY * height * membrane.depth * 0.04
+          + velocity * height * membrane.depth * 0.72;
+        const amplitude = height * membrane.amplitude;
+        const thickness = height * membrane.thickness;
+        const gradient = depthContext.createLinearGradient(-overscan, 0, width + overscan, height * 0.22);
+        gradient.addColorStop(0, 'rgba(82, 128, 137, 0)');
+        gradient.addColorStop(0.22, `rgba(82, 128, 137, ${membrane.alpha * 0.38})`);
+        gradient.addColorStop(0.50 + pointerX * 0.045, `rgba(177, 211, 215, ${membrane.alpha})`);
+        gradient.addColorStop(0.78, `rgba(91, 145, 154, ${membrane.alpha * 0.44})`);
+        gradient.addColorStop(1, 'rgba(91, 145, 154, 0)');
+
+        depthContext.save();
+        depthContext.translate(pointerX * width * membrane.depth * -0.035, 0);
+        depthContext.beginPath();
+        for (let index = 0; index <= segments; index += 1) {
+          const ratio = index / segments;
+          const x = -overscan + span * ratio;
+          const y = membraneY(ratio, baseY, amplitude, phase);
+          if (index === 0) depthContext.moveTo(x, y);
+          else depthContext.lineTo(x, y);
         }
+        for (let index = segments; index >= 0; index -= 1) {
+          const ratio = index / segments;
+          const x = -overscan + span * ratio;
+          const lowerPhase = phase + 0.74;
+          const y = membraneY(ratio, baseY + thickness, amplitude * 0.66, lowerPhase);
+          depthContext.lineTo(x, y);
+        }
+        depthContext.closePath();
+        depthContext.filter = `blur(${compact ? membrane.blur * 0.64 : membrane.blur}px)`;
+        depthContext.fillStyle = gradient;
+        depthContext.fill();
+
+        depthContext.filter = `blur(${compact ? 5 : 8}px)`;
+        depthContext.lineWidth = compact ? 1.2 : 1.7;
+        depthContext.strokeStyle = `rgba(205, 228, 230, ${membrane.alpha * 0.58})`;
+        traceRibbon(baseY + thickness * 0.14, amplitude * 0.54, phase + 0.18, 0);
+        depthContext.stroke();
+        depthContext.restore();
+      };
+
+      const drawApertureSweep = (scrollPhase, timePhase, pointerX, pointerY, velocity) => {
+        const { width, height, compact } = depthState;
+        const drift = Math.sin(timePhase * 0.42 + scrollPhase * 0.76) * width * 0.10;
+        const beam = depthContext.createLinearGradient(-width * 0.2, 0, width * 1.2, 0);
+        beam.addColorStop(0, 'rgba(108, 158, 166, 0)');
+        beam.addColorStop(0.42, 'rgba(108, 158, 166, 0.018)');
+        beam.addColorStop(0.61 + pointerX * 0.035, 'rgba(204, 226, 228, 0.072)');
+        beam.addColorStop(0.82, 'rgba(94, 143, 151, 0.016)');
+        beam.addColorStop(1, 'rgba(94, 143, 151, 0)');
+        depthContext.save();
+        depthContext.translate(drift + pointerX * width * 0.055, pointerY * height * 0.025 + velocity * height * 0.5);
+        depthContext.rotate(-0.17);
+        depthContext.beginPath();
+        depthContext.moveTo(-width * 0.28, height * 0.80);
+        depthContext.bezierCurveTo(width * 0.22, height * 0.30, width * 0.70, height * 0.63, width * 1.32, height * 0.12);
+        depthContext.strokeStyle = beam;
+        depthContext.lineWidth = compact ? width * 0.17 : width * 0.13;
+        depthContext.lineCap = 'round';
+        depthContext.filter = `blur(${compact ? 42 : 72}px)`;
+        depthContext.stroke();
+        depthContext.restore();
+      };
+
+      const drawGrain = (scrollPhase) => {
+        if (!grainPattern) return;
+        const { width, height } = depthState;
+        depthContext.save();
+        depthContext.globalCompositeOperation = 'soft-light';
+        depthContext.globalAlpha = depthState.compact ? 0.034 : 0.045;
+        depthContext.translate((scrollPhase * 13) % 96, (scrollPhase * -9) % 96);
+        depthContext.fillStyle = grainPattern;
+        depthContext.fillRect(-96, -96, width + 192, height + 192);
+        depthContext.restore();
       };
 
       const drawDepthCanvas = (time) => {
@@ -206,18 +299,29 @@
         depthState.pointerY += (depthState.targetY - depthState.pointerY) * 0.055;
         const pointerX = depthState.pointerX;
         const pointerY = depthState.pointerY;
-        const scrollPhase = scroll / Math.max(1, height);
+        const targetScroll = scroll / Math.max(1, height);
+        const scrollDelta = (scroll - depthState.lastScroll) / Math.max(1, height);
+        depthState.lastScroll = scroll;
+        depthState.scrollVelocity += (clamp(scrollDelta, -0.16, 0.16) - depthState.scrollVelocity) * 0.28;
+        depthState.scrollVelocity *= 0.88;
+        depthState.visualScroll += (targetScroll - depthState.visualScroll) * 0.075;
+        const scrollPhase = depthState.visualScroll;
+        const velocity = depthState.scrollVelocity;
 
         depthContext.clearRect(0, 0, width, height);
         depthContext.save();
         depthContext.globalCompositeOperation = 'lighter';
 
+        drawApertureSweep(scrollPhase, timePhase, pointerX, pointerY, velocity);
         drawRefractionVeil(scrollPhase, timePhase, pointerX, pointerY);
+        membranes.forEach((membrane) => {
+          drawMembrane(membrane, scrollPhase, timePhase, pointerX, pointerY, velocity);
+        });
         lightRibbons.forEach((ribbon) => {
           drawLightRibbon(ribbon, scrollPhase, timePhase, pointerX, pointerY);
         });
-        drawSignalTraces(scrollPhase, timePhase, pointerX, pointerY);
         depthContext.restore();
+        drawGrain(scrollPhase);
       };
 
       const renderDepthCanvas = (time) => {
@@ -250,6 +354,39 @@
       }
       window.addEventListener('resize', resizeDepthCanvas, { passive: true });
     }
+  }
+
+  if (window.matchMedia('(pointer: fine)').matches && !reducedDepthMotion.matches) {
+    const mediaSelector = '.home-project-card, .work-card-link, .showreel-card';
+    let activeMediaCard = null;
+    const resetMediaDepth = (card) => {
+      if (!card) return;
+      card.style.setProperty('--media-depth-x', '0px');
+      card.style.setProperty('--media-depth-y', '0px');
+    };
+
+    document.addEventListener('pointermove', (event) => {
+      const card = event.target.closest?.(mediaSelector);
+      if (!card) {
+        if (activeMediaCard) resetMediaDepth(activeMediaCard);
+        activeMediaCard = null;
+        return;
+      }
+      if (activeMediaCard && activeMediaCard !== card) resetMediaDepth(activeMediaCard);
+      activeMediaCard = card;
+      const bounds = card.getBoundingClientRect();
+      const x = clamp((event.clientX - bounds.left) / Math.max(1, bounds.width) - 0.5, -0.5, 0.5);
+      const y = clamp((event.clientY - bounds.top) / Math.max(1, bounds.height) - 0.5, -0.5, 0.5);
+      card.style.setProperty('--media-depth-x', `${(x * -10).toFixed(2)}px`);
+      card.style.setProperty('--media-depth-y', `${(y * -8).toFixed(2)}px`);
+    }, { passive: true });
+
+    document.addEventListener('pointerout', (event) => {
+      const card = event.target.closest?.(mediaSelector);
+      if (!card || card.contains(event.relatedTarget)) return;
+      resetMediaDepth(card);
+      if (activeMediaCard === card) activeMediaCard = null;
+    }, { passive: true });
   }
 
   if (menuButton && mobileMenu) {

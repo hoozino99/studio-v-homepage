@@ -416,7 +416,7 @@ body:not([data-page="studio"]):not([data-page="tour"]):not([data-page="showreel"
   --hero-video-scale: 1.12;
   --hero-video-x: 0%;
   --hero-video-y: -5%;
-  --hero-video-position: 56% center;
+  --hero-video-position: 50% center;
 }
 
 .hero-home .section-kicker {
@@ -3439,7 +3439,7 @@ body.showreel-modal-open {
     --hero-video-scale: 1.04;
     --hero-video-x: 0%;
     --hero-video-y: 0%;
-    --hero-video-position: 52% center;
+    --hero-video-position: 50% center;
   }
 
   .hero-sticky {
@@ -4793,5 +4793,144 @@ body[data-page="studio"].has-depth-v06 .partner-strip {
 @media (prefers-reduced-motion: reduce) {
   .depth-canvas--v06 {
     opacity: 0.72;
+  }
+}
+
+/* depth-v08: a continuous refractive field shared by every editorial page. */
+body.has-depth-v08 {
+  background: #050607;
+}
+
+body.has-depth-v08 main {
+  isolation: isolate;
+  background-color: #050607;
+}
+
+body.has-depth-v08 main > :not(.depth-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.depth-canvas--v08 {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100svh;
+  max-width: none;
+  pointer-events: none;
+  opacity: 0.98;
+  mix-blend-mode: screen;
+  filter: saturate(0.76) contrast(1.08);
+}
+
+body[data-page="studio"].has-depth-v08 .ambient-backplate,
+body[data-page="studio"].has-depth-v08 main::before,
+body[data-page="studio"].has-depth-v08 .stage-overview::before,
+body[data-page="studio"].has-depth-v08 .stage-overview::after,
+body[data-page="studio"].has-depth-v08 .home-projects::before,
+body[data-page="studio"].has-depth-v08 .home-projects::after,
+body[data-page="studio"].has-depth-v08 .partner-strip::before,
+body[data-page="portfolio"].has-depth-v08 .works-section::before,
+body[data-page="showreel"].has-depth-v08 .showreel-watch::before {
+  display: none;
+}
+
+body[data-page="studio"].has-depth-v08 .stage-overview,
+body[data-page="studio"].has-depth-v08 .home-projects,
+body[data-page="studio"].has-depth-v08 .partner-strip,
+body[data-page="studio"].has-depth-v08 .usecase-scene,
+body[data-page="studio"].has-depth-v08 .usecase-backdrop,
+body[data-page="portfolio"].has-depth-v08 .works-section,
+body[data-page="showreel"].has-depth-v08 .showreel-watch,
+body[data-page="showreel"].has-depth-v08 .showreel-library,
+body[data-page="showreel"].has-depth-v08 .showreel-shorts {
+  background: transparent;
+}
+
+body[data-page="studio"].has-depth-v08 .home-projects {
+  margin-top: 0;
+  padding-bottom: clamp(124px, 10vw, 168px);
+}
+
+body[data-page="studio"].has-depth-v08 .partner-strip {
+  border-top: 0;
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-scene::before {
+  display: block;
+  background:
+    linear-gradient(180deg,
+      #050607 0%,
+      rgba(5, 6, 7, 0.88) 6%,
+      rgba(5, 6, 7, 0.28) 16%,
+      rgba(5, 6, 7, 0) 26%,
+      rgba(5, 6, 7, 0) 72%,
+      rgba(5, 6, 7, 0.48) 88%,
+      #050607 100%),
+    linear-gradient(90deg,
+      rgba(5, 6, 7, 1) 0%,
+      rgba(5, 6, 7, 0.94) 18%,
+      rgba(5, 6, 7, 0.62) 31%,
+      rgba(5, 6, 7, 0.20) 45%,
+      rgba(5, 6, 7, 0.04) 64%,
+      rgba(5, 6, 7, 0) 100%);
+}
+
+.home-project-card,
+.work-card-link,
+.showreel-card {
+  --media-depth-x: 0px;
+  --media-depth-y: 0px;
+  --media-depth-scale: 1.015;
+}
+
+.home-project-card:hover,
+.work-card-link:hover,
+.showreel-card:hover,
+.showreel-card.is-active {
+  --media-depth-scale: 1.045;
+}
+
+.home-project-card img,
+.work-card-link .work-image img,
+.showreel-card figure img {
+  transform: translate3d(var(--media-depth-x), var(--media-depth-y), 0) scale(var(--media-depth-scale));
+  will-change: transform;
+}
+
+.tour-reference-tabs button.is-loading {
+  opacity: 0.56;
+  cursor: progress;
+}
+
+.tour-reference-tabs button.is-unavailable {
+  opacity: 0.34;
+  cursor: not-allowed;
+}
+
+.partner-logo-card[data-logo="epic-games"] img {
+  filter: grayscale(1) brightness(1.7);
+  opacity: 0.66;
+}
+
+@media (max-width: 780px) {
+  .depth-canvas--v08 {
+    opacity: 0.82;
+    filter: saturate(0.68) contrast(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-canvas--v08 {
+    opacity: 0.72;
+  }
+
+  .home-project-card img,
+  .work-card-link .work-image img,
+  .showreel-card figure img {
+    transform: none;
+    will-change: auto;
   }
 }
