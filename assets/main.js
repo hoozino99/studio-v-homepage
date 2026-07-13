@@ -602,7 +602,7 @@
       ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-rectified/sewon-sp.png', 'plaque'],
       ['cms', 'CMS', './assets/images/partners-plaque-rectified/cms.png', 'plaque'],
       ['livelab', 'LIVELAB', './assets/images/partners-plaque-rectified/livelab.png', 'plaque'],
-      ['media-village-tech', '미디어빌리지테크', './assets/images/partners-plaque-rectified/media-village-tech.png', 'plaque'],
+      ['media-village-tech', '미디어빌리지테크', './assets/images/partners-official/media-village-tech.png', 'official'],
       ['leader', 'Leader', './assets/images/partners-plaque-rectified/leader.png', 'plaque'],
       ['hm-vision', 'HM vision', './assets/images/partners-plaque-rectified/hm-vision.png', 'plaque'],
       ['dhav', 'DHAV', './assets/images/partners-plaque-rectified/dhav.png', 'plaque'],
@@ -615,7 +615,7 @@
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-partner-rectified-v02" alt="${name}" loading="lazy" decoding="async">
+        <img src="${src}?v=studio-v-partner-rectified-v03" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 
@@ -735,7 +735,7 @@
       const frameIndex = frames.findIndex((frame) => frame.backgroundIndex === backgroundIndex);
       return frameIndex === -1 ? 0 : frameIndex;
     });
-    const scrollUsecaseQuery = window.matchMedia('(min-width: 781px)');
+    const scrollUsecaseQuery = window.matchMedia('(min-width: 1px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let activeIndex = -1;
     let ticking = false;
