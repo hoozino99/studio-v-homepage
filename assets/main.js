@@ -70,11 +70,11 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthCanvas = document.createElement('canvas');
-    depthCanvas.className = 'depth-canvas depth-canvas--v03';
-    depthCanvas.dataset.depthCanvas = 'depth-v03';
+    depthCanvas.className = 'depth-canvas depth-canvas--v05';
+    depthCanvas.dataset.depthCanvas = 'depth-v05';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v03');
+    document.body.classList.add('has-depth-v05');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
@@ -135,6 +135,30 @@
         depthContext.stroke();
       };
 
+      const drawVolumePlane = (centerX, centerY, planeWidth, planeHeight, rotation, alpha, edgeAlpha) => {
+        depthContext.save();
+        depthContext.translate(centerX, centerY);
+        depthContext.rotate(rotation);
+        const skew = planeWidth * 0.12;
+        const planeGradient = depthContext.createLinearGradient(-planeWidth / 2, 0, planeWidth / 2, 0);
+        planeGradient.addColorStop(0, 'rgba(135, 177, 187, 0)');
+        planeGradient.addColorStop(0.46, `rgba(120, 166, 176, ${alpha * 0.32})`);
+        planeGradient.addColorStop(0.72, `rgba(183, 218, 224, ${alpha})`);
+        planeGradient.addColorStop(1, 'rgba(135, 177, 187, 0)');
+        depthContext.fillStyle = planeGradient;
+        depthContext.strokeStyle = `rgba(184, 215, 221, ${edgeAlpha})`;
+        depthContext.lineWidth = 0.8;
+        depthContext.beginPath();
+        depthContext.moveTo(-planeWidth / 2 + skew, -planeHeight / 2);
+        depthContext.lineTo(planeWidth / 2, -planeHeight / 2);
+        depthContext.lineTo(planeWidth / 2 - skew, planeHeight / 2);
+        depthContext.lineTo(-planeWidth / 2, planeHeight / 2);
+        depthContext.closePath();
+        depthContext.fill();
+        depthContext.stroke();
+        depthContext.restore();
+      };
+
       const drawDepthCanvas = (time) => {
         const { width, height, compact } = depthState;
         if (!width || !height) return;
@@ -164,6 +188,35 @@
         ambientGlow.addColorStop(1, 'rgba(5, 6, 7, 0)');
         depthContext.fillStyle = ambientGlow;
         depthContext.fillRect(0, 0, width, height);
+
+        const planePhase = scroll / Math.max(1, height);
+        drawVolumePlane(
+          width * 0.82 + pointerX * 42,
+          height * 0.20 + Math.sin(planePhase * 0.72) * 58 + pointerY * 18,
+          width * (compact ? 0.62 : 0.48),
+          height * 0.22,
+          -0.16,
+          compact ? 0.055 : 0.075,
+          compact ? 0.055 : 0.09
+        );
+        drawVolumePlane(
+          width * 0.18 - pointerX * 28,
+          height * 0.66 + Math.sin(planePhase * 0.48 + 1.7) * 76 - pointerY * 12,
+          width * (compact ? 0.72 : 0.54),
+          height * 0.17,
+          0.11,
+          compact ? 0.035 : 0.055,
+          compact ? 0.04 : 0.07
+        );
+        drawVolumePlane(
+          width * 0.58 + pointerX * 20,
+          height * 0.48 + Math.sin(planePhase * 0.34 + 3.2) * 42,
+          width * (compact ? 0.84 : 0.66),
+          height * 0.085,
+          -0.045,
+          compact ? 0.024 : 0.04,
+          compact ? 0.03 : 0.055
+        );
 
         const rayCount = compact ? 7 : 12;
         for (let index = 0; index < rayCount; index += 1) {
@@ -459,7 +512,7 @@
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
     const primaryPartnerLogos = [
-      ['lg-electronics', 'LG Electronics', './assets/images/partners-official/lg-electronics.png', 'official'],
+      ['lg-electronics', 'LG전자', './assets/images/partners-plaque/lg-electronics.png', 'plaque'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],
@@ -467,25 +520,24 @@
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
     ];
     const supportPartnerLogos = [
-      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners/saeki-pnc.svg', 'recreated'],
-      ['kol-corporation', 'KOL Corporation', './assets/images/partners/kol-corporation.svg', 'recreated'],
-      ['petadata', 'PetaData', './assets/images/partners/petadata.svg', 'recreated'],
-      ['myungin-enc', 'Myungin E&C', './assets/images/partners/myungin-enc.svg', 'recreated'],
-      ['vision-tech', 'Vision & Tech', './assets/images/partners/vision-tech.svg', 'recreated'],
-      ['bx-media', 'BX Media', './assets/images/partners/bx-media.svg', 'recreated'],
-      ['sewon', 'SEWON', './assets/images/partners/sewon.svg', 'recreated'],
-      ['sp', 'SP Studio Perspective', './assets/images/partners/sp.svg', 'recreated'],
-      ['gms', 'GMS', './assets/images/partners/gms.svg', 'recreated'],
-      ['livelab', 'LIVELAB', './assets/images/partners/livelab.svg', 'recreated'],
-      ['media-village-tech', 'Media Village Tech', './assets/images/partners/media-village-tech.svg', 'recreated'],
-      ['leader', 'Leader', './assets/images/partners/leader.svg', 'recreated'],
-      ['hm-vision', 'HM vision', './assets/images/partners/hm-vision.svg', 'recreated'],
-      ['dhav', 'DHAV', './assets/images/partners/dhav.svg', 'recreated'],
-      ['funomad', 'FUNOMAD', './assets/images/partners/funomad.svg', 'recreated'],
-      ['vidente', 'vidente', './assets/images/partners/vidente.svg', 'recreated'],
-      ['batech', 'BATECH', './assets/images/partners/batech.svg', 'recreated'],
-      ['doohyun-tech', 'Doohyun Tech', './assets/images/partners/doohyun-tech.svg', 'recreated'],
-      ['dh-symbol', 'DH', './assets/images/partners/dh-symbol.svg', 'recreated'],
+      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque/saeki-official.png', 'plaque'],
+      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque/kol-corporation.png', 'plaque'],
+      ['petadata', 'PetaData', './assets/images/partners-plaque/petadata.png', 'plaque'],
+      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque/myungin-enc.png', 'plaque'],
+      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque/vision-tech.png', 'plaque'],
+      ['bx-media', '비윙스미디어', './assets/images/partners-plaque/bx-media.png', 'plaque'],
+      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque/sewon-sp.png', 'plaque'],
+      ['cms', 'CMS', './assets/images/partners-plaque/cms.png', 'plaque'],
+      ['livelab', 'LIVELAB', './assets/images/partners-plaque/livelab.png', 'plaque'],
+      ['media-village-tech', '미디어빌리지테크', './assets/images/partners-plaque/media-village-tech.png', 'plaque'],
+      ['leader', 'Leader', './assets/images/partners-plaque/leader.png', 'plaque'],
+      ['hm-vision', 'HM vision', './assets/images/partners-plaque/hm-vision.png', 'plaque'],
+      ['dhav', 'DHAV', './assets/images/partners-plaque/dhav.png', 'plaque'],
+      ['funomad', 'FUNOMAD', './assets/images/partners-plaque/funomad.png', 'plaque'],
+      ['vidente', 'vidente', './assets/images/partners-plaque/vidente.png', 'plaque'],
+      ['batech', 'BATECH', './assets/images/partners-plaque/batech.png', 'plaque'],
+      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque/doohyun-tech.png', 'plaque'],
+      ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
     ];
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
@@ -537,11 +589,6 @@
     let activeIndex = -1;
     let ticking = false;
 
-    const getFrameIndex = (progress) => {
-      if (frames.length <= 1) return 0;
-      return Math.min(frames.length - 1, Math.floor(progress * frames.length));
-    };
-
     const setActiveFrame = (index) => {
       if (index === activeIndex) return;
       activeIndex = index;
@@ -556,6 +603,22 @@
       if (caption) caption.textContent = frame.dataset.caption || '';
     };
 
+    const setStageFrameProgress = (frameProgress) => {
+      const framePosition = clamp(frameProgress, 0, 1) * Math.max(0, frames.length - 1);
+      const nextIndex = Math.round(framePosition);
+      frames.forEach((frame, frameIndex) => {
+        const offset = frameIndex - framePosition;
+        const distance = Math.abs(offset);
+        const opacity = clamp(1 - distance * 1.25, 0, 1);
+        frame.style.setProperty('--stage-frame-opacity', opacity.toFixed(4));
+        frame.style.setProperty('--stage-frame-offset', offset.toFixed(4));
+        frame.style.setProperty('--stage-frame-scale', (1 + Math.min(distance, 1) * 0.012).toFixed(4));
+        frame.classList.toggle('is-active', frameIndex === nextIndex);
+        frame.classList.toggle('is-before', frameIndex < nextIndex);
+      });
+      setActiveFrame(nextIndex);
+    };
+
     const updateStageGallery = () => {
       ticking = false;
       const rect = stageGallery.getBoundingClientRect();
@@ -565,10 +628,9 @@
       const end = galleryTop + stageGallery.offsetHeight - viewport * 0.28;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
-      const frameProgress = clamp(progress / 0.86, 0, 1);
-      const copyExit = clamp((progress - 0.92) / 0.07, 0, 1);
-      const nextIndex = getFrameIndex(frameProgress);
-      setActiveFrame(nextIndex);
+      const frameProgress = clamp((progress - 0.04) / 0.84, 0, 1);
+      const copyExit = clamp((progress - 0.95) / 0.05, 0, 1);
+      setStageFrameProgress(frameProgress);
       stageGallery.style.setProperty('--stage-copy-exit', copyExit.toFixed(4));
       if (progressBar) progressBar.style.setProperty('--stage-progress', `${progress * 100}%`);
     };
@@ -657,26 +719,33 @@
 
       const maxFrame = Math.max(0, frames.length - 1);
       const normalizedProgress = clamp(frameProgress, 0, 1);
+      const framePosition = normalizedProgress * maxFrame;
       const activeFrameIndex = frames.length <= 1
         ? 0
-        : Math.min(maxFrame, Math.floor(normalizedProgress * frames.length));
+        : Math.min(maxFrame, Math.round(framePosition));
       const activeFrame = frames[activeFrameIndex] || frames[0];
 
       frames.forEach((frame, frameIndex) => {
+        const offset = frameIndex - framePosition;
+        const distance = Math.abs(offset);
         const isActive = frameIndex === activeFrameIndex;
-        const opacity = isActive ? 1 : 0;
-        const scale = isActive ? 1 : 1.012;
+        const opacity = clamp(1 - distance * 1.2, 0, 1);
+        const scale = 1 + Math.min(distance, 1) * 0.012;
 
         frame.slide.style.setProperty('--usecase-slide-opacity', opacity.toFixed(4));
-        frame.slide.style.setProperty('--usecase-slide-x', '0');
+        frame.slide.style.setProperty('--usecase-slide-x', `${(offset * 4.5).toFixed(3)}vw`);
         frame.slide.style.setProperty('--usecase-slide-scale', scale.toFixed(4));
         frame.slide.classList.toggle('is-active', isActive);
       });
 
       backgrounds.forEach((background, backgroundIndex) => {
+        const groupFrames = frames.filter((frame) => frame.backgroundIndex === backgroundIndex);
+        const opacity = groupFrames.reduce((maximum, frame) => {
+          const frameIndex = frames.indexOf(frame);
+          return Math.max(maximum, clamp(1 - Math.abs(frameIndex - framePosition) * 1.2, 0, 1));
+        }, 0);
         const isActive = backgroundIndex === activeFrame.backgroundIndex;
-        const opacity = isActive ? 1 : 0;
-        const scale = isActive ? 1 : 1.01;
+        const scale = 1 + (1 - opacity) * 0.01;
         background.style.setProperty('--usecase-bg-opacity', opacity.toFixed(4));
         background.style.setProperty('--usecase-bg-x', '0');
         background.style.setProperty('--usecase-bg-scale', scale.toFixed(4));
@@ -699,15 +768,12 @@
       const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
-      const frameProgress = clamp(progress / 0.86, 0, 1);
-      const copyExit = clamp((progress - 0.92) / 0.07, 0, 1);
-      const imageLift = clamp((progress - 0.90) / 0.09, 0, 1);
-      const sceneExit = clamp((progress - 0.985) / 0.015, 0, 1);
+      const frameProgress = clamp((progress - 0.04) / 0.84, 0, 1);
       usecaseScene.style.setProperty('--usecase-scroll-progress', progress.toFixed(4));
-      usecaseScene.style.setProperty('--usecase-copy-exit', copyExit.toFixed(4));
-      usecaseScene.style.setProperty('--usecase-scene-exit', sceneExit.toFixed(4));
-      usecaseScene.style.setProperty('--usecase-image-lift', imageLift.toFixed(4));
-      usecaseScene.style.setProperty('--usecase-sheen-opacity', (0.24 * (1 - sceneExit)).toFixed(4));
+      usecaseScene.style.setProperty('--usecase-copy-exit', '0');
+      usecaseScene.style.setProperty('--usecase-scene-exit', '0');
+      usecaseScene.style.setProperty('--usecase-image-lift', '0');
+      usecaseScene.style.setProperty('--usecase-sheen-opacity', '0.20');
       setUsecaseFrame(frameProgress);
     };
 
