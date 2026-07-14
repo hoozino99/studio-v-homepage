@@ -5449,3 +5449,69 @@ body.is-logo-grid .partner-logo-wall {
     opacity: 0.70;
   }
 }
+
+/* depth-v12: stronger photographic parallax and normalized partner artwork. */
+.depth-canvas--v12 {
+  opacity: 0.98;
+  filter: grayscale(0.18) saturate(0.76) contrast(1.14);
+}
+
+body[data-page="studio"].has-depth-v12 .stage-scroll-sticky {
+  background: #050607;
+}
+
+.partner-logo-wall--supporting .partner-logo-card--plaque img,
+.partner-logo-wall--supporting .partner-logo-card--plaque[data-logo] img {
+  width: 160px;
+  max-width: 100%;
+  height: 48px;
+  object-fit: contain;
+  object-position: 50% 50%;
+  filter: none;
+  opacity: 0.82;
+  clip-path: none;
+  transform: none;
+}
+
+.partner-logo-wall--primary .partner-logo-card--plaque img {
+  width: 170px;
+  max-width: 100%;
+  height: 52px;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0.92;
+}
+
+.partner-logo-wall--primary .partner-logo-card--plaque[data-logo="lg-electronics"] img {
+  width: 146px;
+  max-width: 100%;
+  height: 34px;
+}
+
+.partner-logo-card--plaque {
+  overflow: visible;
+}
+
+@media (max-width: 780px) {
+  .depth-canvas--v12 {
+    opacity: 0.82;
+    filter: grayscale(0.24) saturate(0.70) contrast(1.10);
+  }
+
+  .partner-logo-wall--supporting .partner-logo-card--plaque img,
+  .partner-logo-wall--supporting .partner-logo-card--plaque[data-logo] img {
+    width: 154px;
+    height: 48px;
+  }
+
+  .partner-logo-wall--primary .partner-logo-card--plaque img {
+    width: 158px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-canvas--v12 {
+    opacity: 0.76;
+  }
+}

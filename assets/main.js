@@ -72,11 +72,11 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthCanvas = document.createElement('canvas');
-    depthCanvas.className = 'depth-canvas depth-canvas--v08 depth-canvas--v11';
-    depthCanvas.dataset.depthCanvas = 'depth-v11';
+    depthCanvas.className = 'depth-canvas depth-canvas--v08 depth-canvas--v11 depth-canvas--v12';
+    depthCanvas.dataset.depthCanvas = 'depth-v12';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v08', 'has-depth-v11');
+    document.body.classList.add('has-depth-v08', 'has-depth-v11', 'has-depth-v12');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
@@ -99,9 +99,9 @@
           src: './assets/images/stage-gallery-led-wall-wide.jpg',
           mode: 'led',
           depth: 0.18,
-          opacity: 0.074,
-          scale: 1.18,
-          blur: 9,
+          opacity: 0.105,
+          scale: 1.14,
+          blur: 6,
           focusY: 0.22,
           phase: 0.4
         },
@@ -109,9 +109,9 @@
           src: './assets/images/stage-gallery-ceiling-led.jpg',
           mode: 'truss',
           depth: 0.48,
-          opacity: 0.092,
-          scale: 1.26,
-          blur: 6,
+          opacity: 0.148,
+          scale: 1.20,
+          blur: 3.2,
           focusY: 0.08,
           phase: 2.3
         },
@@ -119,9 +119,9 @@
           src: './assets/images/optimized/overview-1.jpg',
           mode: 'rig',
           depth: 0.82,
-          opacity: 0.064,
-          scale: 1.34,
-          blur: 12,
+          opacity: 0.098,
+          scale: 1.27,
+          blur: 7,
           focusY: 0.56,
           phase: 4.7
         }
@@ -228,17 +228,27 @@
 
       const drawSilhouetteLayer = (layer, scrollPhase, timePhase, pointerX, pointerY, velocity) => {
         const { width, height, compact } = depthState;
-        const phase = layer.phase + scrollPhase * (0.32 + layer.depth * 0.12) + timePhase * 0.05;
+        const phase = layer.phase + scrollPhase * (0.28 + layer.depth * 0.18) + timePhase * 0.05;
         const pointerScale = compact ? 0 : 1;
-        const offsetX = Math.sin(phase) * width * 0.035 * layer.depth
-          + pointerX * width * 0.024 * layer.depth * pointerScale;
-        const offsetY = Math.cos(phase * 0.78) * height * 0.045 * layer.depth
-          + pointerY * height * 0.022 * layer.depth * pointerScale
-          + velocity * height * 0.42 * layer.depth;
+        const compactScale = compact ? 0.64 : 1;
+        const offsetX = (
+          Math.sin(phase) * width * 0.054 * layer.depth
+          + Math.sin(scrollPhase * 0.22 + layer.phase) * width * 0.030 * layer.depth
+          + pointerX * width * 0.052 * layer.depth * pointerScale
+        ) * compactScale;
+        const offsetY = (
+          Math.cos(phase * 0.78) * height * 0.066 * layer.depth
+          + Math.sin(scrollPhase * 0.43 + layer.phase * 0.72) * height * 0.055 * layer.depth
+          + pointerY * height * 0.040 * layer.depth * pointerScale
+          + velocity * height * 0.72 * layer.depth
+        ) * compactScale;
+        const interactionLift = compact
+          ? 1
+          : 1 + Math.min(0.20, (Math.abs(pointerX) + Math.abs(pointerY)) * 0.045 + Math.abs(velocity) * 0.9);
         depthContext.save();
         depthContext.globalCompositeOperation = 'screen';
-        depthContext.globalAlpha = layer.opacity * (compact ? 0.86 : 1);
-        depthContext.filter = `blur(${compact ? Math.max(4, layer.blur * 0.72) : layer.blur}px)`;
+        depthContext.globalAlpha = layer.opacity * (compact ? 0.72 : interactionLift);
+        depthContext.filter = `blur(${compact ? Math.max(3, layer.blur * 0.72) : layer.blur}px)`;
         drawImageCover(layer.image, compact ? layer.scale * 1.16 : layer.scale, layer.focusY, offsetX, offsetY);
         depthContext.restore();
       };
@@ -589,7 +599,7 @@
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
     const primaryPartnerLogos = [
-      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v11/lg-electronics.png', 'plaque'],
+      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v13/lg-electronics.png', 'plaque'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],
@@ -597,29 +607,29 @@
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
     ];
     const supportPartnerLogos = [
-      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v11/saeki-official.png', 'plaque'],
-      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v11/kol-corporation.png', 'plaque'],
-      ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v11/petadata.png', 'plaque'],
-      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-leveled-v11/myungin-enc.png', 'plaque'],
-      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-leveled-v11/vision-tech.png', 'plaque'],
-      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-leveled-v11/bx-media.png', 'plaque'],
-      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-leveled-v11/sewon-sp.png', 'plaque'],
-      ['cms', 'CMS', './assets/images/partners-plaque-leveled-v11/cms.png', 'plaque'],
-      ['livelab', 'LIVELAB', './assets/images/partners-plaque-leveled-v11/livelab.png', 'plaque'],
+      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v13/saeki-official.png', 'plaque'],
+      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v13/kol-corporation.png', 'plaque'],
+      ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v13/petadata.png', 'plaque'],
+      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-leveled-v13/myungin-enc.png', 'plaque'],
+      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-leveled-v13/vision-tech.png', 'plaque'],
+      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-leveled-v13/bx-media.png', 'plaque'],
+      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-leveled-v13/sewon-sp.png', 'plaque'],
+      ['cms', 'CMS', './assets/images/partners-plaque-leveled-v13/cms.png', 'plaque'],
+      ['livelab', 'LIVELAB', './assets/images/partners-plaque-leveled-v13/livelab.png', 'plaque'],
       ['media-village-tech', '미디어빌리지테크', './assets/images/partners-official/media-village-tech.png', 'official'],
-      ['leader', 'Leader', './assets/images/partners-plaque-leveled-v11/leader.png', 'plaque'],
-      ['hm-vision', 'HM vision', './assets/images/partners-plaque-leveled-v11/hm-vision.png', 'plaque'],
-      ['dhav', 'DHAV', './assets/images/partners-plaque-leveled-v11/dhav.png', 'plaque'],
-      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-leveled-v11/funomad.png', 'plaque'],
-      ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v11/vidente.png', 'plaque'],
-      ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v11/batech.png', 'plaque'],
-      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v11/doohyun-tech.png', 'plaque'],
+      ['leader', 'Leader', './assets/images/partners-plaque-leveled-v13/leader.png', 'plaque'],
+      ['hm-vision', 'HM vision', './assets/images/partners-plaque-leveled-v13/hm-vision.png', 'plaque'],
+      ['dhav', 'DHAV', './assets/images/partners-plaque-leveled-v13/dhav.png', 'plaque'],
+      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-leveled-v13/funomad.png', 'plaque'],
+      ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v13/vidente.png', 'plaque'],
+      ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v13/batech.png', 'plaque'],
+      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v13/doohyun-tech.png', 'plaque'],
       ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
     ];
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-partner-leveled-v11" alt="${name}" loading="lazy" decoding="async">
+        <img src="${src}?v=studio-v-partner-leveled-v13" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 
@@ -842,10 +852,10 @@
       const viewport = window.innerHeight || document.documentElement.clientHeight;
       const sectionTop = rect.top + window.scrollY;
       const start = sectionTop;
-      const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
+      const end = sectionTop + usecaseScene.offsetHeight - viewport;
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
-      const frameProgress = clamp((progress - 0.04) / 0.84, 0, 1);
+      const frameProgress = clamp((progress - 0.035) / 0.70, 0, 1);
       usecaseScene.style.setProperty('--usecase-scroll-progress', progress.toFixed(4));
       usecaseScene.style.setProperty('--usecase-copy-exit', '0');
       usecaseScene.style.setProperty('--usecase-scene-exit', '0');
@@ -868,11 +878,11 @@
       const viewport = window.innerHeight || document.documentElement.clientHeight;
       const sectionTop = usecaseScene.getBoundingClientRect().top + window.scrollY;
       const start = sectionTop;
-      const end = sectionTop + usecaseScene.offsetHeight - viewport * 0.18;
+      const end = sectionTop + usecaseScene.offsetHeight - viewport;
       const travel = Math.max(1, end - start);
       const frameIndex = frameIndexByBackground[index] || 0;
-      const progress = frames.length > 1 ? frameIndex / frames.length : 0;
-      const scrollProgress = progress * 0.86;
+      const progress = frames.length > 1 ? frameIndex / (frames.length - 1) : 0;
+      const scrollProgress = 0.035 + progress * 0.70;
       window.scrollTo({
         top: start + scrollProgress * travel,
         behavior: reducedMotionQuery.matches ? 'auto' : 'smooth',
