@@ -23,6 +23,8 @@
   window.addEventListener('resize', onScroll);
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const debugParams = new URLSearchParams(window.location.search);
+  document.body.classList.toggle('is-logo-grid', debugParams.get('logoGrid') === '1');
 
   const ambientBackplate = document.querySelector('[data-ambient-backplate]');
   if (ambientBackplate) {
@@ -70,11 +72,11 @@
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (depthHost && !document.body.matches('[data-page="tour"]')) {
     const depthCanvas = document.createElement('canvas');
-    depthCanvas.className = 'depth-canvas depth-canvas--v08';
-    depthCanvas.dataset.depthCanvas = 'depth-v08';
+    depthCanvas.className = 'depth-canvas depth-canvas--v08 depth-canvas--v11';
+    depthCanvas.dataset.depthCanvas = 'depth-v11';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v08');
+    document.body.classList.add('has-depth-v08', 'has-depth-v11');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
@@ -92,16 +94,39 @@
         lastFrame: 0,
         frameId: 0
       };
-      const lightRibbons = [
-        { y: 0.18, amplitude: 0.09, depth: 0.24, width: 74, alpha: 0.058, phase: 0.4 },
-        { y: 0.46, amplitude: 0.14, depth: 0.52, width: 132, alpha: 0.076, phase: 2.2 },
-        { y: 0.78, amplitude: 0.11, depth: 0.84, width: 196, alpha: 0.072, phase: 4.6 }
+      const silhouetteSources = [
+        {
+          src: './assets/images/stage-gallery-led-wall-wide.jpg',
+          mode: 'led',
+          depth: 0.18,
+          opacity: 0.074,
+          scale: 1.18,
+          blur: 9,
+          focusY: 0.22,
+          phase: 0.4
+        },
+        {
+          src: './assets/images/stage-gallery-ceiling-led.jpg',
+          mode: 'truss',
+          depth: 0.48,
+          opacity: 0.092,
+          scale: 1.26,
+          blur: 6,
+          focusY: 0.08,
+          phase: 2.3
+        },
+        {
+          src: './assets/images/optimized/overview-1.jpg',
+          mode: 'rig',
+          depth: 0.82,
+          opacity: 0.064,
+          scale: 1.34,
+          blur: 12,
+          focusY: 0.56,
+          phase: 4.7
+        }
       ];
-      const membranes = [
-        { y: 0.08, thickness: 0.17, amplitude: 0.06, depth: 0.22, alpha: 0.046, phase: 0.6, blur: 34 },
-        { y: 0.36, thickness: 0.24, amplitude: 0.10, depth: 0.56, alpha: 0.058, phase: 2.8, blur: 52 },
-        { y: 0.69, thickness: 0.30, amplitude: 0.08, depth: 0.92, alpha: 0.050, phase: 5.1, blur: 72 }
-      ];
+      const silhouetteLayers = [];
       const grainCanvas = document.createElement('canvas');
       grainCanvas.width = 96;
       grainCanvas.height = 96;
@@ -134,147 +159,104 @@
         depthContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       };
 
-      const traceRibbon = (baseY, amplitude, phase, offsetY = 0) => {
-        const overscan = depthState.width * 0.12;
-        const span = depthState.width + overscan * 2;
-        const segments = depthState.compact ? 18 : 30;
-        depthContext.beginPath();
-        for (let index = 0; index <= segments; index += 1) {
-          const ratio = index / segments;
-          const x = -overscan + span * ratio;
-          const primary = Math.sin(ratio * Math.PI * 2.15 + phase);
-          const harmonic = Math.sin(ratio * Math.PI * 4.6 - phase * 0.74) * 0.28;
-          const y = baseY + (primary + harmonic) * amplitude + offsetY;
-          if (index === 0) depthContext.moveTo(x, y);
-          else depthContext.lineTo(x, y);
+      const buildSilhouette = (source, image) => {
+        const buffer = document.createElement('canvas');
+        const targetWidth = Math.min(960, image.naturalWidth || image.width || 960);
+        const ratio = (image.naturalHeight || image.height || 540) / Math.max(1, image.naturalWidth || image.width || 960);
+        buffer.width = Math.max(1, Math.round(targetWidth));
+        buffer.height = Math.max(1, Math.round(targetWidth * ratio));
+        const bufferContext = buffer.getContext('2d', { willReadFrequently: true });
+        if (!bufferContext) return null;
+
+        bufferContext.drawImage(image, 0, 0, buffer.width, buffer.height);
+        const imageData = bufferContext.getImageData(0, 0, buffer.width, buffer.height);
+        const pixels = imageData.data;
+        const sourcePixels = new Uint8ClampedArray(pixels);
+        const stride = buffer.width * 4;
+
+        for (let y = 0; y < buffer.height; y += 1) {
+          const edgeY = Math.min(buffer.height - 1, y + 1);
+          const verticalFeather = Math.min(1, y / Math.max(1, buffer.height * 0.10), (buffer.height - 1 - y) / Math.max(1, buffer.height * 0.10));
+          for (let x = 0; x < buffer.width; x += 1) {
+            const edgeX = Math.min(buffer.width - 1, x + 1);
+            const index = y * stride + x * 4;
+            const rightIndex = y * stride + edgeX * 4;
+            const downIndex = edgeY * stride + x * 4;
+            const luminance = sourcePixels[index] * 0.2126 + sourcePixels[index + 1] * 0.7152 + sourcePixels[index + 2] * 0.0722;
+            const rightLuminance = sourcePixels[rightIndex] * 0.2126 + sourcePixels[rightIndex + 1] * 0.7152 + sourcePixels[rightIndex + 2] * 0.0722;
+            const downLuminance = sourcePixels[downIndex] * 0.2126 + sourcePixels[downIndex + 1] * 0.7152 + sourcePixels[downIndex + 2] * 0.0722;
+            const edge = Math.abs(luminance - rightLuminance) + Math.abs(luminance - downLuminance);
+            const darkness = Math.max(0, 112 - luminance);
+            const horizontalFeather = Math.min(1, x / Math.max(1, buffer.width * 0.10), (buffer.width - 1 - x) / Math.max(1, buffer.width * 0.10));
+            const feather = clamp(horizontalFeather * verticalFeather, 0, 1);
+            let strength = 0;
+
+            if (source.mode === 'truss') strength = Math.max(0, edge - 7) * 2.7 + darkness * 0.16;
+            else if (source.mode === 'rig') strength = Math.max(0, edge - 9) * 2.2 + darkness * 0.12;
+            else strength = Math.max(0, edge - 6) * 2.35 + darkness * 0.045;
+
+            pixels[index] = 142;
+            pixels[index + 1] = 174;
+            pixels[index + 2] = 181;
+            pixels[index + 3] = Math.round(clamp(strength * feather, 0, 150));
+          }
         }
+        bufferContext.putImageData(imageData, 0, 0);
+        return { ...source, image: buffer };
       };
 
-      const drawLightRibbon = (ribbon, scrollPhase, timePhase, pointerX, pointerY) => {
+      silhouetteSources.forEach((source) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.onload = () => {
+          const layer = buildSilhouette(source, image);
+          if (layer) silhouetteLayers.push(layer);
+          if (reducedDepthMotion.matches) drawDepthCanvas(0);
+        };
+        image.src = source.src;
+      });
+
+      const drawImageCover = (image, scale, focusY, offsetX, offsetY) => {
         const { width, height } = depthState;
-        const phase = ribbon.phase + timePhase * (0.34 + ribbon.depth * 0.2) + scrollPhase * (0.5 + ribbon.depth * 1.05);
-        const baseY = height * ribbon.y + pointerY * height * ribbon.depth * 0.035;
-        const amplitude = height * ribbon.amplitude;
-        const offsetY = Math.sin(scrollPhase * 0.72 + ribbon.phase) * height * 0.045 * ribbon.depth;
-        const ribbonGradient = depthContext.createLinearGradient(-width * 0.08, 0, width * 1.08, 0);
-        ribbonGradient.addColorStop(0, 'rgba(111, 152, 161, 0)');
-        ribbonGradient.addColorStop(0.22, `rgba(111, 152, 161, ${ribbon.alpha * 0.48})`);
-        ribbonGradient.addColorStop(0.52 + pointerX * 0.06, `rgba(179, 210, 215, ${ribbon.alpha})`);
-        ribbonGradient.addColorStop(0.78, `rgba(92, 137, 148, ${ribbon.alpha * 0.42})`);
-        ribbonGradient.addColorStop(1, 'rgba(92, 137, 148, 0)');
-
-        depthContext.save();
-        depthContext.translate(pointerX * width * ribbon.depth * 0.024, 0);
-        depthContext.strokeStyle = ribbonGradient;
-        depthContext.lineCap = 'round';
-        depthContext.lineJoin = 'round';
-        depthContext.filter = `blur(${Math.round(ribbon.width * 0.28)}px)`;
-        depthContext.lineWidth = ribbon.width;
-        traceRibbon(baseY, amplitude, phase, offsetY);
-        depthContext.stroke();
-
-        depthContext.filter = `blur(${Math.max(2, Math.round(ribbon.width * 0.055))}px)`;
-        depthContext.lineWidth = Math.max(1, ribbon.width * 0.032);
-        depthContext.strokeStyle = `rgba(190, 219, 223, ${ribbon.alpha * 0.78})`;
-        traceRibbon(baseY, amplitude, phase, offsetY);
-        depthContext.stroke();
-        depthContext.restore();
+        const baseScale = Math.max(width / image.width, height / image.height) * scale;
+        const drawWidth = image.width * baseScale;
+        const drawHeight = image.height * baseScale;
+        const x = (width - drawWidth) * 0.5 + offsetX;
+        const y = (height - drawHeight) * focusY + offsetY;
+        depthContext.drawImage(image, x, y, drawWidth, drawHeight);
       };
 
-      const drawRefractionVeil = (scrollPhase, timePhase, pointerX, pointerY) => {
-        const { width, height } = depthState;
-        const centerX = width * (0.72 + pointerX * 0.045);
-        const veilWidth = width * (depthState.compact ? 0.42 : 0.30);
-        const sway = Math.sin(scrollPhase * 0.68 + timePhase * 0.28) * width * 0.055;
-        const gradient = depthContext.createLinearGradient(centerX - veilWidth, 0, centerX + veilWidth, 0);
-        gradient.addColorStop(0, 'rgba(108, 151, 161, 0)');
-        gradient.addColorStop(0.36, 'rgba(108, 151, 161, 0.015)');
-        gradient.addColorStop(0.52, 'rgba(181, 211, 216, 0.065)');
-        gradient.addColorStop(0.68, 'rgba(101, 143, 153, 0.018)');
-        gradient.addColorStop(1, 'rgba(101, 143, 153, 0)');
-        depthContext.save();
-        depthContext.translate(sway, pointerY * height * 0.018);
-        depthContext.rotate(-0.12 + pointerX * 0.018);
-        depthContext.filter = `blur(${depthState.compact ? 34 : 52}px)`;
-        depthContext.fillStyle = gradient;
-        depthContext.fillRect(centerX - veilWidth, -height * 0.28, veilWidth * 2, height * 1.56);
-        depthContext.restore();
-      };
-
-      const membraneY = (ratio, baseY, amplitude, phase) => {
-        const primary = Math.sin(ratio * Math.PI * 1.65 + phase);
-        const fold = Math.sin(ratio * Math.PI * 4.2 - phase * 0.63) * 0.32;
-        return baseY + (primary + fold) * amplitude;
-      };
-
-      const drawMembrane = (membrane, scrollPhase, timePhase, pointerX, pointerY, velocity) => {
+      const drawSilhouetteLayer = (layer, scrollPhase, timePhase, pointerX, pointerY, velocity) => {
         const { width, height, compact } = depthState;
-        const overscan = width * 0.18;
-        const span = width + overscan * 2;
-        const segments = compact ? 16 : 28;
-        const phase = membrane.phase + timePhase * (0.18 + membrane.depth * 0.12) - scrollPhase * (0.62 + membrane.depth * 0.72);
-        const baseY = height * membrane.y
-          + pointerY * height * membrane.depth * 0.04
-          + velocity * height * membrane.depth * 0.72;
-        const amplitude = height * membrane.amplitude;
-        const thickness = height * membrane.thickness;
-        const gradient = depthContext.createLinearGradient(-overscan, 0, width + overscan, height * 0.22);
-        gradient.addColorStop(0, 'rgba(82, 128, 137, 0)');
-        gradient.addColorStop(0.22, `rgba(82, 128, 137, ${membrane.alpha * 0.38})`);
-        gradient.addColorStop(0.50 + pointerX * 0.045, `rgba(177, 211, 215, ${membrane.alpha})`);
-        gradient.addColorStop(0.78, `rgba(91, 145, 154, ${membrane.alpha * 0.44})`);
-        gradient.addColorStop(1, 'rgba(91, 145, 154, 0)');
-
+        const phase = layer.phase + scrollPhase * (0.32 + layer.depth * 0.12) + timePhase * 0.05;
+        const pointerScale = compact ? 0 : 1;
+        const offsetX = Math.sin(phase) * width * 0.035 * layer.depth
+          + pointerX * width * 0.024 * layer.depth * pointerScale;
+        const offsetY = Math.cos(phase * 0.78) * height * 0.045 * layer.depth
+          + pointerY * height * 0.022 * layer.depth * pointerScale
+          + velocity * height * 0.42 * layer.depth;
         depthContext.save();
-        depthContext.translate(pointerX * width * membrane.depth * -0.035, 0);
-        depthContext.beginPath();
-        for (let index = 0; index <= segments; index += 1) {
-          const ratio = index / segments;
-          const x = -overscan + span * ratio;
-          const y = membraneY(ratio, baseY, amplitude, phase);
-          if (index === 0) depthContext.moveTo(x, y);
-          else depthContext.lineTo(x, y);
-        }
-        for (let index = segments; index >= 0; index -= 1) {
-          const ratio = index / segments;
-          const x = -overscan + span * ratio;
-          const lowerPhase = phase + 0.74;
-          const y = membraneY(ratio, baseY + thickness, amplitude * 0.66, lowerPhase);
-          depthContext.lineTo(x, y);
-        }
-        depthContext.closePath();
-        depthContext.filter = `blur(${compact ? membrane.blur * 0.64 : membrane.blur}px)`;
-        depthContext.fillStyle = gradient;
-        depthContext.fill();
-
-        depthContext.filter = `blur(${compact ? 5 : 8}px)`;
-        depthContext.lineWidth = compact ? 1.2 : 1.7;
-        depthContext.strokeStyle = `rgba(205, 228, 230, ${membrane.alpha * 0.58})`;
-        traceRibbon(baseY + thickness * 0.14, amplitude * 0.54, phase + 0.18, 0);
-        depthContext.stroke();
+        depthContext.globalCompositeOperation = 'screen';
+        depthContext.globalAlpha = layer.opacity * (compact ? 0.86 : 1);
+        depthContext.filter = `blur(${compact ? Math.max(4, layer.blur * 0.72) : layer.blur}px)`;
+        drawImageCover(layer.image, compact ? layer.scale * 1.16 : layer.scale, layer.focusY, offsetX, offsetY);
         depthContext.restore();
       };
 
-      const drawApertureSweep = (scrollPhase, timePhase, pointerX, pointerY, velocity) => {
+      const drawStageLight = (scrollPhase, pointerX, pointerY) => {
         const { width, height, compact } = depthState;
-        const drift = Math.sin(timePhase * 0.42 + scrollPhase * 0.76) * width * 0.10;
-        const beam = depthContext.createLinearGradient(-width * 0.2, 0, width * 1.2, 0);
-        beam.addColorStop(0, 'rgba(108, 158, 166, 0)');
-        beam.addColorStop(0.42, 'rgba(108, 158, 166, 0.018)');
-        beam.addColorStop(0.61 + pointerX * 0.035, 'rgba(204, 226, 228, 0.072)');
-        beam.addColorStop(0.82, 'rgba(94, 143, 151, 0.016)');
-        beam.addColorStop(1, 'rgba(94, 143, 151, 0)');
+        const center = height * (0.46 + Math.sin(scrollPhase * 0.31) * 0.05 + pointerY * 0.015);
+        const light = depthContext.createLinearGradient(0, center - height * 0.34, width, center + height * 0.30);
+        light.addColorStop(0, 'rgba(88, 130, 140, 0)');
+        light.addColorStop(0.40 + pointerX * 0.025, 'rgba(123, 166, 174, 0.018)');
+        light.addColorStop(0.58, 'rgba(181, 207, 211, 0.036)');
+        light.addColorStop(0.78, 'rgba(98, 139, 148, 0.010)');
+        light.addColorStop(1, 'rgba(88, 130, 140, 0)');
         depthContext.save();
-        depthContext.translate(drift + pointerX * width * 0.055, pointerY * height * 0.025 + velocity * height * 0.5);
-        depthContext.rotate(-0.17);
-        depthContext.beginPath();
-        depthContext.moveTo(-width * 0.28, height * 0.80);
-        depthContext.bezierCurveTo(width * 0.22, height * 0.30, width * 0.70, height * 0.63, width * 1.32, height * 0.12);
-        depthContext.strokeStyle = beam;
-        depthContext.lineWidth = compact ? width * 0.17 : width * 0.13;
-        depthContext.lineCap = 'round';
-        depthContext.filter = `blur(${compact ? 42 : 72}px)`;
-        depthContext.stroke();
+        depthContext.globalCompositeOperation = 'screen';
+        depthContext.filter = `blur(${compact ? 34 : 58}px)`;
+        depthContext.fillStyle = light;
+        depthContext.fillRect(-width * 0.08, -height * 0.12, width * 1.16, height * 1.24);
         depthContext.restore();
       };
 
@@ -309,18 +291,13 @@
         const velocity = depthState.scrollVelocity;
 
         depthContext.clearRect(0, 0, width, height);
-        depthContext.save();
-        depthContext.globalCompositeOperation = 'lighter';
-
-        drawApertureSweep(scrollPhase, timePhase, pointerX, pointerY, velocity);
-        drawRefractionVeil(scrollPhase, timePhase, pointerX, pointerY);
-        membranes.forEach((membrane) => {
-          drawMembrane(membrane, scrollPhase, timePhase, pointerX, pointerY, velocity);
-        });
-        lightRibbons.forEach((ribbon) => {
-          drawLightRibbon(ribbon, scrollPhase, timePhase, pointerX, pointerY);
-        });
-        depthContext.restore();
+        drawStageLight(scrollPhase, pointerX, pointerY);
+        silhouetteLayers
+          .slice()
+          .sort((a, b) => a.depth - b.depth)
+          .forEach((layer) => {
+            drawSilhouetteLayer(layer, scrollPhase, timePhase, pointerX, pointerY, velocity);
+          });
         drawGrain(scrollPhase);
       };
 
@@ -585,7 +562,7 @@
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
     const primaryPartnerLogos = [
-      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-rectified/lg-electronics.png', 'plaque'],
+      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v11/lg-electronics.png', 'plaque'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],
@@ -593,29 +570,29 @@
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
     ];
     const supportPartnerLogos = [
-      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-rectified/saeki-official.png', 'plaque'],
-      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-rectified/kol-corporation.png', 'plaque'],
-      ['petadata', 'PetaData', './assets/images/partners-plaque-rectified/petadata.png', 'plaque'],
-      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-rectified/myungin-enc.png', 'plaque'],
-      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-rectified/vision-tech.png', 'plaque'],
-      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-rectified/bx-media.png', 'plaque'],
-      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-rectified/sewon-sp.png', 'plaque'],
-      ['cms', 'CMS', './assets/images/partners-plaque-rectified/cms.png', 'plaque'],
-      ['livelab', 'LIVELAB', './assets/images/partners-plaque-rectified/livelab.png', 'plaque'],
+      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v11/saeki-official.png', 'plaque'],
+      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v11/kol-corporation.png', 'plaque'],
+      ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v11/petadata.png', 'plaque'],
+      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-leveled-v11/myungin-enc.png', 'plaque'],
+      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-leveled-v11/vision-tech.png', 'plaque'],
+      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-leveled-v11/bx-media.png', 'plaque'],
+      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-leveled-v11/sewon-sp.png', 'plaque'],
+      ['cms', 'CMS', './assets/images/partners-plaque-leveled-v11/cms.png', 'plaque'],
+      ['livelab', 'LIVELAB', './assets/images/partners-plaque-leveled-v11/livelab.png', 'plaque'],
       ['media-village-tech', '미디어빌리지테크', './assets/images/partners-official/media-village-tech.png', 'official'],
-      ['leader', 'Leader', './assets/images/partners-plaque-rectified/leader.png', 'plaque'],
-      ['hm-vision', 'HM vision', './assets/images/partners-plaque-rectified/hm-vision.png', 'plaque'],
-      ['dhav', 'DHAV', './assets/images/partners-plaque-rectified/dhav.png', 'plaque'],
-      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-rectified/funomad.png', 'plaque'],
-      ['vidente', 'vidente', './assets/images/partners-plaque-rectified/vidente.png', 'plaque'],
-      ['batech', 'BATECH', './assets/images/partners-plaque-rectified/batech.png', 'plaque'],
-      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-rectified/doohyun-tech.png', 'plaque'],
+      ['leader', 'Leader', './assets/images/partners-plaque-leveled-v11/leader.png', 'plaque'],
+      ['hm-vision', 'HM vision', './assets/images/partners-plaque-leveled-v11/hm-vision.png', 'plaque'],
+      ['dhav', 'DHAV', './assets/images/partners-plaque-leveled-v11/dhav.png', 'plaque'],
+      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-leveled-v11/funomad.png', 'plaque'],
+      ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v11/vidente.png', 'plaque'],
+      ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v11/batech.png', 'plaque'],
+      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v11/doohyun-tech.png', 'plaque'],
       ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
     ];
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-partner-rectified-v03" alt="${name}" loading="lazy" decoding="async">
+        <img src="${src}?v=studio-v-partner-leveled-v11" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 

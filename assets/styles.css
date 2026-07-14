@@ -5330,3 +5330,110 @@ body[data-page="tour"] .site-header.is-solid .nav-links a[aria-current="page"] {
     min-height: calc(100svh - var(--header-h));
   }
 }
+
+/* depth-v11: measured partner marks and a photographic stage-silhouette field. */
+body.has-depth-v11 .ambient-backplate {
+  display: none;
+}
+
+.depth-canvas--v11 {
+  opacity: 0.88;
+  mix-blend-mode: screen;
+  filter: grayscale(0.28) saturate(0.68) contrast(1.06);
+}
+
+body.has-depth-v11 main {
+  background-color: #050607;
+}
+
+body.has-depth-v11 .partner-strip-inner {
+  width: 100%;
+}
+
+.partner-logo-card--supporting {
+  min-height: 54px;
+}
+
+.partner-logo-wall--supporting .partner-logo-card--plaque img {
+  width: min(136px, 100%);
+  height: 42px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: none;
+  opacity: 0.72;
+  clip-path: none;
+  transform: none;
+}
+
+.partner-logo-wall--primary .partner-logo-card--plaque img {
+  max-width: 100%;
+  filter: none;
+  clip-path: none;
+  transform: none;
+}
+
+.partner-logo-card[data-logo="sewon-sp"] img {
+  transform: none;
+}
+
+.partner-logo-card[data-logo="saeki-pnc"] img {
+  width: min(120px, calc(100% - 20px));
+}
+
+.partner-logo-card[data-logo="dhav"] img {
+  width: min(108px, calc(100% - 24px));
+}
+
+.partner-logo-card[data-logo="hm-vision"] img {
+  width: min(144px, calc(100% - 18px));
+  height: 42px;
+  clip-path: none;
+}
+
+.partner-logo-card[data-logo="hm-vision"]::after {
+  content: none;
+}
+
+.partner-logo-card[data-logo="media-village-tech"] img {
+  width: min(152px, calc(100% - 18px));
+  height: 34px;
+}
+
+.partner-logo-card[data-logo="epic-games"] img {
+  max-height: 38px;
+}
+
+body.is-logo-grid .partner-logo-card {
+  border: 1px solid rgba(99, 196, 205, 0.34);
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(99, 196, 205, 0.34) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(180deg, transparent calc(50% - 0.5px), rgba(99, 196, 205, 0.58) 50%, transparent calc(50% + 0.5px));
+}
+
+body.is-logo-grid .partner-logo-wall {
+  outline: 1px solid rgba(99, 196, 205, 0.22);
+  outline-offset: 8px;
+}
+
+@media (max-width: 780px) {
+  .depth-canvas--v11 {
+    opacity: 0.78;
+    filter: grayscale(0.34) saturate(0.62) contrast(1.05);
+  }
+
+  .partner-logo-card--supporting {
+    min-height: 58px;
+  }
+
+  .partner-logo-wall--supporting .partner-logo-card--plaque img {
+    width: min(146px, 100%);
+    height: 44px;
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-canvas--v11 {
+    opacity: 0.70;
+  }
+}
