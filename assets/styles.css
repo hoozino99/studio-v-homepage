@@ -551,6 +551,18 @@ body:not([data-page="studio"]):not([data-page="tour"]):not([data-page="showreel"
   filter: grayscale(1) saturate(0.22) contrast(1.04) brightness(0.80);
   transform: translate3d(var(--hero-video-x), var(--hero-video-y), 0) scale(var(--hero-video-scale));
   transform-origin: center center;
+  pointer-events: none;
+}
+
+.hero-home .hero-media video::-webkit-media-controls,
+.hero-home .hero-media video::-webkit-media-controls-enclosure,
+.hero-home .hero-media video::-webkit-media-controls-panel,
+.hero-home .hero-media video::-webkit-media-controls-start-playback-button,
+.hero-home .hero-media video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-appearance: none;
 }
 
 .hero-shade {
