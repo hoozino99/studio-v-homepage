@@ -1,5 +1,13 @@
 # Studio V Collaboration Rules
 
+## Required Context
+
+- Before any Studio V work, read `docs/STUDIO_V_STATE.md`. It is the canonical durable
+  product, design, media, version, and operations handoff shared by Codex, Main Hermes,
+  and Team Hermes.
+- Do not rely on an older session summary when it conflicts with the repository state
+  file or current `origin/main`.
+
 ## Source Of Truth
 
 - GitHub `hoozino99/studio-v-homepage` on branch `main` is the canonical shared version.
