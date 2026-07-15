@@ -124,6 +124,8 @@ Durable design decisions:
   project footage, preferably readable wide/full-stage frames.
 - Numbering above thumbnails was intentionally de-emphasized; the image, format, and
   title should lead.
+- Clicking any public project opens its mapped Google Drive video in an in-page modal.
+  The mapping lives in `assets/works.js`. Restricted projects remain non-interactive.
 
 ### Showreel (`showreel.html`)
 
@@ -265,10 +267,8 @@ not use it against the raw workspace without staging only Git-tracked files.
 - Never put GitHub or Cloudflare credentials in this repository, Obsidian, chat, or
   agent memory.
 
-## Known Operational Blocker
+## Cloudflare Access Verification
 
-At the 2026-07-14 verification, the shared Wrangler OAuth token had expired and could
-not refresh non-interactively. Git-connected production deployment still works from a
-GitHub push, but direct Pages/R2 management must not be claimed until `wrangler whoami`,
-Pages project listing, and R2 bucket listing succeed again in both Hermes containers.
-
+Owner OAuth approval was renewed on 2026-07-15. `wrangler whoami`, Pages project
+listing, and R2 bucket listing succeeded on the host, Main Hermes, and Team Hermes.
+Re-verify live if a future command reports an expired credential.
