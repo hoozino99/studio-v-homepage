@@ -599,7 +599,7 @@
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
     const primaryPartnerLogos = [
-      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v13/lg-electronics.png', 'plaque'],
+      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v14/lg-electronics.png', 'plaque'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],
@@ -607,29 +607,29 @@
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
     ];
     const supportPartnerLogos = [
-      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v13/saeki-official.png', 'plaque'],
-      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v13/kol-corporation.png', 'plaque'],
-      ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v13/petadata.png', 'plaque'],
-      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-leveled-v13/myungin-enc.png', 'plaque'],
-      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-leveled-v13/vision-tech.png', 'plaque'],
-      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-leveled-v13/bx-media.png', 'plaque'],
-      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-leveled-v13/sewon-sp.png', 'plaque'],
-      ['cms', 'CMS', './assets/images/partners-plaque-leveled-v13/cms.png', 'plaque'],
-      ['livelab', 'LIVELAB', './assets/images/partners-plaque-leveled-v13/livelab.png', 'plaque'],
+      ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v14/saeki-official.png', 'plaque'],
+      ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v14/kol-corporation.png', 'plaque'],
+      ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v14/petadata.png', 'plaque'],
+      ['myungin-enc', '명인이앤씨', './assets/images/partners-plaque-leveled-v14/myungin-enc.png', 'plaque'],
+      ['vision-tech', 'VISION&TECH', './assets/images/partners-plaque-leveled-v14/vision-tech.png', 'plaque'],
+      ['bx-media', '비윙스미디어', './assets/images/partners-plaque-leveled-v14/bx-media.png', 'plaque'],
+      ['sewon-sp', 'SEWON · SP Studio Perspective', './assets/images/partners-plaque-leveled-v14/sewon-sp.png', 'plaque'],
+      ['cms', 'CMS', './assets/images/partners-plaque-leveled-v14/cms.png', 'plaque'],
+      ['livelab', 'LIVELAB', './assets/images/partners-plaque-leveled-v14/livelab.png', 'plaque'],
       ['media-village-tech', '미디어빌리지테크', './assets/images/partners-official/media-village-tech.png', 'official'],
-      ['leader', 'Leader', './assets/images/partners-plaque-leveled-v13/leader.png', 'plaque'],
-      ['hm-vision', 'HM vision', './assets/images/partners-plaque-leveled-v13/hm-vision.png', 'plaque'],
-      ['dhav', 'DHAV', './assets/images/partners-plaque-leveled-v13/dhav.png', 'plaque'],
-      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-leveled-v13/funomad.png', 'plaque'],
-      ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v13/vidente.png', 'plaque'],
-      ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v13/batech.png', 'plaque'],
-      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v13/doohyun-tech.png', 'plaque'],
+      ['leader', 'Leader', './assets/images/partners-plaque-leveled-v14/leader.png', 'plaque'],
+      ['hm-vision', 'HM vision', './assets/images/partners-plaque-leveled-v14/hm-vision.png', 'plaque'],
+      ['dhav', 'DHAV', './assets/images/partners-plaque-leveled-v14/dhav.png', 'plaque'],
+      ['funomad', 'FUNOMAD', './assets/images/partners-plaque-leveled-v14/funomad.png', 'plaque'],
+      ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v14/vidente.png', 'plaque'],
+      ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v14/batech.png', 'plaque'],
+      ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v14/doohyun-tech.png', 'plaque'],
       ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
     ];
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <img src="${src}?v=studio-v-partner-leveled-v13" alt="${name}" loading="lazy" decoding="async">
+        <img src="${src}?v=studio-v-partner-optical-v14" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
 

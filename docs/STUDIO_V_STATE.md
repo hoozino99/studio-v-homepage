@@ -1,6 +1,6 @@
 # Studio V Project State
 
-Updated: 2026-07-14 KST
+Updated: 2026-08-04 KST
 
 This is the canonical durable handoff for Codex, Main Hermes, and Team Hermes.
 Read this file before changing, deploying, or describing the Studio V site. GitHub
@@ -15,7 +15,7 @@ confirm the current commit instead of treating a hash written in a note as perma
 - Cloudflare Pages project: `studio-v-homepage`
 - Cloudflare R2 bucket: `studio-v-media`
 - Last visually verified UI baseline: `e8ac779` (`depth-v12`)
-- Current static asset version in HTML: `studio-v-depth-v12-r1`
+- Current static asset version in HTML: `studio-v-depth-v12-r3`
 - Local Codex workspace: `/Users/dextermacpro/Documents/VibeCoding/master-v1-copyedit`
 - Main Hermes workspace: `/opt/data/workspace/studio-v-homepage`
 - Team Hermes workspace: `/opt/data/workspace/studio-v-homepage`
@@ -170,10 +170,22 @@ Durable design decisions:
 ## Partner Logo Source Of Truth
 
 - Current normalized assets:
-  `assets/images/partners-plaque-leveled-v13/`
+  `assets/images/partners-plaque-leveled-v14/`
 - These marks were reconstructed from the photographed supplier plaque, then cropped
   and optically leveled. Preserve the actual wordmarks and do not substitute typed
   approximations.
+- The v14 plaque PNGs preserve the v13 transparent bounds and aspect ratios while
+  baking small source-photo deskew corrections into eight marks.
+  Keep plaque artwork proportional and normalize it by rendered height, never by
+  forcing both width and height.
+- Both partner tiers use stable row-major grids: six columns on wide screens, three
+  on tablet widths, and two on mobile. No logo spans columns or opts out of the card
+  width cap, so resizing cannot reorder, overlap, or crop the marks.
+- Compact marks (SAeKI, DHAV, LIVELAB, Doohyun Tech, and Epic Games) use small
+  per-logo height adjustments so their visible area matches the wider wordmarks;
+  these remain uniform scales and have mobile-specific caps.
+- Technology Partners has its own opaque near-black surface. It intentionally masks
+  the fixed photographic truss layer while preserving that depth canvas elsewhere.
 - Current primary row: LG Electronics, Brompton Technology, ARRI, AV Stumpfl,
   MBC C&I, OptiTrack.
 - Supporting vendors include SAEKI P&C, KOL Corporation, PetaData, 명인이앤씨,
