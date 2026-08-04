@@ -1,13 +1,17 @@
-# Design QA — Technology Partners optical pass v14
+# Design QA — Technology Partners optical pass v14 + official LG lockup
 
 ## Status
 
-Final result: **passed**.
+Final result: passed
 
 ## Visual references
 
 - User source screenshot:
   `/Users/dextermacpro/.codex/attachments/6f478288-a39c-43d7-aa32-1e97a70ba3c0/스크린샷 2026-08-04 오후 2.23.01.png`
+- LG source truth: LG Electronics' official Korean mono-white PNG,
+  `assets/images/partners-official/lg-electronics-ko-white.png` (3211 × 1127px).
+- Focused LG source / implementation comparison:
+  `/private/tmp/studio-v-lg-design-qa.png`
 - Same-state before/after comparison:
   `/private/tmp/studio-v-partners-design-qa-2048.png`
 - Final browser captures:
@@ -28,6 +32,10 @@ Final result: **passed**.
    `object-fit: contain` preserve each artwork's aspect ratio.
 4. A final optical-size pass increased the compact SAeKI, DHAV, LIVELAB, Doohyun Tech,
    and Epic Games marks without enlarging the already-wide wordmarks.
+5. The plaque-derived LG mark still had degraded raster edges and an incomplete-looking
+   final `자` stroke. It was replaced with LG Electronics' official Korean mono-white
+   PNG. The post-fix 4× desktop and mobile focus captures show the complete `자`, the
+   official lockup proportions, and clear space on every side.
 
 ## Responsive verification
 
@@ -45,12 +53,28 @@ Final result: **passed**.
 - The logo order remains row-major while resizing, with centered cards and consistent
   row spacing.
 - No artwork is stretched, cropped, clipped, or transformed by CSS.
+- LG's official image loads at its native 3211 × 1127px. Its proportional rendered
+  box is 113.95 × 40px at 2048px and 108.27 × 38px at 390px, with `width: auto`,
+  `object-fit: contain`, `filter: none`, complete decoding, zero page overflow, and no
+  contact with the card boundary.
 - The computed partner background contains only the radial and dark linear gradients;
   it contains no image URL, and the truss is absent in every final capture.
 - Browser console errors, runtime exceptions, and HTTP 4xx/5xx responses: none.
+
+## Required fidelity surfaces
+
+- Fonts and typography: unchanged; heading and navigation hierarchy still match the
+  approved implementation.
+- Spacing and layout rhythm: unchanged; LG remains centered in the first primary cell
+  and all 6 / 3 / 2-column breakpoints retain their existing spacing.
+- Colors and visual tokens: the official white mono asset preserves the established
+  partner-wall contrast on the opaque near-black surface.
+- Image quality and asset fidelity: LG now uses the official high-resolution Korean
+  lockup. The focused comparison confirms a complete final `자`, clean edges, correct
+  proportions, and no filter-induced fill or crop.
+- Copy and content: unchanged; the accessible name remains `LG전자`.
 
 ## Static verification
 
 - `npm run check`: passed (JavaScript syntax and all 68 local asset references).
 - `git diff --check`: passed.
-

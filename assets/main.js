@@ -599,7 +599,7 @@
   const partnerStrips = [...document.querySelectorAll('[data-partner-strip]')];
   if (partnerStrips.length) {
     const primaryPartnerLogos = [
-      ['lg-electronics', 'LG전자', './assets/images/partners-plaque-leveled-v14/lg-electronics.png', 'plaque'],
+      ['lg-electronics', 'LG전자', './assets/images/partners-official/lg-electronics-ko-white.png', 'official'],
       ['brompton-technology', 'Brompton Technology', './assets/images/partners-official/brompton-technology.webp', 'official'],
       ['arri', 'ARRI', './assets/images/partners-official/arri.svg', 'official'],
       ['av-stumpfl', 'AV Stumpfl', './assets/images/partners-official/av-stumpfl.svg', 'official'],

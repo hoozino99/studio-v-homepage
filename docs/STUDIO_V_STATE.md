@@ -15,7 +15,7 @@ confirm the current commit instead of treating a hash written in a note as perma
 - Cloudflare Pages project: `studio-v-homepage`
 - Cloudflare R2 bucket: `studio-v-media`
 - Last visually verified UI baseline: `e8ac779` (`depth-v12`)
-- Current static asset version in HTML: `studio-v-depth-v12-r3`
+- Current static asset version in HTML: `studio-v-depth-v12-r4`
 - Local Codex workspace: `/Users/dextermacpro/Documents/VibeCoding/master-v1-copyedit`
 - Main Hermes workspace: `/opt/data/workspace/studio-v-homepage`
 - Team Hermes workspace: `/opt/data/workspace/studio-v-homepage`
@@ -174,6 +174,11 @@ Durable design decisions:
 - These marks were reconstructed from the photographed supplier plaque, then cropped
   and optically leveled. Preserve the actual wordmarks and do not substitute typed
   approximations.
+- LG Electronics is the exception: its primary-row mark uses LG Electronics' official
+  Korean white PNG at `assets/images/partners-official/lg-electronics-ko-white.png`.
+  Source: `https://www.lge.co.kr/company/info/brandAsset` (Korean logo, mono white PNG).
+  Do not restore the plaque-derived LG PNG; its final `자` stroke and overall lockup
+  proportions are visibly degraded.
 - The v14 plaque PNGs preserve the v13 transparent bounds and aspect ratios while
   baking small source-photo deskew corrections into eight marks.
   Keep plaque artwork proportional and normalize it by rendered height, never by
