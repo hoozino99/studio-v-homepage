@@ -1,80 +1,70 @@
-# Design QA — Technology Partners optical pass v14 + official LG lockup
+# Design QA — Studio homepage global truss retirement
 
 ## Status
 
 Final result: passed
 
-## Visual references
+## Comparison target and evidence
 
-- User source screenshot:
-  `/Users/dextermacpro/.codex/attachments/6f478288-a39c-43d7-aa32-1e97a70ba3c0/스크린샷 2026-08-04 오후 2.23.01.png`
-- LG source truth: LG Electronics' official Korean mono-white PNG,
-  `assets/images/partners-official/lg-electronics-ko-white.png` (3211 × 1127px).
-- Focused LG source / implementation comparison:
-  `/private/tmp/studio-v-lg-design-qa.png`
-- Same-state before/after comparison:
-  `/private/tmp/studio-v-partners-design-qa-2048.png`
-- Final browser captures:
-  `/private/tmp/studio-v-actual-{2048,1280,1000,780,390}.png`
-- Final full-section mobile capture:
-  `/private/tmp/studio-v-actual-390-section.png`
+- Source visual truth: current production before the fix,
+  `/private/tmp/studio-v-truss-audit-2026-08-06/`.
+- Rendered implementation: local r5 build after the fix,
+  `/private/tmp/studio-v-truss-after-2026-08-06/`.
+- Full-view combined comparison — Projects:
+  `/private/tmp/studio-v-truss-projects-before-after.png`.
+- Focused combined comparison — Stage Overview:
+  `/private/tmp/studio-v-truss-stage-before-after.png`.
+- Desktop source and implementation captures: 1440 × 900px, CSS viewport
+  1440 × 900, device scale factor 1, identical scroll positions.
+- Mobile source and implementation captures: 390 × 844px, CSS viewport
+  390 × 844, device scale factor 1, identical section-start states.
+- Density normalization: none required; paired captures have identical pixel and CSS
+  dimensions.
 
-## Iteration history
+## Findings and iteration history
 
-1. The original five-column wall allowed wide cards to span columns. That made the
-   reading order look irregular and clipped Sewon at 390px. The transparent section
-   also exposed the fixed truss photograph behind the logos.
-2. The wall was changed to a stable row-major 6 / 3 / 2-column grid, all spans were
-   removed, plaque widths were capped to their cells, and the partner section received
-   an opaque near-black surface.
-3. Eight source-baked deskew corrections were added in v14 for SAeKI, Myungin ENC,
-   PetaData, BX Media, LIVELAB, Leader, HM Vision, and Funomad. Uniform transforms and
-   `object-fit: contain` preserve each artwork's aspect ratio.
-4. A final optical-size pass increased the compact SAeKI, DHAV, LIVELAB, Doohyun Tech,
-   and Epic Games marks without enlarging the already-wide wordmarks.
-5. The plaque-derived LG mark still had degraded raster edges and an incomplete-looking
-   final `자` stroke. It was replaced with LG Electronics' official Korean mono-white
-   PNG. The post-fix 4× desktop and mobile focus captures show the complete `자`, the
-   official lockup proportions, and clear space on every side.
+1. [P1] The production homepage still created one fixed photographic canvas from
+   three stage images. Its ceiling-LED silhouette remained visible behind the Stage
+   Overview heading and across the entire Projects section, making a content image
+   look like an unintended background stain.
+2. Fix: the Studio route now keeps the approved depth-layout classes but does not
+   create or load the global photographic canvas. Section-local gallery media,
+   project cards, use-case imagery, pointer depth, and scroll behavior remain intact.
+3. Post-fix evidence: the paired Stage and Projects comparisons show the exact truss
+   silhouette removed while the header, type, spacing, cards, crops, and intended
+   section images remain unchanged. The local runtime reports no `.depth-canvas--v12`
+   element on desktop or mobile.
 
-## Responsive verification
+No actionable P0, P1, or P2 findings remain.
 
-| Viewport | Supporting grid | Rows | Wall width | Clipped logos |
-| --- | ---: | ---: | ---: | --- |
-| 2048px | 6 columns | 3 | 1180px | none |
-| 1280px | 6 columns | 3 | 1180px | none |
-| 1000px | 3 columns | 6 | 840px | none |
-| 780px | 3 columns | 6 | 744px | none |
-| 390px | 2 columns | 9 | 354px | none |
+## Responsive and runtime verification
 
-- All 24 partner images load successfully.
-- `document` and `body` widths match the viewport at every tested size; there is no
-  horizontal overflow.
-- The logo order remains row-major while resizing, with centered cards and consistent
-  row spacing.
-- No artwork is stretched, cropped, clipped, or transformed by CSS.
-- LG's official image loads at its native 3211 × 1127px. Its proportional rendered
-  box is 113.95 × 40px at 2048px and 108.27 × 38px at 390px, with `width: auto`,
-  `object-fit: contain`, `filter: none`, complete decoding, zero page overflow, and no
-  contact with the card boundary.
-- The computed partner background contains only the radial and dark linear gradients;
-  it contains no image URL, and the truss is absent in every final capture.
-- Browser console errors, runtime exceptions, and HTTP 4xx/5xx responses: none.
+- Desktop 1440 × 900: Stage Overview, gallery midpoint, Projects, Use Cases, and
+  Technology Partners captured and inspected.
+- Mobile 390 × 844: Stage Overview and Technology Partners captured and inspected.
+- Homepage page height and every measured section height are identical before and
+  after the change at both viewports.
+- Horizontal overflow: 0px at both viewports.
+- Primary interactions tested: responsive navigation state, homepage scroll scenes,
+  project card layout, use-case scene, and partner-wall rendering.
+- Browser console errors and runtime exceptions: none.
+- The only failed network events are the intentionally blocked video requests used to
+  keep deterministic screenshot states; they are not application failures.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: unchanged; heading and navigation hierarchy still match the
-  approved implementation.
-- Spacing and layout rhythm: unchanged; LG remains centered in the first primary cell
-  and all 6 / 3 / 2-column breakpoints retain their existing spacing.
-- Colors and visual tokens: the official white mono asset preserves the established
-  partner-wall contrast on the opaque near-black surface.
-- Image quality and asset fidelity: LG now uses the official high-resolution Korean
-  lockup. The focused comparison confirms a complete final `자`, clean edges, correct
-  proportions, and no filter-induced fill or crop.
-- Copy and content: unchanged; the accessible name remains `LG전자`.
+- Fonts and typography: unchanged; weights, line breaks, hierarchy, and antialiasing
+  match the source captures.
+- Spacing and layout rhythm: unchanged; identical section and page dimensions confirm
+  that removing the canvas did not alter layout, crop, alignment, or scroll spacing.
+- Colors and visual tokens: the approved near-black section surfaces remain; only the
+  unintended cyan-gray photographic silhouette is gone.
+- Image quality and asset fidelity: real stage photography remains in the gallery and
+  Use Cases scene at its intended crop. No image, logo, or icon was stretched,
+  replaced, or approximated.
+- Copy and content: unchanged.
 
 ## Static verification
 
-- `npm run check`: passed (JavaScript syntax and all 68 local asset references).
+- `npm run check`: passed.
 - `git diff --check`: passed.

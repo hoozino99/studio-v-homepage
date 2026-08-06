@@ -189,8 +189,9 @@ Durable design decisions:
 - Compact marks (SAeKI, DHAV, LIVELAB, Doohyun Tech, and Epic Games) use small
   per-logo height adjustments so their visible area matches the wider wordmarks;
   these remain uniform scales and have mobile-specific caps.
-- Technology Partners has its own opaque near-black surface. It intentionally masks
-  the fixed photographic truss layer while preserving that depth canvas elsewhere.
+- Technology Partners has its own opaque near-black surface. The Studio homepage no
+  longer creates a fixed photographic depth canvas, so no stage or truss photograph
+  can leak into the partner wall or any other homepage section.
 - Current primary row: LG Electronics, Brompton Technology, ARRI, AV Stumpfl,
   MBC C&I, OptiTrack.
 - Supporting vendors include SAEKI P&C, KOL Corporation, PetaData, 명인이앤씨,
@@ -204,13 +205,15 @@ Durable design decisions:
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  and the photographic depth canvas.
+  and the non-Studio photographic depth canvas.
 - `assets/styles.css` contains cumulative visual-version blocks. The active selectors
   are `depth-v12`; avoid adding another override block for a one-line fix when the
   underlying active rule can be corrected safely.
-- The depth background is a fixed canvas assembled from real stage photographs at
-  multiple depths. Scroll and pointer movement drive separate offsets. It is purposely
-  subtle enough not to compete with content, but pixel movement must remain visible.
+- The Studio homepage explicitly opts out of the global photographic depth canvas.
+  Homepage depth comes only from section-local real media and its scroll/pointer motion;
+  stage photographs may appear inside their intended gallery or use-case scene, never
+  as a fixed page-wide silhouette. Portfolio and Showreel retain the existing global
+  canvas until they receive a separate visual decision.
 - Respect `prefers-reduced-motion` and retain usable static fallbacks.
 - Sticky scenes must consume their own scroll space. A following section must never
   rise over an unfinished image transition or leave a blank hold unrelated to content.

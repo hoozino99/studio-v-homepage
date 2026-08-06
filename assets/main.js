@@ -70,13 +70,17 @@
 
   const depthHost = document.querySelector('main');
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (depthHost && !document.body.matches('[data-page="tour"]')) {
+  const hasDepthLayout = depthHost && !document.body.matches('[data-page="tour"]');
+  const usesGlobalPhotoDepth = hasDepthLayout && !document.body.matches('[data-page="studio"]');
+  if (hasDepthLayout) {
+    document.body.classList.add('has-depth-v08', 'has-depth-v11', 'has-depth-v12');
+  }
+  if (usesGlobalPhotoDepth) {
     const depthCanvas = document.createElement('canvas');
     depthCanvas.className = 'depth-canvas depth-canvas--v08 depth-canvas--v11 depth-canvas--v12';
     depthCanvas.dataset.depthCanvas = 'depth-v12';
     depthCanvas.setAttribute('aria-hidden', 'true');
     depthHost.prepend(depthCanvas);
-    document.body.classList.add('has-depth-v08', 'has-depth-v11', 'has-depth-v12');
 
     const depthContext = depthCanvas.getContext('2d', { alpha: true });
     if (depthContext) {
