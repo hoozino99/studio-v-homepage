@@ -139,10 +139,15 @@ Durable design decisions:
   ratios.
 - Clicking a showreel item opens playable video content. Mapping lives in
   `assets/showreel.js`.
+- All 13 Showreel items use website-only copies inside the Shared Drive folder
+  `[VP LAB] Studio V 홈페이지 공개영상` (`1JVXTeoW27UihVQjzEktdy7VS29qVIqRX`).
+  Public access is controlled at folder level and must be `anyone / reader`, never
+  `writer`. Removing the folder's `anyoneWithLink` permission pauses future public
+  previews without moving or deleting any file.
 - Thumbnails should be selected from the mapped video, favoring full-stage or complete
   production views over arbitrary close-ups, title cards, or setup-only frames.
 - `서울이야기 Making` uses the externally viewable Drive file
-  `1QqkQ0lZsxGvgQFBo57uVMVAace2O8JMp`. The local thumbnail is a verified frame showing
+  `17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw`. The local thumbnail is a verified frame showing
   the camera, crew, and Studio V stage rather than a cast close-up.
 - The presentation deck supplied by the owner is the editorial source for showreel and
   making-video titles/descriptions. Do not copy its internal production notes into the
@@ -159,6 +164,11 @@ Durable design decisions:
 
 - The R2 bucket is for web-ready large media; source masters stay local/private.
 - `cube-of-memory-main-film-hq.mp4` is the current public hero file in R2.
+- The controlled Drive folder is the temporary publishing model for Showreel. Phase 2
+  is documented in `docs/STUDIO_V_PRIVATE_MEDIA_PLAN.md`: private R2 objects, a
+  Range-capable Worker, short-lived signed playback, and a global pause switch.
+- The Drive copies total 17,270,391,629 bytes. Source files were copied, not moved, and
+  source permissions were not changed during the migration.
 - Never publish the 2.1GB source MOV or raw source folders.
 - Cloudflare Pages has a 25 MiB per-static-file limit. Git-tracked files must remain
   below that limit.

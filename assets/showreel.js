@@ -12,7 +12,7 @@
       type: 'Main Film',
       runtime: '16:9 / MOV',
       source: '0327_Cube of Memory_Edit_full_v008_master.mov',
-      driveId: '1ZUX20pEH0LF1tWSTK8ITFTY54Yjzlaf1',
+      driveId: '1pE5i_Xmo8JTyo9UOwuZUizOs9cEf8Xks',
       category: 'Cube of Memory',
       thumb: './assets/video/showreel-thumbs/cube-main-film.jpg'
     },
@@ -23,7 +23,7 @@
       type: 'Showreel',
       runtime: '16:9 / MOV',
       source: '0320_Cube of Memory_Showreel_final.mov',
-      driveId: '1eVrCmDC0uqISlWLN872BCqF9KMnDJvDi',
+      driveId: '1E4xmDwWcuOC3m8u4lJ4u0f_1TBLBzD3l',
       category: 'Cube of Memory',
       thumb: './assets/video/showreel-thumbs/cube-showreel.jpg'
     },
@@ -34,7 +34,7 @@
       type: 'Making',
       runtime: '16:9 / MP4',
       source: '큐브오브메모리_VER_9.mp4',
-      driveId: '1cooFjFFyFMavmusrecZK8f5lxq_3bztp',
+      driveId: '1FLzuKSa9FMpKHOY0BIxYXYgRpU4EB8yu',
       category: 'Cube of Memory',
       thumb: './assets/video/showreel-thumbs/cube-making.jpg'
     },
@@ -45,7 +45,7 @@
       type: 'Longform',
       runtime: '16:9 / MP4',
       source: '0226_스튜디오큐브홍보영상.mp4',
-      driveId: '1k3KOYMHdL_wxoiW3HyqIxg5CC09X8n2G',
+      driveId: '1vUs4jq9SVRPEO7hq-sBDNPWDAvHybcVO',
       category: 'StudioCube',
       thumb: './assets/video/showreel-thumbs/studiocube-opening.jpg'
     },
@@ -56,7 +56,7 @@
       type: 'Seminar Making',
       runtime: '16:9 / MP4',
       source: '방송기술인세미나_1차편집본.mp4',
-      driveId: '18eRI-ttPLWAoUCywOepIyqkim8wXg6-A',
+      driveId: '1svFD2mAPef-QJx-RF1g3v3HYi7Ktt8De',
       category: 'Seminar',
       thumb: './assets/video/showreel-thumbs/seminar-making.jpg'
     },
@@ -67,7 +67,7 @@
       type: 'Showcase',
       runtime: '16:9 / MP4',
       source: '기술시연회1회차.mp4',
-      driveId: '1qB_5mW2gIA6dqOMo5dz8twkIGv1wXx4L',
+      driveId: '1c7ZZ9ezlPrFwyeNp4ehscClkJsnENYBD',
       category: 'Showcase',
       thumb: './assets/video/showreel-thumbs/beyond-the-set.jpg'
     },
@@ -78,7 +78,7 @@
       type: 'Commercial BTS',
       runtime: '16:9 / MP4',
       source: 'Aion2_bts_260504.mp4',
-      driveId: '110GMj21y1LWMT8V5U5T0bvQ_LLNpXTNH',
+      driveId: '1L44PEZnlwjZmJxNB6eg9prOQyeIXmMPk',
       category: 'Commercial',
       thumb: './assets/video/showreel-thumbs/aion2.jpg'
     },
@@ -89,7 +89,7 @@
       type: 'Commercial BTS',
       runtime: '16:9 / MP4',
       source: 'Dealer_0624.mp4',
-      driveId: '14R3yiETLyxEAYDciz1GF_ERnoF8rVbji',
+      driveId: '1YFZ63grO-clINc0FuRs8QsDMYo8vmGqw',
       category: 'Commercial',
       thumb: './assets/video/showreel-thumbs/dealer.jpg'
     },
@@ -100,7 +100,7 @@
       type: 'Drama Making',
       runtime: '16:9 / 01:58',
       source: '서울이야기_0814.mp4',
-      driveId: '1QqkQ0lZsxGvgQFBo57uVMVAace2O8JMp',
+      driveId: '17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw',
       category: 'Film & Drama',
       thumb: './assets/video/showreel-thumbs/seoul-story-making.jpg'
     },
@@ -111,7 +111,7 @@
       type: 'Shorts',
       runtime: '9:16 / MP4',
       source: '쇼츠_A_VER_5.mp4',
-      driveId: '17kc0aMNfn25-TA5ohWkoIuiwAb-u9hKL',
+      driveId: '1DPl9cB_1YAPNx8vq_OHu1sFXajx9W0TU',
       category: 'Cube of Memory',
       aspect: 'portrait',
       thumb: './assets/video/showreel-thumbs/pd-shorts.jpg'
@@ -123,7 +123,7 @@
       type: 'Shorts',
       runtime: '9:16 / MP4',
       source: '쇼츠_C_VER_6.mp4',
-      driveId: '1fSleWSuuymOwfPzbh-QeZa9Y70dr2OLA',
+      driveId: '1cOChNlXtDgFvrcOfgwSKPBvIwyzPFhYt',
       category: 'Cube of Memory',
       aspect: 'portrait',
       thumb: './assets/video/showreel-thumbs/camera-lighting-shorts.jpg'
@@ -135,7 +135,7 @@
       type: 'Shorts',
       runtime: '9:16 / MP4',
       source: '쇼츠_B_VER_6.mp4',
-      driveId: '1e3z4i-xiXDpauttAnmlCZ2gWGS-Ae_Cy',
+      driveId: '1vNRBJhvg-_yOaVTXyNfO6OC2RF_4zEOS',
       category: 'Cube of Memory',
       aspect: 'portrait',
       thumb: './assets/video/showreel-thumbs/vfx-shorts.jpg'
@@ -147,7 +147,7 @@
       type: 'Shorts',
       runtime: '9:16 / MP4',
       source: '쇼츠_세로_VER_3.mp4',
-      driveId: '1BjaSYnITwlMDEqo5PkU8cXn7nQ7BFaio',
+      driveId: '1ROMIFEOJXavswuBr62SOwNiYcRmZ_a1D',
       category: 'Cube of Memory',
       aspect: 'portrait',
       thumb: './assets/video/showreel-thumbs/showreel-shorts.jpg'
