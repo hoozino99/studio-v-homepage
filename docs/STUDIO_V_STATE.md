@@ -85,6 +85,11 @@ Durable design decisions:
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
      group, not left-stranded on the last row.
+   - The section uses two image-free silver/cyan light-field layers. They move in
+     opposite directions from local scroll progress and fine-pointer input while the
+     logos remain stable; reduced-motion keeps the field static.
+   - Desktop height is intentionally capped near 640px instead of forcing a full viewport.
+     Vertical padding and logo-row gaps are compact but retain comfortable breathing room.
    - The image-to-black feather from Use Cases must remain gradual and travel at the
      same perceived scroll speed as the outgoing image.
 6. Footer
@@ -116,8 +121,8 @@ Durable design decisions:
 - Direct project index with compact filtering and no oversized hero narrative.
 - Public projects: Cube of Memory, 서울이야기, AION 2, Hyundai TUCSON, Dealer,
   LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, Genesis GV90 1/2,
-  and the current technology demonstration entry.
-- Restricted project: Avante DN8.
+  Avante DN8, and the current technology demonstration entry.
+- No Portfolio project is currently using the restricted disclosure canvas.
 - Restricted projects must not display private production frames. Use the framed
   restricted canvas and short disclosure copy.
 - `LE SSERAFIM x Overwatch` is one project; do not split Overwatch into another title.
@@ -131,9 +136,10 @@ Durable design decisions:
   catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
 - 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
   camera/crew/Studio V stage frame. Its making video remains playable only in Showreel.
-- Genesis GV90 1/2 remain separate project records and use the same owner-supplied,
-  approved vehicle image. The current Portfolio crop is the overhead open-door view and
-  preserves the full vehicle, both open doors, wheels, and interior.
+- Genesis GV90 1/2 remain separate project records. GV90 1 uses the overhead open-door
+  view; GV90 2 uses the owner-supplied side-profile open-door image with the reflecting pool.
+- Avante DN8 uses the owner-supplied rooftop rear three-quarter image. Its original
+  download UI icon is excluded by the approved 16:9 crop.
 
 ### Showreel (`showreel.html`)
 
@@ -184,8 +190,8 @@ Durable design decisions:
   - `*.mov`
   - `.wrangler/`
 - Do not delete ignored local masters when removing them from Git tracking.
-- Avante DN8 production imagery is not cleared for public sharing.
-- The owner-supplied Genesis GV90 image is approved for both GV90 Portfolio records.
+- The owner-supplied Avante DN8 image is approved for its Portfolio record.
+- The two owner-supplied Genesis GV90 images are approved for their respective GV90 records.
 - The supplied Hyundai TUCSON representative image is approved for the Portfolio entry;
   no TUCSON video is published.
 - Avoid identifiable faces in public thumbnails when another approved frame is
@@ -229,7 +235,7 @@ Durable design decisions:
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  ambient light-field variables, and card-level pointer parallax.
+  local Partner light-field motion, ambient variables, and card-level pointer parallax.
 - `assets/styles.css` contains cumulative visual-version blocks. The active selectors
   are `depth-v12`; avoid adding another override block for a one-line fix when the
   underlying active rule can be corrected safely.

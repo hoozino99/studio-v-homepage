@@ -1,5 +1,5 @@
 (() => {
-  const assetVersion = 'studio-v-portfolio-stills-05';
+  const assetVersion = 'studio-v-portfolio-stills-06';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
 
   const works = [
@@ -99,7 +99,7 @@
       category: 'AD',
       title: 'Genesis GV90 2',
       format: 'Print Campaign',
-      image: './assets/images/portfolio/genesis-gv90-approved.jpg',
+      image: './assets/images/portfolio/genesis-gv90-02-approved.jpg',
       copy: 'Studio V에서 진행한 Genesis GV90 지면 촬영 기록입니다.'
     },
     {
@@ -108,8 +108,8 @@
       category: 'AD',
       title: 'Avante DN8',
       format: 'Print Campaign',
-      restricted: true,
-      copy: '보안상 촬영 이미지는 공개하지 않습니다.'
+      image: './assets/images/portfolio/avante-dn8-approved.jpg',
+      copy: 'Studio V에서 진행한 Avante DN8 지면 촬영 기록입니다.'
     }
   ];
 

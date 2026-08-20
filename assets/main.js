@@ -656,6 +656,59 @@
         </div>
       `;
     });
+
+    const partnerMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePartnerTransformVars = (strip) => {
+      const scroll = Number.parseFloat(strip.style.getPropertyValue('--partner-scroll')) || 0;
+      const pointerX = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-x')) || 0;
+      const pointerY = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-y')) || 0;
+      strip.style.setProperty('--partner-before-x', `${(pointerX * 20).toFixed(3)}px`);
+      strip.style.setProperty('--partner-before-y', `${(scroll * -28 + pointerY * 10).toFixed(3)}px`);
+      strip.style.setProperty('--partner-after-x', `${(pointerX * -14).toFixed(3)}px`);
+      strip.style.setProperty('--partner-after-y', `${(scroll * 22 + pointerY * -8).toFixed(3)}px`);
+    };
+    const updatePartnerDepth = () => {
+      const viewport = window.innerHeight || document.documentElement.clientHeight;
+      partnerStrips.forEach((strip) => {
+        const rect = strip.getBoundingClientRect();
+        const progress = clamp((viewport - rect.top) / Math.max(1, viewport + rect.height), 0, 1);
+        strip.style.setProperty('--partner-scroll', ((progress - 0.5) * 2).toFixed(4));
+        updatePartnerTransformVars(strip);
+      });
+    };
+
+    if (partnerMotionQuery.matches) {
+      partnerStrips.forEach((strip) => {
+        strip.style.setProperty('--partner-scroll', '0');
+        strip.style.setProperty('--partner-pointer-x', '0');
+        strip.style.setProperty('--partner-pointer-y', '0');
+        updatePartnerTransformVars(strip);
+      });
+    } else {
+      let partnerDepthTicking = false;
+      const requestPartnerDepth = () => {
+        if (partnerDepthTicking) return;
+        partnerDepthTicking = true;
+        window.requestAnimationFrame(() => {
+          partnerDepthTicking = false;
+          updatePartnerDepth();
+        });
+      };
+
+      updatePartnerDepth();
+      window.addEventListener('scroll', requestPartnerDepth, { passive: true });
+      window.addEventListener('resize', requestPartnerDepth);
+
+      window.addEventListener('pointermove', (event) => {
+        const x = ((event.clientX / Math.max(1, window.innerWidth)) - 0.5) * 2;
+        const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
+        partnerStrips.forEach((strip) => {
+          strip.style.setProperty('--partner-pointer-x', x.toFixed(3));
+          strip.style.setProperty('--partner-pointer-y', y.toFixed(3));
+          updatePartnerTransformVars(strip);
+        });
+      }, { passive: true });
+    }
   }
 
   const revealItems = [...document.querySelectorAll('.reveal')];
