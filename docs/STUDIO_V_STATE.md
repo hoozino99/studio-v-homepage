@@ -115,9 +115,9 @@ Durable design decisions:
 
 - Direct project index with compact filtering and no oversized hero narrative.
 - Public projects: Cube of Memory, 서울이야기, AION 2, Hyundai TUCSON, Dealer,
-  LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, and the current
-  technology demonstration entry.
-- Restricted projects: Genesis GV90 1, Genesis GV90 2, Avante DN8.
+  LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, Genesis GV90 1/2,
+  and the current technology demonstration entry.
+- Restricted project: Avante DN8.
 - Restricted projects must not display private production frames. Use the framed
   restricted canvas and short disclosure copy.
 - `LE SSERAFIM x Overwatch` is one project; do not split Overwatch into another title.
@@ -131,6 +131,8 @@ Durable design decisions:
   catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
 - 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
   camera/crew/Studio V stage frame. Its making video remains playable only in Showreel.
+- Genesis GV90 1/2 remain separate project records and use the same owner-supplied,
+  approved vehicle image. The Portfolio crop preserves the full vehicle and floor reflection.
 
 ### Showreel (`showreel.html`)
 
@@ -181,7 +183,8 @@ Durable design decisions:
   - `*.mov`
   - `.wrangler/`
 - Do not delete ignored local masters when removing them from Git tracking.
-- Genesis GV90 1/2 and Avante DN8 production imagery is not cleared for public sharing.
+- Avante DN8 production imagery is not cleared for public sharing.
+- The owner-supplied Genesis GV90 image is approved for both GV90 Portfolio records.
 - The supplied Hyundai TUCSON representative image is approved for the Portfolio entry;
   no TUCSON video is published.
 - Avoid identifiable faces in public thumbnails when another approved frame is
