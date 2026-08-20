@@ -132,7 +132,8 @@ Durable design decisions:
 - 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
   camera/crew/Studio V stage frame. Its making video remains playable only in Showreel.
 - Genesis GV90 1/2 remain separate project records and use the same owner-supplied,
-  approved vehicle image. The Portfolio crop preserves the full vehicle and floor reflection.
+  approved vehicle image. The current Portfolio crop is the overhead open-door view and
+  preserves the full vehicle, both open doors, wheels, and interior.
 
 ### Showreel (`showreel.html`)
 

@@ -1,5 +1,5 @@
 (() => {
-  const assetVersion = 'studio-v-portfolio-stills-04';
+  const assetVersion = 'studio-v-portfolio-stills-05';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
 
   const works = [
