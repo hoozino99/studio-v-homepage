@@ -642,6 +642,10 @@
 
     partnerStrips.forEach((strip) => {
       strip.innerHTML = `
+        <div class="partner-depth-field" aria-hidden="true">
+          <span class="partner-depth-field__grid"></span>
+          <span class="partner-depth-field__rings"></span>
+        </div>
         <div class="partner-strip-inner">
           <div class="partner-strip-copy reveal">
             <p>Powered by</p>
@@ -662,10 +666,10 @@
       const scroll = Number.parseFloat(strip.style.getPropertyValue('--partner-scroll')) || 0;
       const pointerX = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-x')) || 0;
       const pointerY = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-y')) || 0;
-      strip.style.setProperty('--partner-before-x', `${(pointerX * 20).toFixed(3)}px`);
-      strip.style.setProperty('--partner-before-y', `${(scroll * -28 + pointerY * 10).toFixed(3)}px`);
-      strip.style.setProperty('--partner-after-x', `${(pointerX * -14).toFixed(3)}px`);
-      strip.style.setProperty('--partner-after-y', `${(scroll * 22 + pointerY * -8).toFixed(3)}px`);
+      strip.style.setProperty('--partner-before-x', `${(pointerX * 34).toFixed(3)}px`);
+      strip.style.setProperty('--partner-before-y', `${(scroll * -44 + pointerY * 16).toFixed(3)}px`);
+      strip.style.setProperty('--partner-after-x', `${(pointerX * -26).toFixed(3)}px`);
+      strip.style.setProperty('--partner-after-y', `${(scroll * 32 + pointerY * -12).toFixed(3)}px`);
     };
     const updatePartnerDepth = () => {
       const viewport = window.innerHeight || document.documentElement.clientHeight;

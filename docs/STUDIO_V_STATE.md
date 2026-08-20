@@ -85,13 +85,17 @@ Durable design decisions:
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
      group, not left-stranded on the last row.
-   - The section uses two image-free silver/cyan light-field layers. They move in
-     opposite directions from local scroll progress and fine-pointer input while the
-     logos remain stable; reduced-motion keeps the field static.
+   - The section uses an opaque neutral near-black surface with no colored haze. A
+     monochrome perspective grid and thin elliptical rings move in opposite directions
+     from local scroll progress and pointer input while the logos remain stable;
+     reduced-motion keeps the geometry static.
    - Desktop height is intentionally capped near 640px instead of forcing a full viewport.
      Vertical padding and logo-row gaps are compact but retain comfortable breathing room.
-   - The image-to-black feather from Use Cases must remain gradual and travel at the
-     same perceived scroll speed as the outgoing image.
+   - The Use Cases handoff overlaps the Partner surface by 2px and uses a neutral black
+     upward feather. Do not restore a top border, cyan strip, radial color bloom, or
+     blurred light band at this boundary.
+   - The Partner-to-footer handoff also has no border line; the neutral background tone
+     shift alone separates the footer.
 6. Footer
    - Operational logos are ordered: Ministry of Culture, Sports and Tourism; KOCCA;
      Dexter Studios; XON Studios.
@@ -235,7 +239,7 @@ Durable design decisions:
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  local Partner light-field motion, ambient variables, and card-level pointer parallax.
+  local Partner grid/ring motion, ambient variables, and card-level pointer parallax.
 - `assets/styles.css` contains cumulative visual-version blocks. The active selectors
   are `depth-v12`; avoid adding another override block for a one-line fix when the
   underlying active rule can be corrected safely.
