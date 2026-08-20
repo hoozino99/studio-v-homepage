@@ -1,5 +1,5 @@
 (() => {
-  const assetVersion = 'studio-v-portfolio-stills-02';
+  const assetVersion = 'studio-v-portfolio-stills-03';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
 
   const works = [
@@ -11,6 +11,15 @@
       format: 'Virtual Production Film',
       image: './assets/video/showreel-thumbs/cube-main-film.jpg',
       copy: 'Studio V에서 진행한 대표 버추얼 프로덕션 필름 기록입니다.'
+    },
+    {
+      slug: 'seoul-story',
+      group: 'film',
+      category: 'Film & Drama',
+      title: '서울이야기',
+      format: 'Drama Shoot',
+      image: './assets/video/showreel-thumbs/seoul-story-making.jpg',
+      copy: 'Studio V에서 진행한 리허설·테스트 및 본 촬영 지원 기록입니다.'
     },
     {
       slug: 'aion-commercial',

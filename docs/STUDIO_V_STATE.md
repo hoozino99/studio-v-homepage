@@ -114,7 +114,7 @@ Durable design decisions:
 ### Portfolio (`portfolio.html`)
 
 - Direct project index with compact filtering and no oversized hero narrative.
-- Public projects: Cube of Memory, AION 2, Hyundai TUCSON, Dealer,
+- Public projects: Cube of Memory, 서울이야기, AION 2, Hyundai TUCSON, Dealer,
   LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, and the current
   technology demonstration entry.
 - Restricted projects: Genesis GV90 1, Genesis GV90 2, Avante DN8.
@@ -129,6 +129,8 @@ Durable design decisions:
   videos; playable content belongs to Showreel. Restricted projects remain non-interactive.
 - Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10
   catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
+- 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
+  camera/crew/Studio V stage frame. Its making video remains playable only in Showreel.
 
 ### Showreel (`showreel.html`)
 
