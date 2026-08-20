@@ -159,25 +159,40 @@ body[data-page="contact"] .ambient-backplate {
 }
 
 .ambient-backplate::before {
-  opacity: 0.42;
+  opacity: 0.36;
   background:
-    repeating-linear-gradient(102deg,
-      rgba(255, 255, 255, 0) 0 112px,
-      rgba(255, 255, 255, 0.095) 113px 114px,
-      rgba(255, 255, 255, 0) 115px 224px);
-  transform: translate3d(calc(var(--ambient-progress) * 240px), 0, 0);
+    radial-gradient(ellipse 62% 44% at 28% 26%,
+      rgba(132, 178, 188, 0.16) 0%,
+      rgba(74, 108, 116, 0.07) 42%,
+      rgba(5, 6, 7, 0) 72%),
+    linear-gradient(118deg,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(168, 199, 205, 0.11) 48%,
+      rgba(255, 255, 255, 0) 76%);
+  transform: translate3d(
+    calc(var(--ambient-pointer-x) * 18px + var(--ambient-progress) * -36px),
+    calc(var(--ambient-pointer-y) * 12px),
+    0
+  ) scale(1.04);
 }
 
 .ambient-backplate::after {
-  opacity: 0.44;
+  opacity: 0.30;
   background:
-    linear-gradient(103deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0) 34%,
-      rgba(255, 255, 255, 0.18) 48%,
-      rgba(255, 255, 255, 0) 66%,
-      rgba(255, 255, 255, 0) 100%);
-  animation: ambient-sweep 10s ease-in-out infinite alternate;
+    radial-gradient(ellipse 50% 36% at 76% 64%,
+      rgba(189, 202, 201, 0.13) 0%,
+      rgba(91, 120, 126, 0.05) 48%,
+      rgba(5, 6, 7, 0) 76%),
+    linear-gradient(142deg,
+      rgba(255, 255, 255, 0) 24%,
+      rgba(119, 158, 166, 0.08) 54%,
+      rgba(255, 255, 255, 0) 82%);
+  transform: translate3d(
+    calc(var(--ambient-pointer-x) * -12px + var(--ambient-progress) * 22px),
+    calc(var(--ambient-pointer-y) * -9px),
+    0
+  ) scale(1.08);
+  animation: none;
 }
 
 @keyframes ambient-sweep {
@@ -1941,10 +1956,10 @@ body[data-page="portfolio"] .works-section::before {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.28;
+  opacity: 0.44;
   background:
-    linear-gradient(112deg, transparent 0 32%, rgba(255, 255, 255, 0.035) 46%, transparent 60%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 128px);
+    radial-gradient(ellipse 54% 34% at 18% 16%, rgba(117, 159, 167, 0.10), transparent 72%),
+    linear-gradient(118deg, transparent 8%, rgba(255, 255, 255, 0.032) 48%, transparent 78%);
 }
 
 body[data-page="portfolio"] .works-top,
@@ -5744,5 +5759,67 @@ body[data-page="studio"].has-depth-v12 .partner-strip {
 @media (prefers-reduced-motion: reduce) {
   .depth-canvas--v12 {
     opacity: 0.76;
+  }
+}
+
+/* lightfield-v13: image-free page depth for Portfolio, Showreel, and Contact. */
+body[data-page="portfolio"].has-depth-v12 .ambient-backplate,
+body[data-page="showreel"].has-depth-v12 .ambient-backplate,
+body[data-page="contact"].has-depth-v12 .ambient-backplate {
+  display: block;
+}
+
+body[data-page="portfolio"] .work-body {
+  min-height: 104px;
+}
+
+body[data-page="portfolio"] .work-body p {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body[data-page="portfolio"] .portfolio-intro {
+  max-width: 430px;
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 14px;
+}
+
+body[data-page="showreel"] .showreel-library {
+  background:
+    radial-gradient(ellipse 62% 32% at calc(18% + var(--ambient-pointer-x) * 3%) 10%, rgba(100, 145, 154, 0.10), transparent 72%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.90) 0%, rgba(6, 8, 9, 0.96) 58%, #050607 100%);
+}
+
+body[data-page="showreel"] .showreel-shorts {
+  background:
+    radial-gradient(ellipse 54% 30% at calc(76% + var(--ambient-pointer-x) * -3%) 12%, rgba(125, 156, 161, 0.09), transparent 74%),
+    linear-gradient(180deg, #050607 0%, rgba(6, 8, 9, 0.96) 100%);
+}
+
+@media (max-width: 780px) {
+  body[data-page="portfolio"] .work-body {
+    min-height: 92px;
+  }
+
+  body[data-page="portfolio"] .work-body p {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="portfolio"] .ambient-backplate,
+  body[data-page="showreel"] .ambient-backplate,
+  body[data-page="contact"] .ambient-backplate,
+  body[data-page="portfolio"] .ambient-backplate::before,
+  body[data-page="portfolio"] .ambient-backplate::after,
+  body[data-page="showreel"] .ambient-backplate::before,
+  body[data-page="showreel"] .ambient-backplate::after,
+  body[data-page="contact"] .ambient-backplate::before,
+  body[data-page="contact"] .ambient-backplate::after {
+    transform: none;
+    animation: none;
   }
 }

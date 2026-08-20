@@ -94,6 +94,17 @@
       thumb: './assets/video/showreel-thumbs/dealer.jpg'
     },
     {
+      slug: 'seoul-story-making',
+      title: '서울이야기 Making',
+      copy: '드라마 <서울이야기>의 리허설·테스트와 본 촬영 현장을 담은 메이킹 영상입니다.',
+      type: 'Drama Making',
+      runtime: '16:9 / 01:58',
+      source: '서울이야기_0814.mp4',
+      driveId: '1QqkQ0lZsxGvgQFBo57uVMVAace2O8JMp',
+      category: 'Film & Drama',
+      thumb: './assets/video/showreel-thumbs/seoul-story-making.jpg'
+    },
+    {
       slug: 'pd-shorts',
       title: 'PD Point of View',
       copy: '제작 운영 관점에서 VP 촬영 현장을 짧게 보여주는 세로형 콘텐츠입니다.',

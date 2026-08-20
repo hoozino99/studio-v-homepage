@@ -1,6 +1,6 @@
 # Studio V Project State
 
-Updated: 2026-08-04 KST
+Updated: 2026-08-20 KST
 
 This is the canonical durable handoff for Codex, Main Hermes, and Team Hermes.
 Read this file before changing, deploying, or describing the Studio V site. GitHub
@@ -15,7 +15,7 @@ confirm the current commit instead of treating a hash written in a note as perma
 - Cloudflare Pages project: `studio-v-homepage`
 - Cloudflare R2 bucket: `studio-v-media`
 - Last visually verified UI baseline: `e8ac779` (`depth-v12`)
-- Current static asset version in HTML: `studio-v-depth-v12-r4`
+- Current subpage asset version in HTML: `studio-v-lightfield-v13`
 - Local Codex workspace: `/Users/dextermacpro/Documents/VibeCoding/master-v1-copyedit`
 - Main Hermes workspace: `/opt/data/workspace/studio-v-homepage`
 - Team Hermes workspace: `/opt/data/workspace/studio-v-homepage`
@@ -114,8 +114,9 @@ Durable design decisions:
 ### Portfolio (`portfolio.html`)
 
 - Direct project index with compact filtering and no oversized hero narrative.
-- Public projects: Cube of Memory, AION 2, Dealer, LE SSERAFIM x Overwatch,
-  StudioCube Opening, Beyond the Set, and the current technology demonstration entry.
+- Public projects: Cube of Memory, AION 2, Hyundai TUCSON, Dealer,
+  LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, and the current
+  technology demonstration entry.
 - Restricted projects: Genesis GV90 1, Genesis GV90 2, Avante DN8.
 - Restricted projects must not display private production frames. Use the framed
   restricted canvas and short disclosure copy.
@@ -124,8 +125,10 @@ Durable design decisions:
   project footage, preferably readable wide/full-stage frames.
 - Numbering above thumbnails was intentionally de-emphasized; the image, format, and
   title should lead.
-- Clicking any public project opens its mapped Google Drive video in an in-page modal.
-  The mapping lives in `assets/works.js`. Restricted projects remain non-interactive.
+- Portfolio is a static representative-image project record. Public cards do not play
+  videos; playable content belongs to Showreel. Restricted projects remain non-interactive.
+- Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10
+  catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
 
 ### Showreel (`showreel.html`)
 
@@ -138,6 +141,9 @@ Durable design decisions:
   `assets/showreel.js`.
 - Thumbnails should be selected from the mapped video, favoring full-stage or complete
   production views over arbitrary close-ups, title cards, or setup-only frames.
+- `서울이야기 Making` uses the externally viewable Drive file
+  `1QqkQ0lZsxGvgQFBo57uVMVAace2O8JMp`. The local thumbnail is a verified frame showing
+  the camera, crew, and Studio V stage rather than a cast close-up.
 - The presentation deck supplied by the owner is the editorial source for showreel and
   making-video titles/descriptions. Do not copy its internal production notes into the
   public Portfolio page.
@@ -164,6 +170,8 @@ Durable design decisions:
   - `.wrangler/`
 - Do not delete ignored local masters when removing them from Git tracking.
 - Genesis GV90 1/2 and Avante DN8 production imagery is not cleared for public sharing.
+- The supplied Hyundai TUCSON representative image is approved for the Portfolio entry;
+  no TUCSON video is published.
 - Avoid identifiable faces in public thumbnails when another approved frame is
   available.
 
@@ -205,15 +213,14 @@ Durable design decisions:
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  and the non-Studio photographic depth canvas.
+  ambient light-field variables, and card-level pointer parallax.
 - `assets/styles.css` contains cumulative visual-version blocks. The active selectors
   are `depth-v12`; avoid adding another override block for a one-line fix when the
   underlying active rule can be corrected safely.
-- The Studio homepage explicitly opts out of the global photographic depth canvas.
-  Homepage depth comes only from section-local real media and its scroll/pointer motion;
-  stage photographs may appear inside their intended gallery or use-case scene, never
-  as a fixed page-wide silhouette. Portfolio and Showreel retain the existing global
-  canvas until they receive a separate visual decision.
+- No page uses the former global photographic depth canvas. Stage, ceiling/truss, and rig
+  photographs may appear only inside their intended content sections, never as a fixed
+  page-wide silhouette. Portfolio, Showreel, and Contact use an image-free CSS light field
+  plus card-level pointer parallax; reduced-motion keeps a static fallback.
 - Respect `prefers-reduced-motion` and retain usable static fallbacks.
 - Sticky scenes must consume their own scroll space. A following section must never
   rise over an unfinished image transition or leave a blank hold unrelated to content.

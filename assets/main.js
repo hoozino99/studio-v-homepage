@@ -71,7 +71,10 @@
   const depthHost = document.querySelector('main');
   const reducedDepthMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hasDepthLayout = depthHost && !document.body.matches('[data-page="tour"]');
-  const usesGlobalPhotoDepth = hasDepthLayout && !document.body.matches('[data-page="studio"]');
+  // Page-wide depth now comes from CSS light fields and card motion only.
+  // Stage, ceiling/truss, and rig photographs remain available in their real
+  // content sections but are never reused as a fixed global background.
+  const usesGlobalPhotoDepth = false;
   if (hasDepthLayout) {
     document.body.classList.add('has-depth-v08', 'has-depth-v11', 'has-depth-v12');
   }
