@@ -1,6 +1,6 @@
 # Studio V Project State
 
-Updated: 2026-08-20 KST
+Updated: 2026-08-21 KST
 
 This is the canonical durable handoff for Codex, Main Hermes, and Team Hermes.
 Read this file before changing, deploying, or describing the Studio V site. GitHub
@@ -85,12 +85,10 @@ Durable design decisions:
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
      group, not left-stranded on the last row.
-   - The section uses an opaque neutral near-black surface with no colored haze. A
-     monochrome perspective grid and thin elliptical rings move in opposite directions
-     from local scroll progress and pointer input while the logos remain stable;
-     reduced-motion keeps the geometry static.
-   - Desktop height is intentionally capped near 640px instead of forcing a full viewport.
-     Vertical padding and logo-row gaps are compact but retain comfortable breathing room.
+   - The section uses an opaque neutral near-black surface with no colored haze. The partner wall is now a location-first 2.5D composition: editorial title block at left, primary systems on a larger foreground rail, supporting suppliers on a quieter rear rail, and a monochrome perspective floor / elliptical field behind them.
+   - The foreground rail, rear rail, horizon, rings, sweep light, title, and stage canvas use separate scroll/pointer depth variables. Reduced-motion keeps the field and rails static without breaking the hierarchy.
+   - Primary marks are six stable columns on wide screens; supporting marks use the same six-column rhythm and collapse to two columns on mobile. Thin index ticks and metal-like keylines provide structure without turning the section into generic SaaS cards.
+   - Desktop height remains capped near 730px; mobile becomes a single-column title-to-wall composition with no horizontal overflow.
    - The Use Cases handoff overlaps the Partner surface by 2px and uses a neutral black
      upward feather. Do not restore a top border, cyan strip, radial color bloom, or
      blurred light band at this boundary.
@@ -240,9 +238,7 @@ Durable design decisions:
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
   local Partner grid/ring motion, ambient variables, and card-level pointer parallax.
-- `assets/styles.css` contains cumulative visual-version blocks. The active selectors
-  are `depth-v12`; avoid adding another override block for a one-line fix when the
-  underlying active rule can be corrected safely.
+- `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner 2.5D v18` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
 - No page uses the former global photographic depth canvas. Stage, ceiling/truss, and rig
   photographs may appear only inside their intended content sections, never as a fixed
   page-wide silhouette. Portfolio, Showreel, and Contact use an image-free CSS light field

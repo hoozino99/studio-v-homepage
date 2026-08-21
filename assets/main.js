@@ -636,6 +636,7 @@
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
+        <span class="partner-logo-card__index">${String(index + 1).padStart(2, '0')}</span>
         <img src="${src}?v=studio-v-partner-optical-v14" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
@@ -643,20 +644,29 @@
     partnerStrips.forEach((strip) => {
       strip.innerHTML = `
         <div class="partner-depth-field" aria-hidden="true">
+          <span class="partner-depth-field__atmosphere"></span>
+          <span class="partner-depth-field__horizon"></span>
           <span class="partner-depth-field__grid"></span>
           <span class="partner-depth-field__rings"></span>
+          <span class="partner-depth-field__sweep"></span>
         </div>
         <div class="partner-strip-inner">
           <div class="partner-strip-copy reveal">
             <p>Powered by</p>
-            <h2>Technology Partners</h2>
+            <h2>Technology<br>Partners</h2>
+            <span class="partner-strip-copy__rule" aria-hidden="true"></span>
+            <small>THE SYSTEMS BEHIND THE STAGE</small>
           </div>
-          <ul class="partner-logo-wall partner-logo-wall--primary reveal" aria-label="Studio V primary technology partners">
-            ${logoMarkup(primaryPartnerLogos, 'primary')}
-          </ul>
-          <ul class="partner-logo-wall partner-logo-wall--supporting reveal" aria-label="Studio V equipment suppliers">
-            ${logoMarkup(supportPartnerLogos, 'supporting')}
-          </ul>
+          <div class="partner-stage-canvas">
+            <div class="partner-stage-canvas__caption"><span>01</span><strong>Core systems</strong><i></i></div>
+            <ul class="partner-logo-wall partner-logo-wall--primary reveal" aria-label="Studio V primary technology partners">
+              ${logoMarkup(primaryPartnerLogos, 'primary')}
+            </ul>
+            <div class="partner-stage-canvas__caption partner-stage-canvas__caption--support"><span>02</span><strong>Production network</strong><i></i></div>
+            <ul class="partner-logo-wall partner-logo-wall--supporting reveal" aria-label="Studio V equipment suppliers">
+              ${logoMarkup(supportPartnerLogos, 'supporting')}
+            </ul>
+          </div>
         </div>
       `;
     });
@@ -670,6 +680,14 @@
       strip.style.setProperty('--partner-before-y', `${(scroll * -44 + pointerY * 16).toFixed(3)}px`);
       strip.style.setProperty('--partner-after-x', `${(pointerX * -26).toFixed(3)}px`);
       strip.style.setProperty('--partner-after-y', `${(scroll * 32 + pointerY * -12).toFixed(3)}px`);
+      strip.style.setProperty('--partner-copy-x', `${(pointerX * -8).toFixed(3)}px`);
+      strip.style.setProperty('--partner-copy-y', `${(scroll * -10 + pointerY * -4).toFixed(3)}px`);
+      strip.style.setProperty('--partner-stage-x', `${(pointerX * 5).toFixed(3)}px`);
+      strip.style.setProperty('--partner-stage-y', `${(scroll * 7 + pointerY * 3).toFixed(3)}px`);
+      strip.style.setProperty('--partner-primary-x', `${(pointerX * -11).toFixed(3)}px`);
+      strip.style.setProperty('--partner-primary-y', `${(scroll * -7 + pointerY * -3).toFixed(3)}px`);
+      strip.style.setProperty('--partner-support-x', `${(pointerX * 16).toFixed(3)}px`);
+      strip.style.setProperty('--partner-support-y', `${(scroll * 13 + pointerY * 5).toFixed(3)}px`);
     };
     const updatePartnerDepth = () => {
       const viewport = window.innerHeight || document.documentElement.clientHeight;
