@@ -94,6 +94,17 @@
       thumb: './assets/video/showreel-thumbs/dealer.jpg'
     },
     {
+      slug: 'lesserafim-overwatch',
+      title: 'LE SSERAFIM x Overwatch',
+      copy: 'Studio V에서 진행한 LE SSERAFIM x Overwatch 뮤직비디오 촬영 기록입니다.',
+      type: 'Music Video',
+      runtime: '16:9 / MP4',
+      source: 'MAKING_르세라핌_260702.mp4',
+      driveId: '19SkAhCLzqFXd9e2hfIRjtYsaBJv86ZkD',
+      category: 'Music Video',
+      thumb: './assets/video/showreel-thumbs/le-sserafim-overwatch.jpg'
+    },
+    {
       slug: 'seoul-story-making',
       title: '서울이야기 Making',
       copy: '드라마 <서울이야기>의 리허설·테스트와 본 촬영 현장을 담은 메이킹 영상입니다.',
