@@ -636,7 +636,6 @@
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `
       <li class="partner-logo-card partner-logo-card--${source} partner-logo-card--${tier}" data-logo="${slug}" style="--logo-delay: ${Math.min(index, 11) * 22}ms">
-        <span class="partner-logo-card__index">${String(index + 1).padStart(2, '0')}</span>
         <img src="${src}?v=studio-v-partner-optical-v14" alt="${name}" loading="lazy" decoding="async">
       </li>
     `).join('');
@@ -659,11 +658,11 @@
             <small>THE SYSTEMS BEHIND THE STAGE</small>
           </div>
           <div class="partner-stage-canvas">
-            <div class="partner-stage-canvas__caption"><span>01</span><strong>Core systems</strong><i></i></div>
+            <div class="partner-stage-canvas__caption"><strong>Core systems</strong><i></i></div>
             <ul class="partner-logo-wall partner-logo-wall--primary reveal" aria-label="Studio V primary technology partners">
               ${logoMarkup(primaryPartnerLogos, 'primary')}
             </ul>
-            <div class="partner-stage-canvas__caption partner-stage-canvas__caption--support"><span>02</span><strong>Production network</strong><i></i></div>
+            <div class="partner-stage-canvas__caption partner-stage-canvas__caption--support"><strong>Production network</strong><i></i></div>
             <ul class="partner-logo-wall partner-logo-wall--supporting reveal" aria-label="Studio V equipment suppliers">
               ${logoMarkup(supportPartnerLogos, 'supporting')}
             </ul>

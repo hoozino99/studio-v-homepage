@@ -3301,7 +3301,7 @@ body.showreel-modal-open {
 
 .partner-stage-canvas__caption {
   display: grid;
-  grid-template-columns: 28px auto minmax(24px, 1fr);
+  grid-template-columns: auto minmax(24px, 1fr);
   align-items: center;
   gap: 9px;
   margin: 0 0 9px;
@@ -3309,11 +3309,6 @@ body.showreel-modal-open {
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-.partner-stage-canvas__caption span {
-  color: rgba(255, 255, 255, 0.38);
-  font-variant-numeric: tabular-nums;
 }
 
 .partner-stage-canvas__caption i {
@@ -3384,16 +3379,6 @@ body.showreel-modal-open {
   border-color: rgba(255, 255, 255, 0.24);
   background: rgba(255, 255, 255, 0.045);
   transform: translateY(-2px);
-}
-
-.partner-logo-card__index {
-  position: absolute;
-  top: 7px;
-  left: 9px;
-  color: rgba(255, 255, 255, 0.33);
-  font-size: 8px;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.08em;
 }
 
 .partner-logo-card img {
