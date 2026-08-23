@@ -264,9 +264,9 @@ Durable design decisions:
   finished the Event hold, and established the shared GitHub-first workflow.
 - `5975197` depth-v19: replaced the generic Technology Partners grid/rings with the
   pastel soft-field composition; rollback baseline remains `7152b52`.
-- `pending v20`: removed all per-partner and group numeric index tags so the Technology
-  Partners wall returns to logo-led presentation; rollback baseline remains `782c9a5`
-  until the new commit is created.
+- `e56d409` depth-v20: removed all per-partner and group numeric index tags so the
+  Technology Partners wall returns to logo-led presentation; rollback baseline remains
+  `782c9a5`.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback
