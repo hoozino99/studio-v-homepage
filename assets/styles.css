@@ -3057,7 +3057,7 @@ body.showreel-modal-open {
   border: 0;
   color: var(--white);
   background: #050607;
-  box-shadow: 0 -50px 92px 22px rgba(5, 6, 7, 0.98);
+  box-shadow: 0 -22px 44px -30px rgba(5, 6, 7, 0.90);
   isolation: isolate;
 }
 
@@ -3068,8 +3068,8 @@ body.showreel-modal-open {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5, 6, 7, 0.82) 0%, rgba(5, 6, 7, 0.32) 38%, transparent 72%),
-    linear-gradient(180deg, rgba(5, 6, 7, 0.46), transparent 24%, rgba(5, 6, 7, 0.72) 100%);
+    linear-gradient(90deg, rgba(5, 6, 7, 0.78) 0%, rgba(5, 6, 7, 0.24) 38%, transparent 72%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.42) 0%, rgba(5, 6, 7, 0.10) 12%, transparent 28%, rgba(5, 6, 7, 0.72) 100%);
 }
 
 .partner-strip::after {
@@ -3091,7 +3091,11 @@ body.showreel-modal-open {
 
 .partner-soft-field {
   position: absolute;
-  inset: 0;
+  top: -56px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(100% + 56px);
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -3278,43 +3282,17 @@ body.showreel-modal-open {
   transition: transform 240ms ease-out;
 }
 
-.partner-stage-canvas::before,
-.partner-stage-canvas::after {
-  content: "";
-  position: absolute;
-  left: -18px;
-  right: -18px;
-  pointer-events: none;
-}
-
-.partner-stage-canvas::before {
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.30) 12%, rgba(255, 255, 255, 0.08) 84%, transparent);
-}
-
-.partner-stage-canvas::after {
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16) 15%, rgba(255, 255, 255, 0.04) 84%, transparent);
-}
-
 .partner-stage-canvas__caption {
-  display: grid;
-  grid-template-columns: auto minmax(24px, 1fr);
-  align-items: center;
-  gap: 9px;
+  display: block;
   margin: 0 0 9px;
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(255, 255, 255, 0.52);
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .partner-stage-canvas__caption i {
-  display: block;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.22), transparent);
+  display: none;
 }
 
 .partner-stage-canvas__caption--support {
@@ -3354,21 +3332,17 @@ body.showreel-modal-open {
   min-width: 0;
   min-height: 70px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.105);
-  border-radius: 3px;
-  background: rgba(8, 8, 12, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.012);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   opacity: 1;
   transform: translateY(0);
-  transition: border-color 260ms ease, background 260ms ease, transform 260ms ease;
+  transition: opacity 220ms ease, transform 220ms ease;
 }
 
 .partner-logo-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.075), transparent 52%);
-  opacity: 0.48;
+  content: none;
 }
 
 .partner-logo-card::after {
@@ -3376,9 +3350,8 @@ body.showreel-modal-open {
 }
 
 .partner-logo-card:hover {
-  border-color: rgba(255, 255, 255, 0.24);
-  background: rgba(255, 255, 255, 0.045);
-  transform: translateY(-2px);
+  background: transparent;
+  transform: none;
 }
 
 .partner-logo-card img {
@@ -3401,8 +3374,8 @@ body.showreel-modal-open {
 
 .partner-logo-wall--supporting .partner-logo-card {
   min-height: 51px;
-  background: rgba(255, 255, 255, 0.025);
-  border-color: rgba(255, 255, 255, 0.085);
+  background: transparent;
+  border: 0;
 }
 
 .partner-logo-wall--supporting .partner-logo-card img {
@@ -3432,7 +3405,7 @@ body.showreel-modal-open {
 
 @media (max-width: 600px) {
   .partner-strip { min-height: 760px; padding: 64px 18px 72px; }
-  .partner-strip::before { background: linear-gradient(180deg, rgba(5, 6, 7, 0.88), rgba(5, 6, 7, 0.12) 54%, rgba(5, 6, 7, 0.72)); }
+  .partner-strip::before { background: linear-gradient(180deg, rgba(5, 6, 7, 0.50) 0%, rgba(5, 6, 7, 0.12) 18%, transparent 38%, rgba(5, 6, 7, 0.72) 100%); }
   .partner-strip-inner { grid-template-columns: 1fr; align-content: center; gap: 42px; }
   .partner-strip-copy { max-width: none; }
   .partner-strip-copy h2 { font-size: clamp(39px, 12vw, 54px); }
@@ -5782,7 +5755,7 @@ body[data-page="studio"].has-depth-v12 .partner-strip {
   padding: clamp(46px, 4.2vw, 60px) max(24px, calc((100vw - var(--max)) / 2)) clamp(50px, 4.8vw, 68px);
   border: 0;
   background: #050607;
-  box-shadow: 0 -46px 82px 24px rgba(5, 6, 7, 0.96);
+  box-shadow: 0 -22px 44px -30px rgba(5, 6, 7, 0.90);
   -webkit-mask-image: none;
   mask-image: none;
 }
