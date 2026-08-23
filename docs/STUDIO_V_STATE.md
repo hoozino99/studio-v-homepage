@@ -264,9 +264,9 @@ Durable design decisions:
   finished the Event hold, and established the shared GitHub-first workflow.
 - `5975197` depth-v19: replaced the generic Technology Partners grid/rings with the
   pastel soft-field composition; rollback baseline remains `7152b52`.
-- `pending v22`: removed the `Core systems` and `Production network` labels so partner
-  hierarchy is carried by mark scale; preserved the black base and soft-field layer.
-  Rollback baseline remains `aae3b53` until the new commit is created.
+- `2bd6545` depth-v22: removed the `Core systems` and `Production network` labels so
+  partner hierarchy is carried by mark scale; preserved the black base and soft-field
+  layer. Rollback baseline remains `aae3b53`.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback
