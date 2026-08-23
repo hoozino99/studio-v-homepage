@@ -238,7 +238,7 @@ Durable design decisions:
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
   local Partner soft-field motion, ambient variables, and card-level pointer parallax.
-- `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner soft-field v19` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
+- `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner soft-field v22` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
 - No page uses the former global photographic depth canvas. Stage, ceiling/truss, and rig
   photographs may appear only inside their intended content sections, never as a fixed
   page-wide silhouette. Portfolio, Showreel, and Contact use an image-free CSS light field
@@ -264,9 +264,9 @@ Durable design decisions:
   finished the Event hold, and established the shared GitHub-first workflow.
 - `5975197` depth-v19: replaced the generic Technology Partners grid/rings with the
   pastel soft-field composition; rollback baseline remains `7152b52`.
-- `ddd0bb4` depth-v21: removed visible partner logo grid/card lines and softened the
-  Use Cases→Partners seam without widening the section; rollback baseline remains
-  `afd2444`.
+- `pending v22`: removed the `Core systems` and `Production network` labels so partner
+  hierarchy is carried by mark scale; preserved the black base and soft-field layer.
+  Rollback baseline remains `aae3b53` until the new commit is created.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback

@@ -3282,24 +3282,6 @@ body.showreel-modal-open {
   transition: transform 240ms ease-out;
 }
 
-.partner-stage-canvas__caption {
-  display: block;
-  margin: 0 0 9px;
-  color: rgba(255, 255, 255, 0.52);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.partner-stage-canvas__caption i {
-  display: none;
-}
-
-.partner-stage-canvas__caption--support {
-  margin: 27px 0 9px;
-  color: rgba(255, 255, 255, 0.40);
-}
-
 .partner-logo-wall {
   display: grid;
   align-items: stretch;
@@ -3321,6 +3303,7 @@ body.showreel-modal-open {
 .partner-logo-wall--supporting {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 7px;
+  margin-top: 31px;
   transform: perspective(1200px) translate3d(var(--partner-support-x), var(--partner-support-y), -10px) scale(0.975) rotateY(-1deg);
   transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
