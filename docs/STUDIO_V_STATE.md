@@ -85,10 +85,10 @@ Durable design decisions:
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
      group, not left-stranded on the last row.
-   - The section uses an opaque neutral near-black surface with no colored haze. The partner wall is now a location-first 2.5D composition: editorial title block at left, primary systems on a larger foreground rail, supporting suppliers on a quieter rear rail, and a monochrome perspective floor / elliptical field behind them.
-   - The foreground rail, rear rail, horizon, rings, sweep light, title, and stage canvas use separate scroll/pointer depth variables. Reduced-motion keeps the field and rails static without breaking the hierarchy.
-   - Primary marks are six stable columns on wide screens; supporting marks use the same six-column rhythm and collapse to two columns on mobile. Thin index ticks and metal-like keylines provide structure without turning the section into generic SaaS cards.
-   - Desktop height remains capped near 730px; mobile becomes a single-column title-to-wall composition with no horizontal overflow.
+   - The section uses a near-black editorial field with a new pastel soft-field composition: violet, mint, and peach blurred color volumes, subtle paper grain, and a low-opacity organic glass veil behind the logo wall. It intentionally does not reuse the former grid, concentric rings, truss, rail, or stage-structure vocabulary.
+   - The pastel field, glass veil, title, stage canvas, primary wall, and supporting wall use separate scroll/pointer depth variables. Fine-pointer parallax is desktop-only; touch uses scroll depth; reduced-motion freezes the composition without removing the color hierarchy.
+   - Primary marks are six stable columns on wide screens; supporting marks use the same six-column rhythm and collapse to two columns on mobile. Logo cards use quieter borders and transparent surfaces so the section reads as an editorial system rather than a SaaS dashboard.
+   - Desktop height remains capped near 730px; tablet becomes a deliberate title-to-wall one-column composition; mobile keeps two-column logo rhythm with no horizontal overflow.
    - The Use Cases handoff overlaps the Partner surface by 2px and uses a neutral black
      upward feather. Do not restore a top border, cyan strip, radial color bloom, or
      blurred light band at this boundary.
@@ -237,8 +237,8 @@ Durable design decisions:
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
   Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  local Partner grid/ring motion, ambient variables, and card-level pointer parallax.
-- `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner 2.5D v18` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
+  local Partner soft-field motion, ambient variables, and card-level pointer parallax.
+- `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner soft-field v19` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
 - No page uses the former global photographic depth canvas. Stage, ceiling/truss, and rig
   photographs may appear only inside their intended content sections, never as a fixed
   page-wide silhouette. Portfolio, Showreel, and Contact use an image-free CSS light field
@@ -262,6 +262,9 @@ Durable design decisions:
 - `3e1caf7` depth-v11.1: restored hero autoplay and looping without controls.
 - `e8ac779` depth-v12: strengthened photographic parallax, normalized v13 marks,
   finished the Event hold, and established the shared GitHub-first workflow.
+- `pending v19`: replaced the generic Technology Partners grid/rings with the
+  pastel soft-field composition; rollback baseline remains `7152b52` until the new
+  commit is created.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback

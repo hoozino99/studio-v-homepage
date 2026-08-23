@@ -3030,10 +3030,14 @@ body.showreel-modal-open {
   --partner-scroll: 0;
   --partner-pointer-x: 0;
   --partner-pointer-y: 0;
-  --partner-before-x: 0px;
-  --partner-before-y: 0px;
-  --partner-after-x: 0px;
-  --partner-after-y: 0px;
+  --partner-soft-far-x: 0px;
+  --partner-soft-far-y: 0px;
+  --partner-soft-mid-x: 0px;
+  --partner-soft-mid-y: 0px;
+  --partner-soft-near-x: 0px;
+  --partner-soft-near-y: 0px;
+  --partner-glass-x: 0px;
+  --partner-glass-y: 0px;
   --partner-copy-x: 0px;
   --partner-copy-y: 0px;
   --partner-stage-x: 0px;
@@ -3063,97 +3067,145 @@ body.showreel-modal-open {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(5, 6, 7, 0.94) 0%, rgba(5, 6, 7, 0.12) 43%, transparent 100%);
+  background:
+    linear-gradient(90deg, rgba(5, 6, 7, 0.82) 0%, rgba(5, 6, 7, 0.32) 38%, transparent 72%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.46), transparent 24%, rgba(5, 6, 7, 0.72) 100%);
 }
 
 .partner-strip::after {
   content: "";
   position: absolute;
-  right: 5%;
-  bottom: 10%;
+  left: 38%;
+  top: 17%;
   z-index: 1;
-  width: min(34vw, 520px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-  opacity: 0.48;
-  transform: translate3d(var(--partner-after-x), var(--partner-after-y), 0) rotate(-8deg);
+  width: min(42vw, 620px);
+  height: min(55vw, 520px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(213, 202, 255, 0.10), rgba(213, 202, 255, 0.018) 48%, transparent 72%);
+  filter: blur(18px);
+  opacity: 0.62;
+  transform: translate3d(var(--partner-soft-near-x), var(--partner-soft-near-y), 0);
   pointer-events: none;
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.partner-depth-field {
+.partner-soft-field {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
 
-.partner-depth-field > span {
+.partner-soft-field > span {
   position: absolute;
   display: block;
   pointer-events: none;
   will-change: transform;
 }
 
-.partner-depth-field__atmosphere {
-  inset: -30% -12%;
+.partner-soft-field__paper {
+  inset: -12%;
   background:
-    radial-gradient(ellipse 38% 48% at 78% 40%, rgba(174, 201, 208, 0.10), transparent 66%),
-    radial-gradient(ellipse 28% 40% at 18% 68%, rgba(101, 136, 148, 0.07), transparent 70%);
-  filter: blur(8px);
-  transform: translate3d(var(--partner-before-x), var(--partner-before-y), 0);
+    linear-gradient(118deg, rgba(9, 9, 13, 0.96), rgba(20, 18, 29, 0.62) 48%, rgba(5, 6, 7, 0.92)),
+    radial-gradient(ellipse 55% 70% at 68% 40%, rgba(111, 104, 143, 0.11), transparent 72%);
+  transform: translate3d(var(--partner-soft-far-x), var(--partner-soft-far-y), 0) scale(1.06);
+  transition: transform 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.partner-depth-field__horizon {
-  left: -10%;
-  right: -10%;
-  top: 46%;
+.partner-soft-field__cloud {
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.partner-soft-field__cloud--violet {
+  left: 40%;
+  top: -11%;
+  width: min(58vw, 780px);
+  height: min(70vw, 660px);
+  background:
+    radial-gradient(ellipse at 48% 46%, rgba(207, 192, 255, 0.36) 0%, rgba(183, 169, 255, 0.23) 34%, rgba(148, 133, 221, 0.075) 60%, transparent 76%);
+  filter: blur(30px);
+  opacity: 0.96;
+  transform: translate3d(var(--partner-soft-mid-x), var(--partner-soft-mid-y), 0) rotate(-11deg) scale(1.06);
+  transition: transform 460ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.partner-soft-field__cloud--mint {
+  left: 53%;
+  bottom: -24%;
+  width: min(46vw, 620px);
+  height: min(47vw, 430px);
+  background:
+    radial-gradient(ellipse at 42% 44%, rgba(168, 235, 211, 0.28) 0%, rgba(127, 198, 181, 0.14) 40%, transparent 74%);
+  filter: blur(34px);
+  opacity: 0.92;
+  transform: translate3d(calc(var(--partner-soft-mid-x) * -0.72), calc(var(--partner-soft-mid-y) * 0.78), 0) rotate(8deg) scale(1.08);
+  transition: transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.partner-soft-field__cloud--peach {
+  left: 15%;
+  bottom: -13%;
+  width: min(38vw, 520px);
+  height: min(41vw, 390px);
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(247, 199, 181, 0.22) 0%, rgba(221, 164, 149, 0.10) 42%, transparent 75%);
+  filter: blur(38px);
+  opacity: 0.80;
+  transform: translate3d(var(--partner-soft-near-x), calc(var(--partner-soft-near-y) * -0.55), 0) rotate(-18deg) scale(1.04);
+  transition: transform 380ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.partner-soft-field__grain {
+  inset: 0;
+  opacity: 0.16;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.26) 0.55px, transparent 0.8px);
+  background-size: 7px 7px;
+  mix-blend-mode: soft-light;
+  transform: translate3d(var(--partner-soft-far-x), var(--partner-soft-far-y), 0);
+  transition: transform 700ms linear;
+}
+
+.partner-soft-field__glass {
+  left: 34%;
+  right: 1%;
+  top: 13%;
+  bottom: 13%;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 42% 25% 37% 21%;
+  background:
+    linear-gradient(132deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.010) 42%, rgba(180, 167, 229, 0.035) 100%),
+    radial-gradient(ellipse at 65% 36%, rgba(255, 255, 255, 0.055), transparent 58%);
+  box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.026), 0 34px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(10px) saturate(110%);
+  opacity: 0.66;
+  transform: translate3d(var(--partner-glass-x), var(--partner-glass-y), 0) rotate(-1.8deg) scale(1.01);
+  transition: transform 380ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.partner-soft-field__glass::before,
+.partner-soft-field__glass::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.partner-soft-field__glass::before {
+  inset: 9% 6%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30% 18% 24% 15%;
+}
+
+.partner-soft-field__glass::after {
+  left: 10%;
+  right: 8%;
+  top: 50%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18) 28%, rgba(255, 255, 255, 0.06) 72%, transparent);
-  opacity: 0.55;
-  transform: translate3d(var(--partner-before-x), var(--partner-before-y), 0);
-}
-
-.partner-depth-field__grid {
-  left: -16%;
-  right: -16%;
-  top: 43%;
-  bottom: -56%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 96px, rgba(255, 255, 255, 0.075) 96px 97px),
-    repeating-linear-gradient(0deg, transparent 0 54px, rgba(255, 255, 255, 0.052) 54px 55px);
-  opacity: 0.58;
-  transform: perspective(920px) rotateX(67deg) rotateZ(-4deg) translate3d(var(--partner-before-x), var(--partner-before-y), 0) scale(1.16);
-  transform-origin: 50% 0;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.72) 48%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.72) 48%, transparent 100%);
-  transition: transform 180ms linear;
-}
-
-.partner-depth-field__rings {
-  inset: -20% -10% -12% 38%;
-  background:
-    radial-gradient(ellipse 43% 35% at 64% 48%, transparent 0 29%, rgba(255, 255, 255, 0.15) 29.3% 29.55%, transparent 30% 42%, rgba(255, 255, 255, 0.09) 42.25% 42.5%, transparent 43% 55%, rgba(255, 255, 255, 0.055) 55.25% 55.45%, transparent 56%),
-    radial-gradient(ellipse 65% 50% at 50% 48%, transparent 0 67%, rgba(255, 255, 255, 0.045) 67.2% 67.35%, transparent 67.7%);
-  opacity: 0.74;
-  transform: translate3d(var(--partner-after-x), var(--partner-after-y), 0) rotate(-6deg) scale(1.08);
-  -webkit-mask-image: radial-gradient(ellipse 72% 72% at 62% 48%, #000 0%, rgba(0, 0, 0, 0.82) 52%, transparent 86%);
-  mask-image: radial-gradient(ellipse 72% 72% at 62% 48%, #000 0%, rgba(0, 0, 0, 0.82) 52%, transparent 86%);
-  transition: transform 220ms linear;
-}
-
-.partner-depth-field__sweep {
-  top: -22%;
-  right: 16%;
-  width: 1px;
-  height: 150%;
-  background: linear-gradient(180deg, transparent, rgba(220, 239, 242, 0.24) 47%, transparent 75%);
-  opacity: 0.35;
-  transform: rotate(24deg) translate3d(var(--partner-after-x), var(--partner-after-y), 0);
-  filter: blur(1px);
-  transition: transform 220ms linear;
+  background: linear-gradient(90deg, transparent, rgba(244, 237, 255, 0.18), transparent);
 }
 
 .partner-strip-inner {
@@ -3289,15 +3341,15 @@ body.showreel-modal-open {
 .partner-logo-wall--primary {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
-  transform: translate3d(var(--partner-primary-x), var(--partner-primary-y), 0);
-  transition: transform 200ms ease-out;
+  transform: perspective(1200px) translate3d(var(--partner-primary-x), var(--partner-primary-y), 20px) rotateY(-1deg);
+  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .partner-logo-wall--supporting {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 7px;
-  transform: translate3d(var(--partner-support-x), var(--partner-support-y), 0);
-  transition: transform 240ms ease-out;
+  transform: perspective(1200px) translate3d(var(--partner-support-x), var(--partner-support-y), -10px) scale(0.975) rotateY(-1deg);
+  transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .partner-logo-card {
@@ -3307,40 +3359,31 @@ body.showreel-modal-open {
   min-width: 0;
   min-height: 70px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-top-color: rgba(255, 255, 255, 0.24);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.018) 48%, rgba(255, 255, 255, 0.035));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.018), 0 14px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.105);
+  border-radius: 3px;
+  background: rgba(8, 8, 12, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.012);
   opacity: 1;
   transform: translateY(0);
-  transition: border-color 220ms ease, background 220ms ease, transform 220ms ease;
+  transition: border-color 260ms ease, background 260ms ease, transform 260ms ease;
 }
 
 .partner-logo-card::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.50), transparent 70%);
-  opacity: 0.52;
+  inset: 0;
+  background: radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.075), transparent 52%);
+  opacity: 0.48;
 }
 
 .partner-logo-card::after {
-  content: "";
-  position: absolute;
-  right: 9px;
-  bottom: 8px;
-  width: 15px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.28);
+  content: none;
 }
 
 .partner-logo-card:hover {
-  border-color: rgba(255, 255, 255, 0.32);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.028));
-  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.045);
+  transform: translateY(-2px);
 }
 
 .partner-logo-card__index {
@@ -3414,13 +3457,33 @@ body.showreel-modal-open {
   .partner-logo-wall--supporting .partner-logo-card { min-height: 48px; }
   .partner-logo-wall--primary .partner-logo-card img { height: 29px; }
   .partner-logo-wall--supporting .partner-logo-card img { height: 22px; }
-  .partner-depth-field__rings { inset: -12% -28% 0 0; opacity: 0.56; }
-  .partner-depth-field__grid { left: -50%; right: -50%; }
+  .partner-soft-field { inset: -8% -18%; }
+  .partner-soft-field__glass { left: 4%; right: -10%; top: 30%; bottom: 6%; opacity: 0.70; }
+  .partner-soft-field__cloud--violet { left: 18%; top: -4%; width: 88vw; height: 76vw; opacity: 0.72; }
+  .partner-soft-field__cloud--mint { left: 44%; bottom: -18%; width: 78vw; height: 64vw; opacity: 0.70; }
+  .partner-soft-field__cloud--peach { left: -14%; bottom: -10%; width: 66vw; height: 62vw; opacity: 0.56; }
+}
+
+@media (min-width: 601px) and (max-width: 780px) {
+  .partner-strip-inner {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 38px;
+  }
+
+  .partner-strip-copy {
+    max-width: 520px;
+  }
+
+  .partner-stage-canvas {
+    width: min(100%, 680px);
+    margin-inline: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .partner-stage-canvas, .partner-logo-wall--primary, .partner-logo-wall--supporting, .partner-strip-copy { transform: none; transition: none; }
-  .partner-depth-field__grid, .partner-depth-field__rings, .partner-depth-field__sweep, .partner-depth-field__atmosphere, .partner-depth-field__horizon { transform: none; transition: none; }
+  .partner-soft-field__paper, .partner-soft-field__cloud, .partner-soft-field__grain, .partner-soft-field__glass { transform: none; transition: none; }
 }
 
 .site-footer {
@@ -5741,20 +5804,12 @@ body[data-page="studio"].has-depth-v12 .partner-strip {
 
 body[data-page="studio"].has-depth-v12 .partner-strip::before,
 body[data-page="studio"].has-depth-v12 .partner-strip::after {
-  display: none;
-  content: none;
-}
-
-body[data-page="studio"].has-depth-v12 .partner-depth-field {
   display: block;
+  content: "";
 }
 
-body[data-page="studio"].has-depth-v12 .partner-depth-field__grid {
-  opacity: 0.56;
-}
-
-body[data-page="studio"].has-depth-v12 .partner-depth-field__rings {
-  opacity: 0.68;
+body[data-page="studio"].has-depth-v12 .partner-soft-field {
+  display: block;
 }
 
 body[data-page="studio"].has-depth-v12 .site-footer {
@@ -5890,16 +5945,8 @@ body[data-page="studio"].has-depth-v12 .site-footer {
     padding: 68px 18px 60px;
   }
 
-  body[data-page="studio"].has-depth-v12 .partner-depth-field {
-    inset: -10% -34%;
-  }
-
-  body[data-page="studio"].has-depth-v12 .partner-depth-field__grid {
-    opacity: 0.46;
-  }
-
-  body[data-page="studio"].has-depth-v12 .partner-depth-field__rings {
-    opacity: 0.58;
+  body[data-page="studio"].has-depth-v12 .partner-soft-field {
+    inset: -8% -18%;
   }
 
   .partner-logo-wall--supporting .partner-logo-card--plaque img {
@@ -6001,8 +6048,10 @@ body[data-page="studio"].has-depth-v12 .site-footer {
     opacity: 0.76;
   }
 
-  .partner-depth-field__grid,
-  .partner-depth-field__rings {
+  .partner-soft-field__paper,
+  .partner-soft-field__cloud,
+  .partner-soft-field__grain,
+  .partner-soft-field__glass {
     transform: none;
     transition: none;
   }

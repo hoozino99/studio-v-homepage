@@ -643,12 +643,13 @@
 
     partnerStrips.forEach((strip) => {
       strip.innerHTML = `
-        <div class="partner-depth-field" aria-hidden="true">
-          <span class="partner-depth-field__atmosphere"></span>
-          <span class="partner-depth-field__horizon"></span>
-          <span class="partner-depth-field__grid"></span>
-          <span class="partner-depth-field__rings"></span>
-          <span class="partner-depth-field__sweep"></span>
+        <div class="partner-soft-field" aria-hidden="true">
+          <span class="partner-soft-field__paper"></span>
+          <span class="partner-soft-field__cloud partner-soft-field__cloud--violet"></span>
+          <span class="partner-soft-field__cloud partner-soft-field__cloud--mint"></span>
+          <span class="partner-soft-field__cloud partner-soft-field__cloud--peach"></span>
+          <span class="partner-soft-field__grain"></span>
+          <span class="partner-soft-field__glass"></span>
         </div>
         <div class="partner-strip-inner">
           <div class="partner-strip-copy reveal">
@@ -676,18 +677,22 @@
       const scroll = Number.parseFloat(strip.style.getPropertyValue('--partner-scroll')) || 0;
       const pointerX = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-x')) || 0;
       const pointerY = Number.parseFloat(strip.style.getPropertyValue('--partner-pointer-y')) || 0;
-      strip.style.setProperty('--partner-before-x', `${(pointerX * 34).toFixed(3)}px`);
-      strip.style.setProperty('--partner-before-y', `${(scroll * -44 + pointerY * 16).toFixed(3)}px`);
-      strip.style.setProperty('--partner-after-x', `${(pointerX * -26).toFixed(3)}px`);
-      strip.style.setProperty('--partner-after-y', `${(scroll * 32 + pointerY * -12).toFixed(3)}px`);
-      strip.style.setProperty('--partner-copy-x', `${(pointerX * -8).toFixed(3)}px`);
-      strip.style.setProperty('--partner-copy-y', `${(scroll * -10 + pointerY * -4).toFixed(3)}px`);
-      strip.style.setProperty('--partner-stage-x', `${(pointerX * 5).toFixed(3)}px`);
-      strip.style.setProperty('--partner-stage-y', `${(scroll * 7 + pointerY * 3).toFixed(3)}px`);
-      strip.style.setProperty('--partner-primary-x', `${(pointerX * -11).toFixed(3)}px`);
-      strip.style.setProperty('--partner-primary-y', `${(scroll * -7 + pointerY * -3).toFixed(3)}px`);
-      strip.style.setProperty('--partner-support-x', `${(pointerX * 16).toFixed(3)}px`);
-      strip.style.setProperty('--partner-support-y', `${(scroll * 13 + pointerY * 5).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-far-x', `${(pointerX * 4 + scroll * 3).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-far-y', `${(scroll * -8 + pointerY * 3).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-mid-x', `${(pointerX * 18 + scroll * 9).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-mid-y', `${(scroll * 17 + pointerY * 8).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-near-x', `${(pointerX * -34 + scroll * -10).toFixed(3)}px`);
+      strip.style.setProperty('--partner-soft-near-y', `${(pointerY * -15 + scroll * 13).toFixed(3)}px`);
+      strip.style.setProperty('--partner-glass-x', `${(pointerX * 10 + scroll * 4).toFixed(3)}px`);
+      strip.style.setProperty('--partner-glass-y', `${(scroll * 5 + pointerY * 5).toFixed(3)}px`);
+      strip.style.setProperty('--partner-copy-x', `${(pointerX * -3).toFixed(3)}px`);
+      strip.style.setProperty('--partner-copy-y', `${(scroll * -2 + pointerY * -1).toFixed(3)}px`);
+      strip.style.setProperty('--partner-stage-x', `${(pointerX * 4).toFixed(3)}px`);
+      strip.style.setProperty('--partner-stage-y', `${(scroll * 4 + pointerY * 2).toFixed(3)}px`);
+      strip.style.setProperty('--partner-primary-x', `${(pointerX * -7).toFixed(3)}px`);
+      strip.style.setProperty('--partner-primary-y', `${(scroll * -4 + pointerY * -2).toFixed(3)}px`);
+      strip.style.setProperty('--partner-support-x', `${(pointerX * 11).toFixed(3)}px`);
+      strip.style.setProperty('--partner-support-y', `${(scroll * 8 + pointerY * 3).toFixed(3)}px`);
     };
     const updatePartnerDepth = () => {
       const viewport = window.innerHeight || document.documentElement.clientHeight;
@@ -721,15 +726,18 @@
       window.addEventListener('scroll', requestPartnerDepth, { passive: true });
       window.addEventListener('resize', requestPartnerDepth);
 
-      window.addEventListener('pointermove', (event) => {
-        const x = ((event.clientX / Math.max(1, window.innerWidth)) - 0.5) * 2;
-        const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
-        partnerStrips.forEach((strip) => {
-          strip.style.setProperty('--partner-pointer-x', x.toFixed(3));
-          strip.style.setProperty('--partner-pointer-y', y.toFixed(3));
-          updatePartnerTransformVars(strip);
-        });
-      }, { passive: true });
+      const partnerPointerQuery = window.matchMedia('(pointer: fine)');
+      if (partnerPointerQuery.matches) {
+        window.addEventListener('pointermove', (event) => {
+          const x = ((event.clientX / Math.max(1, window.innerWidth)) - 0.5) * 2;
+          const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
+          partnerStrips.forEach((strip) => {
+            strip.style.setProperty('--partner-pointer-x', x.toFixed(3));
+            strip.style.setProperty('--partner-pointer-y', y.toFixed(3));
+            updatePartnerTransformVars(strip);
+          });
+        }, { passive: true });
+      }
     }
   }
 
