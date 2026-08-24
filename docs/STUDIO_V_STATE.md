@@ -109,7 +109,10 @@ Durable design decisions:
   front/back and rotate horizontally; vertical positioning is intentionally absent.
 - Vehicle and person dimensions remain visible as scale labels.
 - The person scale reference now loads the RenderPeople Eric rigged FBX at 1.75m,
-  with a procedural-person fallback if the asset fails. Attribution is recorded in
+  with a procedural-person fallback if the asset fails. Its shoulder pose is adjusted
+  toward a relaxed, closer-to-body stance rather than the source A-pose; the committed
+  2048px texture derivatives and reduced render settings keep the reference light.
+  Attribution is recorded in
   `assets/models/renderpeople-eric/ATTRIBUTION.md`; the FBX uses the shared
   `assets/models/sourceimages/` texture path.
 - The Mercedes model should be the only vehicle representation after load. Do not show

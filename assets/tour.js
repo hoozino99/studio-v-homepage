@@ -64,7 +64,7 @@ if (!renderer) {
   if (bar) bar.style.setProperty('--load-progress', '100%');
   showTourFallback('현재 브라우저 또는 원격 캡처 환경에서 WebGL을 사용할 수 없습니다. 실제 브라우저에서 다시 확인하세요.');
 } else {
-const MAX_DPR = 1.6;
+const MAX_DPR = 1.35;
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_DPR));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1029,16 +1029,26 @@ function normalizePersonModel(object) {
   object.traverse((child) => {
     if (!child.isMesh) return;
     child.castShadow = false;
-    child.receiveShadow = true;
-    child.frustumCulled = false;
+    child.receiveShadow = false;
+    child.frustumCulled = true;
     const materialsToTune = Array.isArray(child.material) ? child.material : [child.material];
     materialsToTune.forEach((material) => {
       if (!material) return;
-      material.side = THREE.DoubleSide;
+      material.side = THREE.FrontSide;
       material.envMapIntensity = material.envMapIntensity ?? 1.25;
-      if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+      if (material.map) {
+        material.map.colorSpace = THREE.SRGBColorSpace;
+        material.map.anisotropy = 1;
+      }
       if (material.emissiveMap) material.emissiveMap.colorSpace = THREE.SRGBColorSpace;
     });
+  });
+
+  object.traverse((child) => {
+    if (!child.isBone) return;
+    if (child.name === 'upperarm_l' || child.name === 'upperarm_r') {
+      child.rotation.y += 0.35;
+    }
   });
 
   const label = makeLabel('Person 1.75m H', 2.5, 0.36);
