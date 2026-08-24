@@ -6539,6 +6539,41 @@ body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-
   height: 34px;
 }
 
+/* hero-bottom-feather-v1: blend the film edge into the next black field. */
+body[data-page="studio"] .hero-shade::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  z-index: 4;
+  height: min(48svh, 540px);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 6, 7, 0) 0%,
+    rgba(5, 6, 7, 0.05) 22%,
+    rgba(5, 6, 7, 0.20) 46%,
+    rgba(5, 6, 7, 0.52) 70%,
+    rgba(5, 6, 7, 0.86) 88%,
+    #050607 100%
+  );
+}
+
+@media (max-width: 780px) {
+  body[data-page="studio"] .hero-shade::after {
+    height: min(42svh, 420px);
+    background: linear-gradient(
+      180deg,
+      rgba(5, 6, 7, 0) 0%,
+      rgba(5, 6, 7, 0.08) 24%,
+      rgba(5, 6, 7, 0.28) 50%,
+      rgba(5, 6, 7, 0.68) 78%,
+      #050607 100%
+    );
+  }
+}
+
 @media (max-width: 1100px) {
   body[data-page="studio"] .partner-logo-wall--supporting {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
