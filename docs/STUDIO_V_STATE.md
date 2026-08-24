@@ -90,8 +90,8 @@ Durable design decisions:
      section haze, with a radial feather on its own edges. Section photos now use a
      shared black-to-image composite handoff with independent edge masks, instead of
      separate opaque plates that create visible rectangles at section boundaries. A
-     second low-opacity feathered light echo is applied over Stage, Projects, and Use
-     Cases imagery; Technology Partners remains pure black without the 2.5D plate.
+     second low-opacity feathered light echo is applied over Stage and Projects only;
+     Use Cases uses the stable single-frame opacity model without the additional plate.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
