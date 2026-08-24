@@ -614,6 +614,7 @@
       ['optitrack', 'OptiTrack', './assets/images/partners-official/optitrack.svg', 'official'],
     ];
     const supportPartnerLogos = [
+      ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
       ['saeki-pnc', 'SAEKI P&C', './assets/images/partners-plaque-leveled-v14/saeki-official.png', 'plaque'],
       ['kol-corporation', '주식회사 고일', './assets/images/partners-plaque-leveled-v14/kol-corporation.png', 'plaque'],
       ['petadata', 'PetaData', './assets/images/partners-plaque-leveled-v14/petadata.png', 'plaque'],
@@ -631,7 +632,6 @@
       ['vidente', 'vidente', './assets/images/partners-plaque-leveled-v14/vidente.png', 'plaque'],
       ['batech', 'BATECH', './assets/images/partners-plaque-leveled-v14/batech.png', 'plaque'],
       ['doohyun-tech', 'DOOHYUN TECH', './assets/images/partners-plaque-leveled-v14/doohyun-tech.png', 'plaque'],
-      ['epic-games', 'Epic Games', './assets/images/partners-official/epic-games.svg', 'official'],
     ];
 
     const logoMarkup = (logos, tier) => logos.map(([slug, name, src, source], index) => `

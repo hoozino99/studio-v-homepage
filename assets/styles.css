@@ -6454,3 +6454,102 @@ body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
     transition: none;
   }
 }
+
+/* partner-logo-grid-v1: stable optical cells across desktop, tablet, and mobile. */
+body[data-page="studio"] .partner-logo-wall--primary,
+body[data-page="studio"] .partner-logo-wall--supporting {
+  align-items: center;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(58px, auto);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 1080px;
+  gap: 16px 22px;
+  margin-top: 0;
+}
+
+body[data-page="studio"] .partner-logo-wall--primary .partner-logo-card,
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  overflow: visible !important;
+  transform: none !important;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card img {
+  display: block;
+  width: min(100%, 150px);
+  max-width: calc(100% - 12px);
+  height: 34px;
+  max-height: 38px;
+  object-fit: contain;
+  object-position: center;
+  transform: none !important;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="vidente"] img {
+  width: min(100%, 154px);
+  height: 32px;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="batech"] img {
+  width: min(100%, 144px);
+  height: 34px;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="sewon-sp"] img,
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="funomad"] img,
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="petadata"] img {
+  width: min(100%, 154px);
+  height: 30px;
+}
+
+body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-logo="epic-games"] img {
+  width: min(100%, 142px);
+  height: 34px;
+}
+
+@media (max-width: 1100px) {
+  body[data-page="studio"] .partner-logo-wall--supporting {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px 18px;
+  }
+}
+
+@media (max-width: 780px) {
+  body[data-page="studio"] .partner-logo-wall--supporting {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px 14px;
+    max-width: 720px;
+  }
+
+  body[data-page="studio"] .partner-logo-wall--primary .partner-logo-card,
+  body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card {
+    min-height: 52px;
+  }
+
+  body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card img {
+    height: 30px;
+    max-height: 34px;
+  }
+}
+
+@media (max-width: 520px) {
+  body[data-page="studio"] .partner-logo-wall--supporting {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 16px;
+  }
+
+  body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card img {
+    max-width: calc(100% - 10px);
+    height: 28px;
+  }
+}

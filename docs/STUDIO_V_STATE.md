@@ -100,6 +100,10 @@ Durable design decisions:
      blurred light band at this boundary.
    - The Partner-to-footer handoff also has no border line; the neutral background tone
      shift alone separates the footer.
+   - Supporting partner marks use stable responsive optical cells: six columns on wide
+     screens, four on tablet, three on narrow tablet, and two on mobile. Epic Games is
+     placed at the beginning of the supporting wall; wide marks such as Vidente and
+     BATECH use contain-based sizing with visible overflow protection.
 6. Footer
    - Operational logos are ordered: Ministry of Culture, Sports and Tourism; KOCCA;
      Dexter Studios; XON Studios.
