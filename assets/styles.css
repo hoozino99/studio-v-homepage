@@ -6392,3 +6392,65 @@ body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
     padding-bottom: clamp(72px, 14vw, 104px) !important;
   }
 }
+
+/* led-spill-plate-v1: the visible right-edge light condition from the approved prototype. */
+body[data-page="studio"].has-depth-v08 .stage-overview::before,
+body[data-page="studio"].has-depth-v08 .home-projects::before,
+body[data-page="studio"].has-depth-v08 .usecase-backdrop::before,
+body[data-page="studio"].has-depth-v08 .stage-scroll-sticky::before {
+  background: url("./images/light-fields/led-spill.png") center right / cover no-repeat !important;
+  filter: blur(2px) saturate(1.08) contrast(1.04);
+  mix-blend-mode: screen;
+}
+
+body[data-page="studio"].has-depth-v08 .stage-overview::before {
+  opacity: 0.88;
+  transform: perspective(1000px) rotateX(54deg) translate3d(calc(var(--ambient-progress) * -92px + var(--ambient-pointer-x) * 34px), calc(var(--ambient-pointer-y) * 16px), 0) scale(1.12);
+}
+
+body[data-page="studio"].has-depth-v08 .stage-scroll-sticky::before {
+  opacity: 0.48;
+  transform: perspective(1100px) rotateX(48deg) translate3d(calc(var(--ambient-pointer-x) * 26px), calc(var(--ambient-progress) * -38px + var(--ambient-pointer-y) * 12px), 0) scale(1.12);
+}
+
+body[data-page="studio"].has-depth-v08 .home-projects::before {
+  opacity: 0.82;
+  transform: perspective(980px) rotateX(56deg) translate3d(calc(var(--ambient-progress) * -118px + var(--ambient-pointer-x) * 30px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.14);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-backdrop::before {
+  opacity: 0.86;
+  transform: perspective(1100px) rotateX(52deg) translate3d(calc(var(--ambient-progress) * 106px + var(--ambient-pointer-x) * -28px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.14);
+}
+
+body[data-page="studio"].has-depth-v08 .stage-scroll-frame img {
+  opacity: 0.84;
+}
+
+body[data-page="studio"].has-depth-v08 .home-project-card img {
+  opacity: 0.80;
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
+  opacity: calc(var(--usecase-slide-opacity, 1) * 0.82) !important;
+}
+
+@media (max-width: 780px) {
+  body[data-page="studio"].has-depth-v08 .stage-overview::before,
+  body[data-page="studio"].has-depth-v08 .home-projects::before,
+  body[data-page="studio"].has-depth-v08 .usecase-backdrop::before,
+  body[data-page="studio"].has-depth-v08 .stage-scroll-sticky::before {
+    filter: blur(3px) saturate(1.04) contrast(1.02);
+    transform: translate3d(0, 0, 0) scale(1.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="studio"].has-depth-v08 .stage-overview::before,
+  body[data-page="studio"].has-depth-v08 .home-projects::before,
+  body[data-page="studio"].has-depth-v08 .usecase-backdrop::before,
+  body[data-page="studio"].has-depth-v08 .stage-scroll-sticky::before {
+    transform: none;
+    transition: none;
+  }
+}
