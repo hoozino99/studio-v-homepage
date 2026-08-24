@@ -204,8 +204,8 @@ const referenceObjects = {
   person: null
 };
 const REFERENCE_DEFAULTS = {
-  vehicle: { x: -3.2, z: LED.arcCenterZ + 6.7, rotation: -8 },
-  person: { x: 4.1, z: LED.arcCenterZ + 10.8, rotation: 12 }
+  vehicle: { x: -3.2, z: LED.arcCenterZ + 6.7, rotation: 0 },
+  person: { x: 4.1, z: LED.arcCenterZ + 10.8, rotation: 0 }
 };
 const REFERENCE_LIMITS = {
   x: { min: -15, max: 15 },
@@ -1017,6 +1017,7 @@ function makePerson({ x, z, rotation = 0, scale = 1, color = 0xd6d1c4 }) {
 function normalizePersonModel(object) {
   const wrapper = new THREE.Group();
   wrapper.name = 'person-scale-reference-renderpeople-eric';
+  object.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(object);
   const size = new THREE.Vector3();
   const center = new THREE.Vector3();
@@ -1105,6 +1106,7 @@ function normalizeVehicleModel(object) {
   wrapper.name = 'vehicle-scale-reference';
   const modelBody = new THREE.Group();
   modelBody.name = 'vehicle-body-scaled-to-gle-spec';
+  object.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(object);
   const size = new THREE.Vector3();
   const center = new THREE.Vector3();

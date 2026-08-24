@@ -112,7 +112,8 @@ Durable design decisions:
   with a procedural-person fallback if the asset fails. Its shoulder pose is adjusted
   toward a relaxed, closer-to-body stance rather than the source A-pose; the committed
   2048px texture derivatives and reduced render settings keep the reference light.
-  Attribution is recorded in
+  Both reference wrappers use a floor-centered x/z pivot and start at `0°` rotation so
+  the vehicle and person face the default camera direction. Attribution is recorded in
   `assets/models/renderpeople-eric/ATTRIBUTION.md`; the FBX uses the shared
   `assets/models/sourceimages/` texture path.
 - The Mercedes model should be the only vehicle representation after load. Do not show
