@@ -112,6 +112,8 @@ Durable design decisions:
   with a procedural-person fallback if the asset fails. Its shoulder pose is adjusted
   toward a relaxed, closer-to-body stance rather than the source A-pose; the committed
   2048px texture derivatives and reduced render settings keep the reference light.
+  The person asset is scaled inside a dedicated body group so its raw FBX offset is
+  scaled together with the geometry and the feet remain on the wrapper floor pivot.
   Both reference wrappers use a floor-centered x/z pivot and start at `0°` rotation so
   the vehicle and person face the default camera direction. Attribution is recorded in
   `assets/models/renderpeople-eric/ATTRIBUTION.md`; the FBX uses the shared

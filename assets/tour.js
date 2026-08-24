@@ -1017,6 +1017,8 @@ function makePerson({ x, z, rotation = 0, scale = 1, color = 0xd6d1c4 }) {
 function normalizePersonModel(object) {
   const wrapper = new THREE.Group();
   wrapper.name = 'person-scale-reference-renderpeople-eric';
+  const modelBody = new THREE.Group();
+  modelBody.name = 'person-body-scaled-to-height';
   object.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(object);
   const size = new THREE.Vector3();
@@ -1026,7 +1028,8 @@ function normalizePersonModel(object) {
   const scale = PERSON_DIMENSIONS.height / Math.max(size.y, 0.001);
 
   object.position.set(-center.x, -box.min.y, -center.z);
-  object.scale.setScalar(scale);
+  object.scale.setScalar(1);
+  modelBody.scale.setScalar(scale);
   object.traverse((child) => {
     if (!child.isMesh) return;
     child.castShadow = false;
@@ -1048,13 +1051,14 @@ function normalizePersonModel(object) {
   object.traverse((child) => {
     if (!child.isBone) return;
     if (child.name === 'upperarm_l' || child.name === 'upperarm_r') {
-      child.rotation.y += 0.35;
+      child.rotation.y += 0.55;
     }
   });
 
   const label = makeLabel('Person 1.75m H', 2.5, 0.36);
   label.position.set(0, PERSON_DIMENSIONS.height + 0.28, 0);
-  wrapper.add(object, label);
+  modelBody.add(object);
+  wrapper.add(modelBody, label);
   wrapper.position.set(REFERENCE_DEFAULTS.person.x, 0.02, REFERENCE_DEFAULTS.person.z);
   wrapper.rotation.y = THREE.MathUtils.degToRad(REFERENCE_DEFAULTS.person.rotation);
   wrapper.userData.dimensions = {
