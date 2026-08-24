@@ -87,7 +87,9 @@ Durable design decisions:
      The visible right-edge spill uses the approved black-base
      `assets/images/light-fields/led-spill.png` plate with section-specific depth and
      opacity. The plate remains a small accent on the black field rather than a full
-     section haze, with a radial feather on its own edges.
+     section haze, with a radial feather on its own edges. Section photos now use a
+     shared black-to-image composite handoff with independent edge masks, instead of
+     separate opaque plates that create visible rectangles at section boundaries.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete

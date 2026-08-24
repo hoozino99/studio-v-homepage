@@ -6575,3 +6575,121 @@ body[data-page="studio"] .partner-logo-wall--supporting .partner-logo-card[data-
     height: 28px;
   }
 }
+
+/* section-layer-handoff-v2: composite photos and light without visible plates. */
+:root {
+  --section-black: #050607;
+}
+
+body[data-page="studio"] .stage-overview,
+body[data-page="studio"] .stage-scroll-sticky,
+body[data-page="studio"] .home-projects,
+body[data-page="studio"] .usecase-scene,
+body[data-page="studio"] .usecase-backdrop {
+  background: var(--section-black) !important;
+}
+
+body[data-page="studio"] .stage-overview::after,
+body[data-page="studio"] .home-projects::after {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+body[data-page="studio"] .stage-scroll-sticky {
+  isolation: isolate;
+}
+
+body[data-page="studio"] .stage-scroll-frame {
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+
+body[data-page="studio"].has-depth-v08 .stage-scroll-frame img {
+  opacity: 0.94 !important;
+  filter: saturate(0.84) contrast(1.04) brightness(0.91);
+}
+
+body[data-page="studio"] .stage-scroll-frame::before {
+  background:
+    linear-gradient(90deg, rgba(5, 6, 7, 0.66) 0%, rgba(5, 6, 7, 0.22) 30%, transparent 58%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.76) 0%, rgba(5, 6, 7, 0.08) 14%, rgba(5, 6, 7, 0.04) 82%, rgba(5, 6, 7, 0.72) 100%);
+}
+
+body[data-page="studio"] .stage-scroll-frame::after {
+  background: transparent;
+}
+
+body[data-page="studio"] .home-projects {
+  isolation: isolate;
+}
+
+body[data-page="studio"] .home-project-card {
+  isolation: isolate;
+}
+
+body[data-page="studio"].has-depth-v08 .home-project-card img {
+  position: relative;
+  z-index: 1;
+  opacity: 0.93 !important;
+  filter: saturate(0.94) contrast(1.05) brightness(0.89);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-composite: intersect;
+}
+
+body[data-page="studio"] .usecase-scene::before {
+  background:
+    linear-gradient(90deg, rgba(5, 6, 7, 0.94) 0%, rgba(5, 6, 7, 0.68) 18%, rgba(5, 6, 7, 0.24) 38%, transparent 62%),
+    linear-gradient(180deg, rgba(5, 6, 7, 0.78) 0%, rgba(5, 6, 7, 0.08) 14%, rgba(5, 6, 7, 0.04) 82%, rgba(5, 6, 7, 0.74) 100%);
+}
+
+body[data-page="studio"] .usecase-scene::after {
+  background: linear-gradient(112deg, rgba(38, 135, 154, 0.05) 0%, transparent 42%, rgba(159, 203, 210, 0.045) 100%);
+  opacity: 0.16;
+}
+
+body[data-page="studio"] .usecase-bg {
+  isolation: isolate;
+}
+
+body[data-page="studio"] .usecase-bg-slide {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  mask-composite: intersect;
+}
+
+body[data-page="studio"] .usecase-bg img {
+  opacity: 0.94;
+  filter: saturate(1.02) contrast(1.04) brightness(0.94);
+}
+
+body[data-page="studio"] .usecase-bg::after,
+body[data-page="studio"] .usecase-bg--commercial::after {
+  background:
+    linear-gradient(180deg, rgba(5, 6, 7, 0.72) 0%, rgba(5, 6, 7, 0.06) 15%, rgba(5, 6, 7, 0.04) 82%, rgba(5, 6, 7, 0.72) 100%),
+    linear-gradient(90deg, rgba(5, 6, 7, 0.34), transparent 48%);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
+  opacity: calc(var(--usecase-slide-opacity, 1) * 0.94) !important;
+}
+
+@media (max-width: 780px) {
+  body[data-page="studio"] .stage-scroll-frame {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  }
+
+  body[data-page="studio"] .home-project-card img {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 5%, #000 95%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  }
+
+  body[data-page="studio"] .usecase-bg-slide {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+  }
+}
