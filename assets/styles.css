@@ -6059,3 +6059,111 @@ body[data-page="showreel"] .showreel-shorts {
     animation: none;
   }
 }
+
+/* technology-partners-black-restore: keep the original centered logo wall. */
+.partner-strip {
+  min-height: calc(100svh - var(--header-h));
+  margin: 0;
+  padding: clamp(64px, 6.6vw, 102px) max(24px, calc((100vw - var(--max)) / 2)) clamp(72px, 7.2vw, 116px);
+  overflow: hidden;
+  border: 0 !important;
+  background: #000 !important;
+  box-shadow: none !important;
+}
+
+.partner-strip::before,
+.partner-strip::after,
+.partner-soft-field {
+  display: none !important;
+  content: none !important;
+}
+
+.partner-strip-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: clamp(24px, 3.1vw, 44px);
+  width: min(100%, 1240px);
+  min-height: 100%;
+  margin-inline: auto;
+}
+
+.partner-strip-copy {
+  justify-items: center;
+  max-width: 460px;
+  text-align: center;
+  transform: none !important;
+}
+
+.partner-strip-copy h2 {
+  font-size: clamp(18px, 1.7vw, 25px);
+  line-height: 1.05;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.partner-strip-copy__rule,
+.partner-strip-copy small {
+  display: none !important;
+}
+
+.partner-stage-canvas {
+  display: contents;
+  padding: 0;
+  transform: none !important;
+}
+
+.partner-logo-wall--primary,
+.partner-logo-wall--supporting {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  transform: none !important;
+  perspective: none !important;
+  transition: none;
+}
+
+.partner-logo-wall--primary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 28px);
+}
+
+.partner-logo-wall--supporting {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 2vw, 24px) clamp(20px, 2.7vw, 36px);
+  max-width: 920px;
+}
+
+.partner-logo-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 620px) {
+  .partner-strip-inner {
+    gap: 24px;
+  }
+
+  .partner-strip-copy h2 {
+    font-size: clamp(18px, 5.8vw, 25px);
+  }
+
+  .partner-logo-wall--primary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+  }
+
+  .partner-logo-wall--supporting {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+    max-width: 440px;
+  }
+}

@@ -85,10 +85,10 @@ Durable design decisions:
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
      group, not left-stranded on the last row.
-   - The section uses a near-black editorial field with a new pastel soft-field composition: violet, mint, and peach blurred color volumes, subtle paper grain, and a low-opacity organic glass veil behind the logo wall. It intentionally does not reuse the former grid, concentric rings, truss, rail, or stage-structure vocabulary.
-   - The pastel field, glass veil, title, stage canvas, primary wall, and supporting wall use separate scroll/pointer depth variables. Fine-pointer parallax is desktop-only; touch uses scroll depth; reduced-motion freezes the composition without removing the color hierarchy.
-   - Primary marks are six stable columns on wide screens; supporting marks use the same six-column rhythm and collapse to two columns on mobile. Logo cards use quieter borders and transparent surfaces so the section reads as an editorial system rather than a SaaS dashboard.
-   - Desktop height remains capped near 730px; tablet becomes a deliberate title-to-wall one-column composition; mobile keeps two-column logo rhythm with no horizontal overflow.
+   - The section is restored to a pure-black background with a centered title and
+     borderless logo wall. No pastel field, organic glass panel, grid, rings, or
+     decorative stage structure is used. Desktop and mobile keep the same centered
+     hierarchy, with a two-column logo rhythm on mobile and no horizontal overflow.
    - The Use Cases handoff overlaps the Partner surface by 2px and uses a neutral black
      upward feather. Do not restore a top border, cyan strip, radial color bloom, or
      blurred light band at this boundary.

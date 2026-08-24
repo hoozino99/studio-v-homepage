@@ -642,20 +642,10 @@
 
     partnerStrips.forEach((strip) => {
       strip.innerHTML = `
-        <div class="partner-soft-field" aria-hidden="true">
-          <span class="partner-soft-field__paper"></span>
-          <span class="partner-soft-field__cloud partner-soft-field__cloud--violet"></span>
-          <span class="partner-soft-field__cloud partner-soft-field__cloud--mint"></span>
-          <span class="partner-soft-field__cloud partner-soft-field__cloud--peach"></span>
-          <span class="partner-soft-field__grain"></span>
-          <span class="partner-soft-field__glass"></span>
-        </div>
         <div class="partner-strip-inner">
           <div class="partner-strip-copy reveal">
             <p>Powered by</p>
-            <h2>Technology<br>Partners</h2>
-            <span class="partner-strip-copy__rule" aria-hidden="true"></span>
-            <small>THE SYSTEMS BEHIND THE STAGE</small>
+            <h2>Technology Partners</h2>
           </div>
           <div class="partner-stage-canvas">
             <ul class="partner-logo-wall partner-logo-wall--primary reveal" aria-label="Studio V primary technology partners">
