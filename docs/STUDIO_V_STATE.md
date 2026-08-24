@@ -81,6 +81,9 @@ Durable design decisions:
    - The final Event frame must reach full opacity and remain readable before the page
      continues to Technology Partners. Do not shorten this handoff until the image is
      skipped again.
+   - Hero, Stage Overview, Projects, and Use Cases have slightly increased breathing
+     room. Their real imagery now sits above restrained silver-cyan 2.5D light bridges;
+     feathered masks and reduced image opacity prevent hard cropping at section edges.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete

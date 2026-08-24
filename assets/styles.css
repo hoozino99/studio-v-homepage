@@ -6167,3 +6167,228 @@ body[data-page="showreel"] .showreel-shorts {
     max-width: 440px;
   }
 }
+
+/* section-light-bridges: restrained 2.5D light behind real imagery. */
+.hero-home {
+  min-height: 124svh;
+}
+
+.stage-overview {
+  margin-top: -10svh;
+  padding-top: clamp(214px, 20vw, 304px);
+  padding-bottom: clamp(206px, 18vw, 276px);
+}
+
+.stage-overview::before {
+  inset: -24svh -14vw -12svh;
+  opacity: 0.72;
+  background:
+    radial-gradient(ellipse 48% 30% at 76% 34%, rgba(168, 214, 220, 0.17), rgba(111, 165, 174, 0.055) 42%, transparent 74%),
+    linear-gradient(116deg, transparent 26%, rgba(211, 235, 237, 0.075) 46%, transparent 64%);
+  filter: blur(22px);
+  transform: perspective(1000px) rotateX(54deg) translate3d(calc(var(--ambient-progress) * -90px + var(--ambient-pointer-x) * 30px), calc(var(--ambient-pointer-y) * 16px), 0) scale(1.08);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
+}
+
+.stage-scroll-sticky::before {
+  content: "";
+  position: absolute;
+  inset: -28%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 42% 28% at 72% 42%, rgba(159, 203, 210, 0.16), transparent 72%),
+    linear-gradient(118deg, transparent 34%, rgba(232, 244, 244, 0.075) 49%, transparent 65%);
+  filter: blur(28px);
+  opacity: 0.68;
+  transform: perspective(1100px) rotateX(48deg) translate3d(calc(var(--ambient-pointer-x) * 24px), calc(var(--ambient-progress) * -34px + var(--ambient-pointer-y) * 12px), 0) scale(1.08);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+
+.stage-scroll-frame img {
+  opacity: 0.90;
+}
+
+.home-projects {
+  margin-top: -8svh;
+  padding-top: clamp(270px, 25vw, 380px);
+  padding-bottom: clamp(228px, 19vw, 310px);
+}
+
+.home-projects::before {
+  inset: -22svh -12vw -12svh;
+  opacity: 0.66;
+  background:
+    radial-gradient(ellipse 46% 28% at 78% 22%, rgba(170, 215, 220, 0.15), rgba(99, 151, 160, 0.04) 44%, transparent 74%),
+    linear-gradient(114deg, transparent 27%, rgba(217, 239, 240, 0.065) 47%, transparent 65%);
+  filter: blur(24px);
+  transform: perspective(980px) rotateX(56deg) translate3d(calc(var(--ambient-progress) * -112px + var(--ambient-pointer-x) * 28px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.10);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+.home-project-card img {
+  opacity: 0.87;
+}
+
+.usecase-inner {
+  padding-top: calc(var(--header-h) + clamp(72px, 7.2vw, 110px));
+  padding-bottom: clamp(86px, 8vw, 120px);
+}
+
+.usecase-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: -24%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48% 30% at 76% 38%, rgba(165, 211, 218, 0.18), rgba(100, 158, 167, 0.045) 46%, transparent 76%),
+    linear-gradient(112deg, transparent 24%, rgba(226, 242, 242, 0.075) 47%, transparent 66%);
+  filter: blur(30px);
+  opacity: 0.72;
+  transform: perspective(1100px) rotateX(52deg) translate3d(calc(var(--ambient-progress) * 100px + var(--ambient-pointer-x) * -26px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.10);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+.usecase-bg {
+  z-index: 1;
+}
+
+.usecase-bg img {
+  opacity: 0.90;
+  filter: saturate(0.96) contrast(1.06) brightness(0.90);
+}
+
+@media (max-width: 780px) {
+  .hero-home {
+    min-height: 122svh;
+  }
+
+  .stage-overview {
+    margin-top: -8svh;
+    padding-top: clamp(172px, 38vw, 230px);
+    padding-bottom: clamp(176px, 36vw, 238px);
+  }
+
+  .home-projects {
+    margin-top: -6svh;
+    padding-top: clamp(208px, 46vw, 292px);
+    padding-bottom: clamp(198px, 42vw, 274px);
+  }
+
+  .usecase-inner {
+    padding-top: calc(var(--header-h) + clamp(58px, 12vw, 84px));
+    padding-bottom: clamp(72px, 14vw, 104px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-overview::before,
+  .stage-scroll-sticky::before,
+  .home-projects::before,
+  .usecase-backdrop::before {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* depth-v08 compatibility overrides: keep the new bridge layers active. */
+body[data-page="studio"].has-depth-v08 .stage-overview {
+  margin-top: -10svh !important;
+  padding-top: clamp(214px, 20vw, 304px) !important;
+  padding-bottom: clamp(206px, 18vw, 276px) !important;
+  background: #050607 !important;
+}
+
+body[data-page="studio"].has-depth-v08 .stage-overview::before {
+  display: block !important;
+  content: "" !important;
+  inset: -24svh -14vw -12svh;
+  opacity: 0.72;
+  background:
+    radial-gradient(ellipse 48% 30% at 76% 34%, rgba(168, 214, 220, 0.17), rgba(111, 165, 174, 0.055) 42%, transparent 74%),
+    linear-gradient(116deg, transparent 26%, rgba(211, 235, 237, 0.075) 46%, transparent 64%);
+  filter: blur(22px);
+  transform: perspective(1000px) rotateX(54deg) translate3d(calc(var(--ambient-progress) * -90px + var(--ambient-pointer-x) * 30px), calc(var(--ambient-pointer-y) * 16px), 0) scale(1.08);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
+}
+
+body[data-page="studio"].has-depth-v08 .home-projects {
+  margin-top: -8svh !important;
+  padding-top: clamp(270px, 25vw, 380px) !important;
+  padding-bottom: clamp(228px, 19vw, 310px) !important;
+  background: #050607 !important;
+}
+
+body[data-page="studio"].has-depth-v08 .home-projects::before {
+  display: block !important;
+  content: "" !important;
+  inset: -22svh -12vw -12svh;
+  opacity: 0.66;
+  background:
+    radial-gradient(ellipse 46% 28% at 78% 22%, rgba(170, 215, 220, 0.15), rgba(99, 151, 160, 0.04) 44%, transparent 74%),
+    linear-gradient(114deg, transparent 27%, rgba(217, 239, 240, 0.065) 47%, transparent 65%);
+  filter: blur(24px);
+  transform: perspective(980px) rotateX(56deg) translate3d(calc(var(--ambient-progress) * -112px + var(--ambient-pointer-x) * 28px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.10);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-scene,
+body[data-page="studio"].has-depth-v08 .usecase-backdrop {
+  background: #050607 !important;
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-inner {
+  padding-top: calc(var(--header-h) + clamp(72px, 7.2vw, 110px)) !important;
+  padding-bottom: clamp(86px, 8vw, 120px) !important;
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-backdrop::before {
+  display: block !important;
+  content: "" !important;
+  inset: -24%;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 48% 30% at 76% 38%, rgba(165, 211, 218, 0.18), rgba(100, 158, 167, 0.045) 46%, transparent 76%),
+    linear-gradient(112deg, transparent 24%, rgba(226, 242, 242, 0.075) 47%, transparent 66%);
+  filter: blur(30px);
+  opacity: 0.72;
+  transform: perspective(1100px) rotateX(52deg) translate3d(calc(var(--ambient-progress) * 100px + var(--ambient-pointer-x) * -26px), calc(var(--ambient-pointer-y) * 14px), 0) scale(1.10);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
+  opacity: calc(var(--usecase-slide-opacity, 1) * 0.90) !important;
+}
+
+@media (max-width: 780px) {
+  body[data-page="studio"].has-depth-v08 .stage-overview {
+    margin-top: -8svh !important;
+    padding-top: clamp(172px, 38vw, 230px) !important;
+    padding-bottom: clamp(176px, 36vw, 238px) !important;
+  }
+
+  body[data-page="studio"].has-depth-v08 .home-projects {
+    margin-top: -6svh !important;
+    padding-top: clamp(208px, 46vw, 292px) !important;
+    padding-bottom: clamp(198px, 42vw, 274px) !important;
+  }
+
+  body[data-page="studio"].has-depth-v08 .usecase-inner {
+    padding-top: calc(var(--header-h) + clamp(58px, 12vw, 84px)) !important;
+    padding-bottom: clamp(72px, 14vw, 104px) !important;
+  }
+}
