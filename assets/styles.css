@@ -3356,15 +3356,19 @@ body.showreel-modal-open {
 }
 
 .partner-logo-wall--supporting .partner-logo-card {
-  min-height: 51px;
+  min-height: 58px;
   background: transparent;
   border: 0;
 }
 
 .partner-logo-wall--supporting .partner-logo-card img {
-  width: min(130px, 86%);
-  height: 25px;
-  opacity: 0.64;
+  width: auto;
+  max-width: calc(100% - 12px);
+  height: 32px;
+  max-height: 38px;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0.76;
 }
 
 .partner-logo-wall--primary .partner-logo-card[data-logo="lg-electronics"] img { width: min(148px, 90%); height: 30px; }
@@ -5764,8 +5768,8 @@ body[data-page="studio"].has-depth-v12 .site-footer {
 .partner-logo-wall--supporting .partner-logo-card--plaque img {
   width: auto;
   max-width: min(160px, calc(100% - 12px));
-  height: 30px;
-  max-height: none;
+  height: 32px;
+  max-height: 38px;
   object-fit: contain;
   object-position: 50% 50%;
   filter: none;
@@ -5776,21 +5780,17 @@ body[data-page="studio"].has-depth-v12 .site-footer {
 
 /* Compact marks need a little more area than wide wordmarks to read at the
    same optical weight. The source artwork remains uniformly scaled. */
-.partner-logo-wall--supporting .partner-logo-card[data-logo="saeki-pnc"] img {
-  height: 36px;
-}
-
-.partner-logo-wall--supporting .partner-logo-card[data-logo="dhav"] img {
-  height: 38px;
-}
-
-.partner-logo-wall--supporting .partner-logo-card[data-logo="livelab"] img {
-  height: 34px;
-}
-
-.partner-logo-wall--supporting .partner-logo-card[data-logo="doohyun-tech"] img {
-  height: 40px;
-}
+.partner-logo-wall--supporting .partner-logo-card[data-logo="saeki-pnc"] img { height: 34px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="dhav"] img { height: 34px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="livelab"] img { height: 32px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="doohyun-tech"] img { height: 34px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="petadata"] img { height: 24px; max-width: 154px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="sewon-sp"] img { height: 28px; max-width: 154px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="myungin-enc"] img { height: 34px; max-width: 150px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="vision-tech"] img { height: 32px; max-width: 154px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="bx-media"] img { height: 31px; max-width: 154px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="cms"] img { height: 34px; max-width: 154px; }
+.partner-logo-wall--supporting .partner-logo-card[data-logo="leader"] img { height: 32px; max-width: 154px; }
 
 .partner-logo-wall--primary .partner-logo-card--plaque img {
   width: auto;
@@ -5836,10 +5836,10 @@ body[data-page="studio"].has-depth-v12 .site-footer {
 
 .partner-logo-wall--supporting .partner-logo-card[data-logo="media-village-tech"] img {
   width: auto;
-  max-width: 100%;
-  height: 28px;
+  max-width: 154px;
+  height: 32px;
   filter: brightness(0) invert(1) grayscale(1);
-  opacity: 0.78;
+  opacity: 0.82;
   clip-path: none;
   transform: none;
 }
