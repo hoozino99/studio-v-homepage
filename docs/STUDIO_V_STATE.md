@@ -108,6 +108,10 @@ Durable design decisions:
 - One vehicle and one person are scale references. They can move left/right and
   front/back and rotate horizontally; vertical positioning is intentionally absent.
 - Vehicle and person dimensions remain visible as scale labels.
+- The person scale reference now loads the RenderPeople Eric rigged FBX at 1.75m,
+  with a procedural-person fallback if the asset fails. Attribution is recorded in
+  `assets/models/renderpeople-eric/ATTRIBUTION.md`; the FBX uses the shared
+  `assets/models/sourceimages/` texture path.
 - The Mercedes model should be the only vehicle representation after load. Do not show
   an early box/proxy car while the model is loading.
 - LED video supports play/stop, scale, X/Y position, and reset.

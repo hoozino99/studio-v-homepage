@@ -181,6 +181,11 @@ const CEILING = {
   x: LED.arcCenterX,
   z: LED.arcCenterZ
 };
+const PERSON_DIMENSIONS = {
+  model: 'RenderPeople Eric rigged reference',
+  height: 1.75,
+  source: './assets/models/renderpeople-eric/rp_eric_rigged_001_yup_a.fbx'
+};
 const VEHICLE_DIMENSIONS = {
   model: 'Mercedes-Benz GLE SUV',
   length: 4.94,
@@ -1009,6 +1014,82 @@ function makePerson({ x, z, rotation = 0, scale = 1, color = 0xd6d1c4 }) {
   return group;
 }
 
+function normalizePersonModel(object) {
+  const wrapper = new THREE.Group();
+  wrapper.name = 'person-scale-reference-renderpeople-eric';
+  const box = new THREE.Box3().setFromObject(object);
+  const size = new THREE.Vector3();
+  const center = new THREE.Vector3();
+  box.getSize(size);
+  box.getCenter(center);
+  const scale = PERSON_DIMENSIONS.height / Math.max(size.y, 0.001);
+
+  object.position.set(-center.x, -box.min.y, -center.z);
+  object.scale.setScalar(scale);
+  object.traverse((child) => {
+    if (!child.isMesh) return;
+    child.castShadow = false;
+    child.receiveShadow = true;
+    child.frustumCulled = false;
+    const materialsToTune = Array.isArray(child.material) ? child.material : [child.material];
+    materialsToTune.forEach((material) => {
+      if (!material) return;
+      material.side = THREE.DoubleSide;
+      material.envMapIntensity = material.envMapIntensity ?? 1.25;
+      if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+      if (material.emissiveMap) material.emissiveMap.colorSpace = THREE.SRGBColorSpace;
+    });
+  });
+
+  const label = makeLabel('Person 1.75m H', 2.5, 0.36);
+  label.position.set(0, PERSON_DIMENSIONS.height + 0.28, 0);
+  wrapper.add(object, label);
+  wrapper.position.set(REFERENCE_DEFAULTS.person.x, 0.02, REFERENCE_DEFAULTS.person.z);
+  wrapper.rotation.y = THREE.MathUtils.degToRad(REFERENCE_DEFAULTS.person.rotation);
+  wrapper.userData.dimensions = {
+    ...PERSON_DIMENSIONS,
+    originalModelBoxMeters: { x: size.x, y: size.y, z: size.z },
+    appliedScale: scale
+  };
+  window.__studioVPersonDimensions = wrapper.userData.dimensions;
+  return wrapper;
+}
+
+function addPersonReference() {
+  const personButton = referenceButtons.find((button) => button.dataset.referenceTarget === 'person');
+  personButton?.classList.add('is-loading');
+  personButton?.setAttribute('aria-busy', 'true');
+  const loader = new FBXLoader();
+  loader.load(
+    PERSON_DIMENSIONS.source,
+    (object) => {
+      const model = normalizePersonModel(object);
+      referenceObjects.person = model;
+      applyReferenceTransform('person');
+      scene.add(model);
+      personButton?.classList.remove('is-loading');
+      personButton?.setAttribute('aria-busy', 'false');
+    },
+    undefined,
+    () => {
+      const fallback = makePerson({
+        x: REFERENCE_DEFAULTS.person.x,
+        z: REFERENCE_DEFAULTS.person.z,
+        rotation: THREE.MathUtils.degToRad(REFERENCE_DEFAULTS.person.rotation),
+        scale: 1,
+        color: 0xd8d0c2
+      });
+      referenceObjects.person = fallback;
+      applyReferenceTransform('person');
+      scene.add(fallback);
+      personButton?.classList.remove('is-loading');
+      personButton?.classList.add('is-unavailable');
+      personButton?.setAttribute('aria-busy', 'false');
+      personButton?.setAttribute('aria-label', 'Person reference fallback');
+    }
+  );
+}
+
 function normalizeVehicleModel(object) {
   const wrapper = new THREE.Group();
   wrapper.name = 'vehicle-scale-reference';
@@ -1091,16 +1172,7 @@ function addVehicleReference() {
 
 function addScaleReferences() {
   addVehicleReference();
-  const person = makePerson({
-    x: REFERENCE_DEFAULTS.person.x,
-    z: REFERENCE_DEFAULTS.person.z,
-    rotation: THREE.MathUtils.degToRad(REFERENCE_DEFAULTS.person.rotation),
-    scale: 1,
-    color: 0xd8d0c2
-  });
-  referenceObjects.person = person;
-  applyReferenceTransform('person');
-  scene.add(person);
+  addPersonReference();
 }
 
 function buildScene() {
