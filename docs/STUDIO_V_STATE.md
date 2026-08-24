@@ -86,7 +86,8 @@ Durable design decisions:
      feathered masks and reduced image opacity prevent hard cropping at section edges.
      The visible right-edge spill uses the approved black-base
      `assets/images/light-fields/led-spill.png` plate with section-specific depth and
-     opacity.
+     opacity. The plate remains a small accent on the black field rather than a full
+     section haze, with a radial feather on its own edges.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
