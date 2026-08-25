@@ -113,7 +113,7 @@
       source: '서울이야기_0814.mp4',
       driveId: '17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw',
       category: 'Film & Drama',
-      thumb: './assets/video/showreel-thumbs/seoul-story-making.jpg'
+      thumb: './assets/video/showreel-thumbs/seoul-story-stage-alt.jpg'
     },
     {
       slug: 'pd-shorts',

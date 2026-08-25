@@ -187,8 +187,8 @@ Durable design decisions:
 - Thumbnails should be selected from the mapped video, favoring full-stage or complete
   production views over arbitrary close-ups, title cards, or setup-only frames.
 - `서울이야기 Making` uses the externally viewable Drive file
-  `17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw`. The local thumbnail is a verified frame showing
-  the camera, crew, and Studio V stage rather than a cast close-up.
+  `17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw`. Portfolio and Showreel use the clean stage/set
+  frame `seoul-story-stage-alt.jpg` extracted from the verified making video.
 - The presentation deck supplied by the owner is the editorial source for showreel and
   making-video titles/descriptions. Do not copy its internal production notes into the
   public Portfolio page.

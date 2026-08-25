@@ -18,7 +18,7 @@
       category: 'Film & Drama',
       title: '서울이야기',
       format: 'Drama Shoot',
-      image: './assets/video/showreel-thumbs/seoul-story-making.jpg',
+      image: './assets/video/showreel-thumbs/seoul-story-stage-alt.jpg',
       copy: 'Studio V에서 진행한 리허설·테스트 및 본 촬영 지원 기록입니다.'
     },
     {
