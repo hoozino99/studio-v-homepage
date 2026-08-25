@@ -41,12 +41,12 @@
     },
     {
       slug: 'dealer-driving-plate',
-      group: 'ad',
-      category: 'AD',
+      group: 'series',
+      category: 'Series',
       title: 'Dealer',
-      format: 'Commercial',
+      format: 'BTS',
       image: './assets/video/showreel-thumbs/dealer.jpg',
-      copy: '드라이빙 플레이트를 LED Wall에 구현한 차량 광고 촬영 기록입니다.'
+      copy: '넷플릭스 시리즈 ‘딜러’의 차량 촬영 현장 기록입니다.'
     },
     {
       slug: 'lesserafim-overwatch',
@@ -115,7 +115,7 @@
 
   const grid = document.querySelector('[data-works-grid]');
   const filterButtons = [...document.querySelectorAll('[data-filter]')];
-  const filters = ['film', 'ad', 'music', 'event'];
+  const filters = ['film', 'series', 'ad', 'music', 'event'];
   if (!grid) return;
 
   const getThumb = (work) => {
@@ -136,12 +136,10 @@
         <div class="work-card-link work-card-link--static">
           <div class="work-image${work.restricted ? ' work-image--restricted' : ''}">
             ${getThumb(work)}
-            <span class="work-format">${work.format}</span>
           </div>
           <div class="work-body">
             <span>${work.category}</span>
             <h3>${work.title}</h3>
-            <p>${work.copy}</p>
           </div>
         </div>
       </article>

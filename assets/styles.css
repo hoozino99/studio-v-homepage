@@ -1855,23 +1855,6 @@ dd {
     linear-gradient(180deg, rgba(5, 6, 7, 0.02) 0%, rgba(5, 6, 7, 0.10) 62%, rgba(5, 6, 7, 0.42) 100%);
 }
 
-.work-format {
-  position: absolute;
-  z-index: 1;
-  color: var(--white);
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.42);
-}
-
-.work-format {
-  right: 14px;
-  bottom: 14px;
-  max-width: calc(100% - 28px);
-  font-size: 13px;
-  text-transform: uppercase;
-}
-
 .work-body {
   display: grid;
   gap: 4px;
@@ -1889,13 +1872,6 @@ dd {
   margin: 0;
   font-size: clamp(22px, 2.2vw, 34px);
   line-height: 1.02;
-}
-
-.work-body p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.45;
 }
 
 body[data-page="portfolio"] .sub-hero {
@@ -2056,14 +2032,6 @@ body[data-page="portfolio"] .work-body h3 {
   color: rgba(255, 255, 255, 0.94);
   font-size: clamp(17px, 1.45vw, 23px);
   line-height: 1.08;
-}
-
-body[data-page="portfolio"] .work-format {
-  right: 12px;
-  bottom: 12px;
-  font-size: clamp(10px, 0.78vw, 12px);
-  font-weight: 820;
-  letter-spacing: 0.02em;
 }
 
 body[data-page="portfolio"] .work-image img {
@@ -2402,18 +2370,6 @@ body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-h
   background: linear-gradient(180deg, rgba(5, 6, 7, 0.02) 0%, rgba(5, 6, 7, 0.08) 58%, rgba(5, 6, 7, 0.42) 100%);
 }
 
-.showreel-card figure span {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  z-index: 1;
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.42);
-}
-
 .showreel-card-copy {
   display: grid;
   gap: 8px;
@@ -2442,24 +2398,14 @@ body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-h
   font-size: clamp(17px, 1.35vw, 22px);
 }
 
-.showreel-card p {
-  max-width: 34em;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.54);
-  font-size: clamp(12px, 0.95vw, 14px);
-  line-height: 1.55;
-}
-
-.showreel-card--portrait p {
-  font-size: clamp(11px, 0.85vw, 13px);
-}
-
 .showreel-modal {
   position: fixed;
   inset: 0;
   z-index: 1200;
   display: grid;
   place-items: center;
+  align-items: center;
+  justify-items: center;
   padding: clamp(18px, 3vw, 46px);
   opacity: 0;
   pointer-events: none;
@@ -2486,14 +2432,19 @@ body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-h
   position: relative;
   z-index: 1;
   display: grid;
+  align-self: center;
+  justify-self: center;
+  box-sizing: border-box;
   gap: 16px;
   width: min(1180px, 100%);
-  max-height: min(900px, calc(100svh - 40px));
+  max-height: min(900px, calc(100dvh - 40px));
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: clamp(14px, 1.6vw, 22px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(6, 7, 8, 0.92);
   box-shadow: 0 42px 120px rgba(0, 0, 0, 0.56);
-  transform: translateY(14px) scale(0.985);
+  transform: translateY(0) scale(0.985);
   transition: transform 180ms ease;
 }
 
@@ -2556,14 +2507,6 @@ body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-h
 .showreel-modal-frame.is-portrait iframe {
   width: min(420px, 76vw);
   aspect-ratio: 9 / 16;
-}
-
-.showreel-modal-panel p {
-  max-width: 780px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 14px;
-  line-height: 1.55;
 }
 
 body.showreel-modal-open {
@@ -6006,14 +5949,7 @@ body[data-page="contact"].has-depth-v12 .ambient-backplate {
 }
 
 body[data-page="portfolio"] .work-body {
-  min-height: 104px;
-}
-
-body[data-page="portfolio"] .work-body p {
-  margin: 4px 0 0;
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 13px;
-  line-height: 1.55;
+  min-height: 64px;
 }
 
 body[data-page="portfolio"] .portfolio-intro {
@@ -6037,11 +5973,7 @@ body[data-page="showreel"] .showreel-shorts {
 
 @media (max-width: 780px) {
   body[data-page="portfolio"] .work-body {
-    min-height: 92px;
-  }
-
-  body[data-page="portfolio"] .work-body p {
-    font-size: 12px;
+    min-height: 56px;
   }
 }
 

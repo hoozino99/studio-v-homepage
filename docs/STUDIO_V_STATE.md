@@ -153,8 +153,8 @@ Durable design decisions:
 - `LE SSERAFIM x Overwatch` is one project; do not split Overwatch into another title.
 - AION, Dealer, LE SSERAFIM, and showcase thumbnails must come from their actual
   project footage, preferably readable wide/full-stage frames.
-- Numbering above thumbnails was intentionally de-emphasized; the image, format, and
-  title should lead.
+- Portfolio cards show clean thumbnails with category and title below; image format labels,
+  sequence numbers, and long detail descriptions are intentionally omitted.
 - Portfolio is a static representative-image project record. Public cards do not play
   videos; playable content belongs to Showreel. Restricted projects remain non-interactive.
 - Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10
@@ -175,11 +175,14 @@ Durable design decisions:
   ratios.
 - Clicking a showreel item opens playable video content. Mapping lives in
   `assets/showreel.js`.
-- All 13 Showreel items use website-only copies inside the Shared Drive folder
-  `[VP LAB] Studio V 홈페이지 공개영상` (`1JVXTeoW27UihVQjzEktdy7VS29qVIqRX`).
-  Public access is controlled at folder level and must be `anyone / reader`, never
-  `writer`. Removing the folder's `anyoneWithLink` permission pauses future public
-  previews without moving or deleting any file.
+- The homepage Showreel mapping contains 14 video entries: 13 website-only copies inside
+  the Shared Drive folder `[VP LAB] Studio V 홈페이지 공개영상`
+  (`1JVXTeoW27UihVQjzEktdy7VS29qVIqRX`) and one separately shared Series BTS file.
+  Public access is controlled with `anyone / reader`, never `writer`.
+- Showreel cards display the thumbnail, category/type, and title only; thumbnail sequence
+  numbers and long detail descriptions are intentionally omitted. The video modal is
+  centered in the viewport and contains the player plus title metadata without a detail
+  paragraph.
 - Thumbnails should be selected from the mapped video, favoring full-stage or complete
   production views over arbitrary close-ups, title cards, or setup-only frames.
 - `서울이야기 Making` uses the externally viewable Drive file

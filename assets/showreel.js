@@ -85,12 +85,12 @@
     {
       slug: 'dealer',
       title: 'Dealer',
-      copy: '드라이빙 플레이트를 LED Wall에 구현한 차량 촬영 BTS입니다.',
-      type: 'Commercial BTS',
+      copy: '넷플릭스 시리즈 ‘딜러’의 차량 촬영 현장 BTS입니다.',
+      type: 'BTS',
       runtime: '16:9 / MP4',
       source: 'Dealer_0624.mp4',
       driveId: '1YFZ63grO-clINc0FuRs8QsDMYo8vmGqw',
-      category: 'Commercial',
+      category: 'Series',
       thumb: './assets/video/showreel-thumbs/dealer.jpg'
     },
     {
@@ -193,7 +193,6 @@
       <div class="showreel-modal-frame" data-showreel-modal-frame>
         <iframe data-showreel-modal-iframe title="Studio V 확장 영상 플레이어" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
-      <p data-showreel-modal-copy></p>
     </section>
   `;
   document.body.appendChild(modal);
@@ -202,7 +201,6 @@
   const modalFrame = modal.querySelector('[data-showreel-modal-frame]');
   const modalTitle = modal.querySelector('[data-showreel-modal-title]');
   const modalKicker = modal.querySelector('[data-showreel-modal-kicker]');
-  const modalCopy = modal.querySelector('[data-showreel-modal-copy]');
   const modalCloseButtons = [...modal.querySelectorAll('[data-showreel-close]')];
   let activeModalIndex = -1;
 
@@ -217,12 +215,10 @@
     <button class="showreel-card${options.portrait ? ' showreel-card--portrait' : ''} reveal${index === 0 ? ' is-active' : ''}" type="button" data-video-index="${index}" data-video-slug="${video.slug}" style="--reveal-delay: ${Math.min(groupIndex, 5) * 54}ms">
       <figure${options.portrait ? ' class="is-portrait"' : ''}>
         <img src="${versionedAsset(video.thumb || driveThumb(video.driveId))}" alt="" loading="lazy" decoding="async">
-        <span>${String(groupIndex + 1).padStart(2, '0')}</span>
       </figure>
       <div class="showreel-card-copy">
         <small>${video.category} / ${video.type}</small>
         <strong>${video.title}</strong>
-        <p>${video.copy}</p>
       </div>
     </button>
   `).join('');
@@ -253,7 +249,6 @@
     modalFrame?.classList.toggle('is-portrait', item.aspect === 'portrait');
     if (modalTitle) modalTitle.textContent = item.title;
     if (modalKicker) modalKicker.textContent = `${item.category} / ${item.type}`;
-    if (modalCopy) modalCopy.textContent = item.copy;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('showreel-modal-open');
