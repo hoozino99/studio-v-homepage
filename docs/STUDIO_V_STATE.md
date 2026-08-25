@@ -88,8 +88,8 @@ Durable design decisions:
      `assets/images/light-fields/led-spill.png` plate with section-specific depth and
      opacity. The plate remains a small accent on the black field rather than a full
      section haze, with a radial feather on its own edges. Hero's film-to-black handoff
-     uses a long neutral bottom feather; no extra Use Cases light overlay is active in
-     the rollback baseline.
+     uses a long neutral bottom feather. Use Cases keeps the original smooth crossfade
+     and uses JS-managed per-frame opacity without an additional light overlay.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete

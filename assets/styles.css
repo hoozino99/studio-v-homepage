@@ -6194,8 +6194,15 @@ body[data-page="showreel"] .showreel-shorts {
 }
 
 .usecase-bg img {
-  opacity: 0.90;
   filter: saturate(0.96) contrast(1.06) brightness(0.90);
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-bg-slide {
+  opacity: var(--usecase-slide-opacity, 0) !important;
+}
+
+body[data-page="studio"].has-depth-v08 .usecase-bg-slide.is-active {
+  opacity: var(--usecase-slide-opacity, 1) !important;
 }
 
 @media (max-width: 780px) {
