@@ -89,7 +89,8 @@ Durable design decisions:
      opacity. The plate remains a small accent on the black field rather than a full
      section haze, with a radial feather on its own edges. Hero's film-to-black handoff
      uses a long neutral bottom feather. Use Cases keeps the original smooth crossfade
-     and uses JS-managed per-frame opacity without an additional light overlay.
+     with a slightly extended hold on each full frame and JS-managed per-frame opacity
+     without an additional light overlay.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete

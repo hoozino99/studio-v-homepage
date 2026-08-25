@@ -875,6 +875,24 @@
       });
     };
 
+    const getUsecaseFramePosition = (normalizedProgress, maxFrame) => {
+      if (maxFrame <= 0) return 0;
+      if (normalizedProgress >= 1) return maxFrame;
+      const segment = 1 / maxFrame;
+      const segmentIndex = Math.min(maxFrame - 1, Math.floor(normalizedProgress / segment));
+      const segmentProgress = clamp(
+        (normalizedProgress - segmentIndex * segment) / segment,
+        0,
+        1,
+      );
+      const holdRatio = 0.30;
+      const transitionSpan = 1 - holdRatio * 2;
+      if (segmentProgress <= holdRatio) return segmentIndex;
+      if (segmentProgress >= 1 - holdRatio) return segmentIndex + 1;
+      const transitionProgress = (segmentProgress - holdRatio) / transitionSpan;
+      return segmentIndex + transitionProgress;
+    };
+
     const setUsecaseFrame = (frameProgress) => {
       if (!frames.length) {
         setActiveUsecase(0);
@@ -883,7 +901,7 @@
 
       const maxFrame = Math.max(0, frames.length - 1);
       const normalizedProgress = clamp(frameProgress, 0, 1);
-      const framePosition = normalizedProgress * maxFrame;
+      const framePosition = getUsecaseFramePosition(normalizedProgress, maxFrame);
       const activeFrameIndex = frames.length <= 1
         ? 0
         : Math.min(maxFrame, Math.round(framePosition));
