@@ -153,8 +153,9 @@ Durable design decisions:
 - `LE SSERAFIM x Overwatch` is one project; do not split Overwatch into another title.
 - AION, Dealer, LE SSERAFIM, and showcase thumbnails must come from their actual
   project footage, preferably readable wide/full-stage frames.
-- Portfolio cards show clean thumbnails with category and title below; image format labels,
-  sequence numbers, and long detail descriptions are intentionally omitted.
+- Portfolio cards show clean thumbnails with compact category and title below; image format labels,
+  sequence numbers, and long detail descriptions are intentionally omitted. Archive page
+  headings and card titles use a quieter editorial scale rather than oversized display text.
 - Portfolio is a static representative-image project record. Public cards do not play
   videos; playable content belongs to Showreel. Restricted projects remain non-interactive.
 - Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10

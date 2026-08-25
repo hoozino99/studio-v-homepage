@@ -6542,3 +6542,59 @@ body[data-page="studio"] .hero-shade::after {
     height: 28px;
   }
 }
+
+/* editorial-compact-type-v1: quieter hierarchy for archive pages. */
+body[data-page="portfolio"] .works-top h1 {
+  font-size: clamp(30px, 3vw, 48px);
+}
+
+body[data-page="portfolio"] .work-body {
+  gap: 5px;
+}
+
+body[data-page="portfolio"] .work-body span {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+body[data-page="portfolio"] .work-body h3 {
+  font-size: clamp(17px, 1.25vw, 21px);
+  font-weight: 760;
+}
+
+body[data-page="showreel"] .showreel-library .works-top h2,
+body[data-page="showreel"] .showreel-shorts .works-top h2 {
+  font-size: clamp(30px, 3.1vw, 40px);
+}
+
+body[data-page="showreel"] .showreel-card-copy {
+  gap: 6px;
+}
+
+body[data-page="showreel"] .showreel-card small {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+body[data-page="showreel"] .showreel-card strong {
+  font-size: clamp(17px, 1.35vw, 22px);
+  font-weight: 760;
+}
+
+body[data-page="showreel"] .showreel-card--portrait strong {
+  font-size: clamp(16px, 1.18vw, 20px);
+}
+
+body[data-page="showreel"] .showreel-modal-head strong {
+  font-size: clamp(20px, 2vw, 30px);
+}
+
+body[data-page="showreel"] .showreel-hero-copy h1 {
+  font-size: clamp(38px, 4.5vw, 58px);
+}
+
+@media (max-width: 780px) {
+  body[data-page="showreel"] .showreel-hero-copy h1 {
+    font-size: 36px;
+  }
+}
