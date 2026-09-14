@@ -27,8 +27,21 @@
   document.body.classList.toggle('is-logo-grid', debugParams.get('logoGrid') === '1');
 
   const ambientBackplate = document.querySelector('[data-ambient-backplate]');
-  if (ambientBackplate) {
+        const studioDepthField = document.querySelector('[data-studio-depth-field]');
+  if (ambientBackplate || studioDepthField) {
     const usecaseAnchor = document.querySelector('[data-usecase-scene]');
+    const updateAmbientVars = Boolean(ambientBackplate && !studioDepthField);
+    const studioDepthMotion = studioDepthField
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+    const studioDepthStage = document.querySelector('.stage-overview');
+    const studioDepthGallery = document.querySelector('[data-stage-gallery]');
+    const studioDepthPartners = document.querySelector('[data-partner-strip]');
+    const studioDepthFar = studioDepthField?.querySelector('[data-studio-depth-layer="far"]');
+    const studioDepthNear = studioDepthField?.querySelector('[data-studio-depth-layer="near"]');
+    const studioDepthImages = studioDepthGallery
+      ? [...studioDepthGallery.querySelectorAll('.stage-scroll-frame img, .stage-scroll-fallback img')]
+      : [];
     let ticking = false;
 
     const updateAmbient = () => {
@@ -41,11 +54,61 @@
       const warmth = clamp((window.scrollY - warmStart) / Math.max(1, warmEnd - warmStart), 0, 1);
       const coolAlpha = 0.16 * (1 - warmth);
       const warmAlpha = 0.19 * warmth;
+      let studioDepthRects = null;
 
-      document.body.style.setProperty('--ambient-progress', progress.toFixed(4));
-      document.body.style.setProperty('--ambient-warmth', warmth.toFixed(4));
-      document.body.style.setProperty('--ambient-cool-alpha', coolAlpha.toFixed(4));
-      document.body.style.setProperty('--ambient-warm-alpha', warmAlpha.toFixed(4));
+      if (studioDepthField && studioDepthStage && studioDepthPartners) {
+        const stageRect = studioDepthStage.getBoundingClientRect();
+        const galleryRect = studioDepthGallery?.getBoundingClientRect() || stageRect;
+        const partnersRect = studioDepthPartners.getBoundingClientRect();
+        studioDepthRects = { stageRect, galleryRect, partnersRect };
+      }
+
+      if (updateAmbientVars) {
+        document.body.style.setProperty('--ambient-progress', progress.toFixed(4));
+        document.body.style.setProperty('--ambient-warmth', warmth.toFixed(4));
+        document.body.style.setProperty('--ambient-cool-alpha', coolAlpha.toFixed(4));
+        document.body.style.setProperty('--ambient-warm-alpha', warmAlpha.toFixed(4));
+      }
+
+      if (studioDepthField && studioDepthFar && studioDepthNear && studioDepthRects) {
+        const { stageRect, galleryRect, partnersRect } = studioDepthRects;
+        const stageTop = stageRect.top + window.scrollY;
+        const partnersTop = partnersRect.top + window.scrollY;
+        const depthProgress = clamp(
+          (window.scrollY - stageTop) / Math.max(1, partnersTop - stageTop),
+          0,
+          1,
+        );
+        const enter = clamp((viewport - stageRect.top) / Math.max(1, viewport), 0, 1);
+        const exit = clamp(partnersRect.top / Math.max(1, viewport), 0, 1);
+        const localProgress = clamp(
+          (viewport - galleryRect.top) / Math.max(1, viewport + galleryRect.height),
+          0,
+          1,
+        );
+        const compact = (window.innerWidth || document.documentElement.clientWidth) <= 780;
+        const motionScale = compact ? 0.5 : 1;
+        const farX = (depthProgress - 0.5) * 24 * motionScale;
+        const farY = (0.5 - depthProgress) * 80 * motionScale;
+        const nearY = (0.5 - depthProgress) * 40 * motionScale;
+        const imageY = (0.5 - localProgress) * (compact ? 10 : 20);
+        const imageScale = compact ? 1.02 : 1.035;
+
+        studioDepthField.style.opacity = Math.min(enter, exit).toFixed(4);
+        if (studioDepthMotion?.matches) {
+          studioDepthFar.style.transform = 'translate3d(0, 0, 0) translateY(-50%)';
+          studioDepthNear.style.transform = 'perspective(1000px) rotateX(62deg) translate3d(0, 0, 0)';
+          studioDepthImages.forEach((image) => {
+            image.style.transform = 'none';
+          });
+        } else {
+          studioDepthFar.style.transform = `translate3d(${farX.toFixed(3)}px, ${farY.toFixed(3)}px, 0) translateY(-50%)`;
+          studioDepthNear.style.transform = `perspective(1000px) rotateX(62deg) translate3d(0, ${nearY.toFixed(3)}px, 0)`;
+          studioDepthImages.forEach((image) => {
+            image.style.transform = `translate3d(0, ${imageY.toFixed(3)}px, 0) scale(${imageScale})`;
+          });
+        }
+      }
     };
 
     const requestAmbientUpdate = () => {
@@ -55,10 +118,14 @@
     };
 
     updateAmbient();
+    if (studioDepthField) window.requestAnimationFrame(updateAmbient);
     window.addEventListener('scroll', requestAmbientUpdate, { passive: true });
     window.addEventListener('resize', requestAmbientUpdate);
+    if (studioDepthMotion?.addEventListener) {
+      studioDepthMotion.addEventListener('change', requestAmbientUpdate);
+    }
 
-    if (window.matchMedia('(pointer: fine)').matches) {
+    if (ambientBackplate && !studioDepthField && window.matchMedia('(pointer: fine)').matches) {
       window.addEventListener('pointermove', (event) => {
         const x = ((event.clientX / Math.max(1, window.innerWidth)) - 0.5) * 2;
         const y = ((event.clientY / Math.max(1, window.innerHeight)) - 0.5) * 2;
@@ -744,7 +811,9 @@
   }
 
   const stageGallery = document.querySelector('[data-stage-gallery]');
-  if (stageGallery && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const stageSticky = stageGallery?.querySelector('.stage-scroll-sticky');
+  if (stageGallery && stageSticky) {
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const frames = [...stageGallery.querySelectorAll('.stage-scroll-frame')];
     const count = stageGallery.querySelector('[data-stage-count]');
     const title = stageGallery.querySelector('[data-stage-title]');
@@ -785,17 +854,18 @@
 
     const updateStageGallery = () => {
       ticking = false;
+      if (reducedMotionQuery.matches) return;
       const rect = stageGallery.getBoundingClientRect();
-      const viewport = window.innerHeight || document.documentElement.clientHeight;
       const galleryTop = rect.top + window.scrollY;
-      const start = galleryTop - viewport * 0.16;
-      const end = galleryTop + stageGallery.offsetHeight - viewport * 0.28;
+      const stickyTop = Number.parseFloat(window.getComputedStyle(stageSticky).top) || 0;
+      const stickyHeight = stageSticky.getBoundingClientRect().height;
+      const start = galleryTop - stickyTop;
+      const end = start + Math.max(0, rect.height - stickyHeight);
       const travel = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / travel, 0, 1);
       const frameProgress = clamp((progress - 0.04) / 0.84, 0, 1);
-      const copyExit = clamp((progress - 0.95) / 0.05, 0, 1);
       setStageFrameProgress(frameProgress);
-      stageGallery.style.setProperty('--stage-copy-exit', copyExit.toFixed(4));
+      stageGallery.style.setProperty('--stage-copy-exit', '0');
       if (progressBar) progressBar.style.setProperty('--stage-progress', `${progress * 100}%`);
     };
 
@@ -808,6 +878,9 @@
     updateStageGallery();
     window.addEventListener('scroll', requestStageGalleryUpdate, { passive: true });
     window.addEventListener('resize', requestStageGalleryUpdate);
+    if (reducedMotionQuery.addEventListener) {
+      reducedMotionQuery.addEventListener('change', requestStageGalleryUpdate);
+    }
   }
 
   const usecaseScene = document.querySelector('[data-usecase-scene]');
@@ -851,6 +924,7 @@
 
     const setStaticUsecase = (index) => {
       const nextIndex = clamp(index, 0, Math.max(0, backgrounds.length - 1));
+      usecaseScene.classList.remove('is-scroll-compositing');
       usecaseScene.style.setProperty('--usecase-scroll-progress', '0');
       usecaseScene.style.setProperty('--usecase-copy-exit', '0');
       usecaseScene.style.setProperty('--usecase-scene-exit', '0');
@@ -859,6 +933,7 @@
       setActiveUsecase(nextIndex);
       backgrounds.forEach((background, backgroundIndex) => {
         const isActive = backgroundIndex === nextIndex;
+        background.style.removeProperty('z-index');
         background.style.setProperty('--usecase-bg-opacity', isActive ? '1' : '0');
         background.style.setProperty('--usecase-bg-x', isActive ? '0' : '2vw');
         background.style.setProperty('--usecase-bg-scale', isActive ? '1' : '1.012');
@@ -867,6 +942,7 @@
       slideGroups.forEach((slides, backgroundIndex) => {
         slides.forEach((slide, slideIndex) => {
           const isActive = backgroundIndex === nextIndex && slideIndex === 0;
+          slide.style.removeProperty('z-index');
           slide.style.setProperty('--usecase-slide-opacity', isActive ? '1' : '0');
           slide.style.setProperty('--usecase-slide-x', '0');
           slide.style.setProperty('--usecase-slide-scale', isActive ? '1' : '1.012');
@@ -906,14 +982,22 @@
         ? 0
         : Math.min(maxFrame, Math.round(framePosition));
       const activeFrame = frames[activeFrameIndex] || frames[0];
+      const lower = Math.min(maxFrame, Math.floor(framePosition));
+      const upper = Math.min(maxFrame, lower + 1);
+      const blend = framePosition - lower;
+      const lowerBackground = frames[lower].backgroundIndex;
+      const upperBackground = frames[upper].backgroundIndex;
+      usecaseScene.classList.add('is-scroll-compositing');
 
       frames.forEach((frame, frameIndex) => {
         const offset = frameIndex - framePosition;
         const distance = Math.abs(offset);
         const isActive = frameIndex === activeFrameIndex;
-        const opacity = clamp(1 - distance * 1.2, 0, 1);
+        // Keep the lower image opaque; only the image above it dissolves in.
+        const opacity = frameIndex === lower ? 1 : frameIndex === upper ? blend : 0;
         const scale = 1 + Math.min(distance, 1) * 0.012;
 
+        frame.slide.style.zIndex = frameIndex === lower ? '1' : frameIndex === upper ? '2' : '0';
         frame.slide.style.setProperty('--usecase-slide-opacity', opacity.toFixed(4));
         frame.slide.style.setProperty('--usecase-slide-x', `${(offset * 4.5).toFixed(3)}vw`);
         frame.slide.style.setProperty('--usecase-slide-scale', scale.toFixed(4));
@@ -921,16 +1005,13 @@
       });
 
       backgrounds.forEach((background, backgroundIndex) => {
-        const groupFrames = frames.filter((frame) => frame.backgroundIndex === backgroundIndex);
-        const opacity = groupFrames.reduce((maximum, frame) => {
-          const frameIndex = frames.indexOf(frame);
-          return Math.max(maximum, clamp(1 - Math.abs(frameIndex - framePosition) * 1.2, 0, 1));
-        }, 0);
+        const isLower = backgroundIndex === lowerBackground;
+        const isUpper = backgroundIndex === upperBackground;
         const isActive = backgroundIndex === activeFrame.backgroundIndex;
-        const scale = 1 + (1 - opacity) * 0.01;
-        background.style.setProperty('--usecase-bg-opacity', opacity.toFixed(4));
+        background.style.zIndex = isLower ? '1' : isUpper ? '2' : '0';
+        background.style.setProperty('--usecase-bg-opacity', isLower || isUpper ? '1' : '0');
         background.style.setProperty('--usecase-bg-x', '0');
-        background.style.setProperty('--usecase-bg-scale', scale.toFixed(4));
+        background.style.setProperty('--usecase-bg-scale', '1');
         background.classList.toggle('is-active', isActive);
       });
 

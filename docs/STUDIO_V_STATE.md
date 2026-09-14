@@ -1,6 +1,6 @@
 # Studio V Project State
 
-Updated: 2026-08-21 KST
+Updated: 2026-09-14 KST
 
 This is the canonical durable handoff for Codex, Main Hermes, and Team Hermes.
 Read this file before changing, deploying, or describing the Studio V site. GitHub
@@ -22,6 +22,11 @@ confirm the current commit instead of treating a hash written in a note as perma
 
 Documentation-only commits may follow the UI baseline. The actual latest version is
 always `origin/main`; verify it with `git fetch origin` and `git rev-parse`.
+
+- The local Studio homepage worktree contains the verified Phase 1 motion cleanup plus
+  the implemented `studio-v-depth-v36` 2.5D field. Parent visual review is approved;
+  deployment outcome is tracked separately, and rollback starts at
+  `b34904ef72c9f8faf1c453c9e016932ba201e396`.
 
 ## Product Direction
 
@@ -81,16 +86,14 @@ Durable design decisions:
    - The final Event frame must reach full opacity and remain readable before the page
      continues to Technology Partners. Do not shorten this handoff until the image is
      skipped again.
-   - Hero, Stage Overview, Projects, and Use Cases have slightly increased breathing
-     room. Their real imagery now sits above restrained silver-cyan 2.5D light bridges;
-     feathered masks and reduced image opacity prevent hard cropping at section edges.
-     The visible right-edge spill uses the approved black-base
-     `assets/images/light-fields/led-spill.png` plate with section-specific depth and
-     opacity. The plate remains a small accent on the black field rather than a full
-     section haze, with a radial feather on its own edges. Hero's film-to-black handoff
-     uses a long neutral bottom feather. Use Cases keeps the original smooth crossfade
-     with a slightly extended hold on each full frame and JS-managed per-frame opacity
-     without an additional light overlay.
+   - A single `studio-depth-field` sits behind Stage Overview, Projects, and Use Cases:
+     an image-free near reflection plus the approved black-base
+     `assets/images/light-fields/led-spill.png` far plate. Its scroll progress adds
+     restrained far/near movement while Stage photos receive only a small middle-depth
+     parallax; copy, Hero, and the opaque black Partners surface stay fixed.
+   - The field uses no global stage/truss photograph, extra section light owners,
+     pointer tracking, or new pin space. Hero's film-to-black handoff, the Stage
+     single scrim, and Use Cases' text/neutral boundary masks remain intact.
 5. Technology Partners
    - `Powered by / Technology Partners`, using leveled v13 plaque-derived marks.
    - Main vendors are visually larger; supporting vendors are centered as a complete
@@ -264,8 +267,9 @@ Durable design decisions:
 ## Interaction Architecture
 
 - `assets/main.js` owns the header state, reveal behavior, hero playback recovery,
-  Projects marquee, Stage Overview scroll scene, Use Cases scroll scene, partner wall,
-  local Partner soft-field motion, ambient variables, and card-level pointer parallax.
+  shared homepage `studio-depth-field` scroll controller, Projects marquee, Stage
+  Overview scroll scene, Use Cases scroll scene, partner wall, local Partner soft-field
+  motion, ambient variables, and card-level pointer parallax.
 - `assets/styles.css` contains cumulative visual-version blocks. The active Technology Partners composition is the scoped `partner soft-field v23` block beginning at `.partner-strip`; edit that block rather than stacking another one-line override.
 - No page uses the former global photographic depth canvas. Stage, ceiling/truss, and rig
   photographs may appear only inside their intended content sections, never as a fixed
@@ -295,6 +299,9 @@ Durable design decisions:
 - `pending v23`: preserved the restored Technology Partners composition and corrected
   optical sizing/alignment for uneven partner marks; rollback baseline remains `4cb1266`
   until the new commit is created.
+- `studio-v-depth-v36`: adds the shared image-free/approved-plate homepage depth field
+  and limited Stage-photo parallax; parent visual review approved, with rollback
+  baseline `b34904e`.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback

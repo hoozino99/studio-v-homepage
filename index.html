@@ -8,10 +8,10 @@
   <link rel="preload" as="image" href="./assets/video/cube-of-memory-main-film-poster.jpg?v=studio-v-lsf-thumb-01">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-hero-feather-v35">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-depth-v36">
   <link rel="icon" href="data:,">
 </head>
-<body data-page="studio">
+<body data-page="studio" class="has-studio-depth">
   <div class="ambient-backplate" data-ambient-backplate aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <header class="site-header" data-header>
@@ -41,6 +41,10 @@
   </div>
 
   <main>
+    <div class="studio-depth-field" data-studio-depth-field aria-hidden="true">
+      <img class="studio-depth-field__far" data-studio-depth-layer="far" src="./assets/images/light-fields/led-spill.png" alt="">
+      <div class="studio-depth-field__near" data-studio-depth-layer="near"></div>
+    </div>
     <section class="hero hero-home" data-hero-scrub>
         <div class="hero-sticky">
           <div class="hero-media" aria-hidden="true">
@@ -183,6 +187,6 @@
     </div>
   </footer>
 
-  <script src="./assets/main.js?v=studio-v-hero-feather-v35"></script>
+  <script src="./assets/main.js?v=studio-v-depth-v36"></script>
 </body>
 </html>
