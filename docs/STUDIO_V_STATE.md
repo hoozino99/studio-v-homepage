@@ -15,7 +15,8 @@ confirm the current commit instead of treating a hash written in a note as perma
 - Cloudflare Pages project: `studio-v-homepage`
 - Cloudflare R2 bucket: `studio-v-media`
 - Last visually verified UI baseline: `e8ac779` (`depth-v12`)
-- Current archive-page asset version in HTML: `studio-v-archive-split-20260920-v2` (parent-approved; deployment pending)
+- Current live archive-page asset version in HTML: `studio-v-archive-split-20260920-v2` (deployed in `8b58052`)
+- Local release-candidate archive UI asset version: `studio-v-archive-ui-20260920-v2` (parent-reviewed; pending release)
 - Local Codex workspace: `/Users/dextermacpro/Documents/VibeCoding/master-v1-copyedit`
 - Main Hermes workspace: `/opt/data/workspace/studio-v-homepage`
 - Team Hermes workspace: `/opt/data/workspace/studio-v-homepage`
@@ -25,8 +26,9 @@ always `origin/main`; verify it with `git fetch origin` and `git rev-parse`.
 
 - The local Studio homepage worktree contains the verified Phase 1 motion cleanup plus
   the implemented `studio-v-depth-v36` 2.5D field. Parent visual review is approved;
-  the Showreel/Portfolio split is now implemented locally as a parent-approved
-  archive-page change pending deployment. Deployment outcome is tracked separately, and rollback starts at
+  the Showreel/Portfolio split is deployed in `8b58052`; the later card-affordance
+  polish is a parent-reviewed release candidate pending commit/deployment. Deployment
+  evidence is tracked separately, and rollback starts at
   `5d0e9a30fa57b831895749e717efe5949222d406` for the archive work.
 
 ## Product Direction
@@ -175,8 +177,10 @@ Durable design decisions:
   non-interactive.
 - Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10
   catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
-- 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
-  camera/crew/Studio V stage frame. Its making video remains playable only in Showreel.
+- The TUCSON card uses a localized cleanup of the original thumbnail's small UI artifact;
+  the source JPG remains preserved and the vehicle/frame was not replaced by generated art.
+- 서울이야기 appears in Portfolio as a playable Drama Making record using the verified
+  camera/crew/Studio V stage frame; Showreel intentionally excludes this Portfolio video.
 - Genesis GV90 1/2 remain separate project records. GV90 1 uses the overhead open-door
   view; GV90 2 uses the owner-supplied side-profile open-door image with the reflecting pool.
 - Avante DN8 uses the owner-supplied rooftop rear three-quarter image. Its original
@@ -206,9 +210,10 @@ Durable design decisions:
   paragraph.
 - Thumbnails should be selected from the mapped video, favoring full-stage or complete
   production views over arbitrary close-ups, title cards, or setup-only frames.
-- `서울이야기 Making` uses the externally viewable Drive file
-  `17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw`. Portfolio and Showreel use the clean stage/set
-  frame `seoul-story-stage-alt.jpg` extracted from the verified making video.
+- `서울이야기 Making` remains mapped to the existing Portfolio Drive file ID
+  `17CK3T7C4hXcof0id6YeZZD4_Yq30F9tw`; provider login or access restrictions may limit
+  playback, and no permission change was made. Its Portfolio thumbnail uses the clean
+  stage/set frame `seoul-story-stage-alt.jpg`; it is not a Showreel card.
 - The presentation deck supplied by the owner is the editorial source for showreel and
   making-video titles/descriptions. Do not copy its internal production notes into the
   public Portfolio page.
@@ -320,8 +325,11 @@ Durable design decisions:
   baseline `b34904e`.
 - `archive-split-v01`: separates the eight-record Showreel from the six-video /
   four-photo Portfolio index, adds the shared native dialog player and deterministic
-  catalog checks; parent browser review approved, deployment pending, with rollback
-  baseline `5d0e9a3`.
+  catalog checks; parent browser review approved and deployed in `8b58052`, with
+  rollback baseline `5d0e9a3`.
+- `archive-ui-v1`: removes the Portfolio image play pill, adds small card-level play
+  indicators, lightens archive typography, and includes the localized TUCSON thumbnail
+  cleanup; parent CUA review approved as a release candidate, pending deployment.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback

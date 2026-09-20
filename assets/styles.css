@@ -2061,42 +2061,6 @@ body[data-page="portfolio"] .work-card-link--static {
   cursor: default;
 }
 
-body[data-page="portfolio"] .work-play-hint {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  border-radius: 999px;
-  color: rgba(255, 255, 255, 0.94);
-  background: rgba(4, 6, 7, 0.64);
-  backdrop-filter: blur(10px);
-  font-size: 10px;
-  font-weight: 820;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: background 180ms ease, transform 180ms ease;
-}
-
-body[data-page="portfolio"] .work-play-hint::before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 6px solid currentColor;
-}
-
-body[data-page="portfolio"] .work-card-link--playable:hover .work-play-hint,
-body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-hint {
-  background: rgba(112, 151, 158, 0.76);
-  transform: translateY(-2px);
-}
-
 .showreel-hero {
   position: relative;
   min-height: clamp(540px, 70svh, 760px);
@@ -6776,11 +6740,6 @@ body[data-page="portfolio"] .work-card-link--static .work-format {
   color: rgba(255, 255, 255, 0.42);
 }
 
-body[data-page="portfolio"] .work-play-hint {
-  backdrop-filter: none;
-  background: rgba(4, 6, 7, 0.82);
-}
-
 body[data-page="showreel"] .showreel-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: min(100%, 1040px);
@@ -7002,4 +6961,69 @@ body.media-dialog-open {
   .media-dialog__foot a {
     transition: none;
   }
+}
+
+/* archive-ui-v1: quiet card affordances and lighter archive typography. */
+body[data-page="portfolio"] .work-title-row,
+body[data-page="showreel"] .showreel-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+body[data-page="portfolio"] .work-title-row h3,
+body[data-page="showreel"] .showreel-card strong {
+  min-width: 0;
+  font-weight: 620;
+}
+
+body[data-page="portfolio"] .work-body span,
+body[data-page="portfolio"] .work-format,
+body[data-page="showreel"] .showreel-card small {
+  font-weight: 560;
+}
+
+body[data-page="portfolio"] .work-body .work-play-icon,
+body[data-page="showreel"] .showreel-card-meta .showreel-play-icon {
+  position: relative;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0;
+  line-height: 1;
+}
+
+body[data-page="portfolio"] .work-play-icon::before,
+body[data-page="showreel"] .showreel-play-icon::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 1px;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: 4px solid currentColor;
+}
+
+body[data-page="portfolio"] .work-card-link--playable:hover .work-play-icon,
+body[data-page="portfolio"] .work-card-link--playable:focus-visible .work-play-icon,
+body[data-page="showreel"] .showreel-card:hover .showreel-play-icon,
+body[data-page="showreel"] .showreel-card:focus-visible .showreel-play-icon,
+body[data-page="showreel"] .showreel-card.is-active .showreel-play-icon {
+  border-color: rgba(255, 255, 255, 0.90);
+  color: rgba(255, 255, 255, 0.94);
+}
+
+body[data-page="showreel"] .showreel-card-copy {
+  gap: 6px;
+}
+
+body[data-page="showreel"] .showreel-card-meta small {
+  min-width: 0;
 }

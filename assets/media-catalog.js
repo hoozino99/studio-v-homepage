@@ -177,7 +177,7 @@
       category: 'AD',
       type: 'Photo',
       copy: '카탈로그·웹 광고 이미지 촬영 지원 기록입니다.',
-      image: './assets/images/portfolio/tucson-print-campaign.jpg'
+      image: './assets/images/portfolio/tucson-print-campaign-clean.png'
     },
     {
       slug: 'genesis-print-campaign-01',

@@ -1,7 +1,7 @@
 (() => {
   const catalog = globalThis.StudioVMediaCatalog;
   const createPlayer = globalThis.StudioVMediaPlayer;
-  const assetVersion = 'studio-v-portfolio-split-v01';
+  const assetVersion = 'studio-v-archive-ui-20260920-v2';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
 
   const grid = document.querySelector('[data-works-grid]');
@@ -33,11 +33,13 @@
       const content = `
         <div class="work-image${isPlayable ? ' work-image--playable' : ''}${work.restricted ? ' work-image--restricted' : ''}">
           ${getThumb(work)}
-          ${isPlayable ? '<span class="work-play-hint" aria-hidden="true">Play</span>' : ''}
         </div>
         <div class="work-body">
           <span class="work-category">${work.category}</span>
-          <h3>${work.title}</h3>
+          <div class="work-title-row">
+            <h3>${work.title}</h3>
+            ${isPlayable ? '<span class="work-play-icon" aria-hidden="true"></span>' : ''}
+          </div>
           <small class="work-format">${work.type}</small>
         </div>
       `;

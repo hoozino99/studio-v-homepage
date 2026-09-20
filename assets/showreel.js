@@ -1,7 +1,7 @@
 (() => {
   const catalog = globalThis.StudioVMediaCatalog;
   const createPlayer = globalThis.StudioVMediaPlayer;
-  const assetVersion = 'studio-v-showreel-split-v01';
+  const assetVersion = 'studio-v-archive-ui-20260920-v2';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
   const grid = document.querySelector('[data-showreel-grid]');
   const shortsGrid = document.querySelector('[data-showreel-shorts-grid]');
@@ -39,7 +39,10 @@
         <img src="${versionedAsset(video.thumb)}" alt="${video.title}" loading="lazy" decoding="async">
       </figure>
       <div class="showreel-card-copy">
-        <small>${video.type}</small>
+        <div class="showreel-card-meta">
+          <small>${video.type}</small>
+          <span class="showreel-play-icon" aria-hidden="true"></span>
+        </div>
         <strong>${video.title}</strong>
       </div>
     </button>
