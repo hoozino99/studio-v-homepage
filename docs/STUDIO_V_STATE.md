@@ -1,6 +1,6 @@
 # Studio V Project State
 
-Updated: 2026-09-14 KST
+Updated: 2026-09-20 KST
 
 This is the canonical durable handoff for Codex, Main Hermes, and Team Hermes.
 Read this file before changing, deploying, or describing the Studio V site. GitHub
@@ -15,7 +15,7 @@ confirm the current commit instead of treating a hash written in a note as perma
 - Cloudflare Pages project: `studio-v-homepage`
 - Cloudflare R2 bucket: `studio-v-media`
 - Last visually verified UI baseline: `e8ac779` (`depth-v12`)
-- Current subpage asset version in HTML: `studio-v-lightfield-v13`
+- Current archive-page asset version in HTML: `studio-v-archive-split-20260920-v2` (parent-approved; deployment pending)
 - Local Codex workspace: `/Users/dextermacpro/Documents/VibeCoding/master-v1-copyedit`
 - Main Hermes workspace: `/opt/data/workspace/studio-v-homepage`
 - Team Hermes workspace: `/opt/data/workspace/studio-v-homepage`
@@ -25,8 +25,9 @@ always `origin/main`; verify it with `git fetch origin` and `git rev-parse`.
 
 - The local Studio homepage worktree contains the verified Phase 1 motion cleanup plus
   the implemented `studio-v-depth-v36` 2.5D field. Parent visual review is approved;
-  deployment outcome is tracked separately, and rollback starts at
-  `b34904ef72c9f8faf1c453c9e016932ba201e396`.
+  the Showreel/Portfolio split is now implemented locally as a parent-approved
+  archive-page change pending deployment. Deployment outcome is tracked separately, and rollback starts at
+  `5d0e9a30fa57b831895749e717efe5949222d406` for the archive work.
 
 ## Product Direction
 
@@ -148,9 +149,17 @@ Durable design decisions:
 ### Portfolio (`portfolio.html`)
 
 - Direct project index with compact filtering and no oversized hero narrative.
-- Public projects: Cube of Memory, 서울이야기, AION 2, Hyundai TUCSON, Dealer,
-  LE SSERAFIM x Overwatch, StudioCube Opening, Beyond the Set, Genesis GV90 1/2,
-  Avante DN8, and the current technology demonstration entry.
+- Public projects: 서울이야기, AION 2, Hyundai TUCSON, Dealer, LE SSERAFIM x Overwatch,
+  Beyond the Set, Technical Demonstration I, Genesis GV90 1/2, and Avante DN8.
+- Portfolio owns six playable video records: 서울이야기 Making → `seoul-story`, AION 2
+  BTS → `aion-commercial`, Dealer BTS → `dealer-driving-plate`, LE SSERAFIM x Overwatch
+  Making → `lesserafim-overwatch`, Beyond the Set Showcase → `beyond-the-set`, and
+  Technical Demonstration I Seminar Making → `vp-technical-seminar`.
+- The four photo-only records are Hyundai TUCSON, Genesis GV90 1, Genesis GV90 2, and
+  Avante DN8. They remain static and never receive a play affordance.
+- Portfolio order intentionally preserves the earlier project rhythm after removing the
+  Cube of Memory and StudioCube Opening archive cards: Seoul, AION, TUCSON, Dealer,
+  LE SSERAFIM, Beyond the Set, seminar, GV90 1/2, Avante.
 - No Portfolio project is currently using the restricted disclosure canvas.
 - Restricted projects must not display private production frames. Use the framed
   restricted canvas and short disclosure copy.
@@ -160,8 +169,10 @@ Durable design decisions:
 - Portfolio cards show clean thumbnails with compact category and title below; image format labels,
   sequence numbers, and long detail descriptions are intentionally omitted. Archive page
   headings and card titles use a quieter editorial scale rather than oversized display text.
-- Portfolio is a static representative-image project record. Public cards do not play
-  videos; playable content belongs to Showreel. Restricted projects remain non-interactive.
+- Playable Portfolio cards open the shared native dialog and retain an always-visible
+  original Drive link. Filter buttons use `aria-pressed`, hash filters remain supported,
+  and `?play=<video-slug>` opens the matching Portfolio video. Restricted projects remain
+  non-interactive.
 - Hyundai TUCSON is a Print & Web Campaign entry based on the confirmed 2026-07-09~10
   catalogue/web advertising image shoot. It is Portfolio-only and has no Showreel item.
 - 서울이야기 appears in Portfolio as a static Drama Shoot record using the verified
@@ -176,14 +187,19 @@ Durable design decisions:
 - Looping R2 hero and a separate content library below it.
 - The old hero description sentence and `영상 목록` / `촬영 문의` hero buttons were
   intentionally removed.
-- Landscape videos and portrait shorts have separate sections and native thumbnail
-  ratios.
-- Clicking a showreel item opens playable video content. Mapping lives in
-  `assets/showreel.js`.
-- The homepage Showreel mapping contains 14 video entries: 13 website-only copies inside
-  the Shared Drive folder `[VP LAB] Studio V 홈페이지 공개영상`
-  (`1JVXTeoW27UihVQjzEktdy7VS29qVIqRX`) and one separately shared Series BTS file.
-  Public access is controlled with `anyone / reader`, never `writer`.
+- Landscape videos and portrait shorts have separate sections and native thumbnail ratios:
+  four landscape records (Cube of Memory main film, Showreel, Making, and StudioCube
+  Opening Film) plus four portrait Shorts records.
+- Clicking a Showreel item opens the shared native `<dialog>` player. The single
+  `assets/media-catalog.js` owns all 14 Drive IDs and page ownership; the single
+  `assets/media-player.js` owns iframe lifecycle, Escape/backdrop close, focus return,
+  original-link fallback, and Showreel hero pause/resume.
+- Historical `showreel.html?play=<Portfolio-video-slug>` and moved hash links redirect to
+  the matching Portfolio project/modal. Historical Portfolio Cube/Opening hashes redirect
+  to their Showreel records. Unknown identifiers are ignored safely.
+- Public access is controlled with the existing Drive links; this split does not change
+  file permissions. A provider login or permission screen must be reported honestly, and
+  the original Drive link remains available.
 - Showreel cards display the thumbnail, category/type, and title only; thumbnail sequence
   numbers and long detail descriptions are intentionally omitted. The video modal is
   centered in the viewport and contains the player plus title metadata without a detail
@@ -302,6 +318,10 @@ Durable design decisions:
 - `studio-v-depth-v36`: adds the shared image-free/approved-plate homepage depth field
   and limited Stage-photo parallax; parent visual review approved, with rollback
   baseline `b34904e`.
+- `archive-split-v01`: separates the eight-record Showreel from the six-video /
+  four-photo Portfolio index, adds the shared native dialog player and deterministic
+  catalog checks; parent browser review approved, deployment pending, with rollback
+  baseline `5d0e9a3`.
 
 The branch `codex/depth-v05-seamless` currently points at the verified depth-v12
 baseline as an additional rollback reference. Git history remains the primary rollback

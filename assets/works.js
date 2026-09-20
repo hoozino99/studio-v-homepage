@@ -1,166 +1,125 @@
 (() => {
-  const assetVersion = 'studio-v-portfolio-stills-06';
+  const catalog = globalThis.StudioVMediaCatalog;
+  const createPlayer = globalThis.StudioVMediaPlayer;
+  const assetVersion = 'studio-v-portfolio-split-v01';
   const versionedAsset = (url) => url && url.startsWith('./') ? `${url}?v=${assetVersion}` : url;
-
-  const works = [
-    {
-      slug: 'cube-of-memory',
-      group: 'film',
-      category: 'Film',
-      title: 'Cube of Memory',
-      format: 'Virtual Production Film',
-      image: './assets/video/showreel-thumbs/cube-main-film.jpg',
-      copy: 'Studio V에서 진행한 대표 버추얼 프로덕션 필름 기록입니다.'
-    },
-    {
-      slug: 'seoul-story',
-      group: 'film',
-      category: 'Film & Drama',
-      title: '서울이야기',
-      format: 'Drama Shoot',
-      image: './assets/video/showreel-thumbs/seoul-story-stage-alt.jpg',
-      copy: 'Studio V에서 진행한 리허설·테스트 및 본 촬영 지원 기록입니다.'
-    },
-    {
-      slug: 'aion-commercial',
-      group: 'ad',
-      category: 'AD',
-      title: 'AION 2',
-      format: 'Commercial',
-      image: './assets/video/showreel-thumbs/aion2.jpg',
-      copy: 'J자 곡면 LED Wall을 활용한 광고 촬영 기록입니다.'
-    },
-    {
-      slug: 'tucson-print-campaign',
-      group: 'ad',
-      category: 'AD',
-      title: 'Hyundai TUCSON',
-      format: 'Print & Web Campaign',
-      image: './assets/images/portfolio/tucson-print-campaign.jpg',
-      copy: '카탈로그·웹 광고 이미지 촬영 지원 기록입니다.'
-    },
-    {
-      slug: 'dealer-driving-plate',
-      group: 'series',
-      category: 'Series',
-      title: 'Dealer',
-      format: 'BTS',
-      image: './assets/video/showreel-thumbs/dealer.jpg',
-      copy: '넷플릭스 시리즈 ‘딜러’의 차량 촬영 현장 기록입니다.'
-    },
-    {
-      slug: 'lesserafim-overwatch',
-      group: 'music',
-      category: 'Music Video',
-      title: 'LE SSERAFIM x Overwatch',
-      format: 'Music Video',
-      image: './assets/video/showreel-thumbs/le-sserafim-overwatch.jpg',
-      copy: 'Studio V에서 진행한 뮤직비디오 프로젝트 촬영 기록입니다.'
-    },
-    {
-      slug: 'studio-cube-opening',
-      group: 'event',
-      category: 'Event',
-      title: 'StudioCube Opening',
-      format: 'Launch Film',
-      image: './assets/video/showreel-thumbs/studiocube-opening.jpg',
-      copy: 'StudioCube 개관과 제작 인프라를 소개한 프로젝트 기록입니다.'
-    },
-    {
-      slug: 'beyond-the-set',
-      group: 'event',
-      category: 'Showcase',
-      title: 'Beyond the Set',
-      format: 'VP Showcase',
-      image: './assets/video/showreel-thumbs/beyond-the-set.jpg',
-      copy: 'AI 융합 VP 기술 시연 쇼케이스 기록입니다.'
-    },
-    {
-      slug: 'vp-technical-seminar',
-      group: 'event',
-      category: 'Seminar',
-      title: 'Technical Demonstration I',
-      format: 'Technology Demonstration',
-      image: './assets/video/showreel-thumbs/seminar-making.jpg',
-      copy: '방송·영상 실무진 대상 기술 시연 행사 기록입니다.'
-    },
-    {
-      slug: 'genesis-print-campaign-01',
-      group: 'ad',
-      category: 'AD',
-      title: 'Genesis GV90 1',
-      format: 'Print Campaign',
-      image: './assets/images/portfolio/genesis-gv90-approved.jpg',
-      copy: 'Studio V에서 진행한 Genesis GV90 지면 촬영 기록입니다.'
-    },
-    {
-      slug: 'genesis-print-campaign-02',
-      group: 'ad',
-      category: 'AD',
-      title: 'Genesis GV90 2',
-      format: 'Print Campaign',
-      image: './assets/images/portfolio/genesis-gv90-02-approved.jpg',
-      copy: 'Studio V에서 진행한 Genesis GV90 지면 촬영 기록입니다.'
-    },
-    {
-      slug: 'avante-print-campaign',
-      group: 'ad',
-      category: 'AD',
-      title: 'Avante DN8',
-      format: 'Print Campaign',
-      image: './assets/images/portfolio/avante-dn8-approved.jpg',
-      copy: 'Studio V에서 진행한 Avante DN8 지면 촬영 기록입니다.'
-    }
-  ];
 
   const grid = document.querySelector('[data-works-grid]');
   const filterButtons = [...document.querySelectorAll('[data-filter]')];
-  const filters = ['film', 'series', 'ad', 'music', 'event'];
-  if (!grid) return;
+  const filters = ['all', 'film', 'series', 'ad', 'music', 'event'];
+  if (!grid || !catalog) return;
+
+  const recordsBySlug = new Map([...catalog.portfolioVideos, ...catalog.photos].map((work) => [work.projectSlug || work.slug, work]));
+  const works = catalog.portfolioOrder.map((slug) => recordsBySlug.get(slug)).filter(Boolean);
+  const workBySlug = new Map(works.map((work) => [work.slug, work]));
+  const projectBySlug = new Map(works.map((work) => [work.projectSlug || work.slug, work]));
+  const historicalShowreelHashes = {
+    'cube-of-memory': 'cube-of-memory-main',
+    'studio-cube-opening': 'opening-ceremony'
+  };
+  const player = typeof createPlayer === 'function' ? createPlayer() : null;
 
   const getThumb = (work) => {
     if (work.restricted) {
-      return `<div class="project-restricted-thumb" aria-label="${work.title} image restricted">
-        <span>Confidential</span>
-        <strong>${work.title}</strong>
-      </div>`;
+      return `<div class="project-restricted-thumb" aria-label="${work.title} image restricted"><span>Confidential</span><strong>${work.title}</strong></div>`;
     }
-
-    return `<img src="${versionedAsset(work.image)}" alt="${work.title}" loading="lazy" decoding="async">`;
+    return `<img src="${versionedAsset(work.thumb || work.image)}" alt="${work.title}" loading="lazy" decoding="async">`;
   };
 
   const render = (filter = 'all') => {
     const list = filter === 'all' ? works : works.filter((work) => work.group === filter);
-    grid.innerHTML = list.map((work, index) => `
-      <article class="work-card reveal" id="${work.slug}" style="--reveal-delay: ${Math.min(index, 8) * 42}ms">
-        <div class="work-card-link work-card-link--static">
-          <div class="work-image${work.restricted ? ' work-image--restricted' : ''}">
-            ${getThumb(work)}
-          </div>
-          <div class="work-body">
-            <span>${work.category}</span>
-            <h3>${work.title}</h3>
-          </div>
+    grid.innerHTML = list.map((work, index) => {
+      const isPlayable = Boolean(work.driveId && !work.restricted);
+      const content = `
+        <div class="work-image${isPlayable ? ' work-image--playable' : ''}${work.restricted ? ' work-image--restricted' : ''}">
+          ${getThumb(work)}
+          ${isPlayable ? '<span class="work-play-hint" aria-hidden="true">Play</span>' : ''}
         </div>
-      </article>
-    `).join('');
-    requestAnimationFrame(() => {
-      grid.querySelectorAll('.reveal').forEach((item) => item.classList.add('is-visible'));
+        <div class="work-body">
+          <span class="work-category">${work.category}</span>
+          <h3>${work.title}</h3>
+          <small class="work-format">${work.type}</small>
+        </div>
+      `;
+      return `
+        <article class="work-card reveal" id="${work.projectSlug || work.slug}" style="--reveal-delay: ${Math.min(index, 8) * 42}ms">
+          ${isPlayable
+            ? `<button class="work-card-link work-card-link--playable" type="button" data-media-slug="${work.slug}" aria-label="${work.title} ${work.type} 영상 열기">${content}</button>`
+            : `<div class="work-card-link work-card-link--static" aria-label="${work.title} Photo">${content}</div>`}
+        </article>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.reveal').forEach((item) => item.classList.add('is-visible'));
+    grid.querySelectorAll('[data-media-slug]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const work = workBySlug.get(button.dataset.mediaSlug);
+        if (!work || !player) return;
+        player.open(work, button);
+        if (window.location.search) {
+          history.replaceState(null, '', `?play=${encodeURIComponent(work.slug)}#${work.projectSlug || work.slug}`);
+        } else {
+          history.replaceState(null, '', `#${work.projectSlug || work.slug}`);
+        }
+      });
     });
   };
 
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      filterButtons.forEach((item) => item.classList.remove('is-active'));
-      button.classList.add('is-active');
-      render(button.dataset.filter);
+  const setFilter = (filter, { updateHash = false } = {}) => {
+    const nextFilter = filters.includes(filter) ? filter : 'all';
+    filterButtons.forEach((button) => {
+      const active = button.dataset.filter === nextFilter;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
     });
-  });
+    render(nextFilter);
+    if (updateHash) {
+      history.replaceState(null, '', nextFilter === 'all' ? window.location.pathname : `${window.location.pathname}#${nextFilter}`);
+    }
+  };
 
-  const hashFilter = window.location.hash.replace('#', '');
-  const initialFilter = filters.includes(hashFilter) ? hashFilter : 'all';
-  render(initialFilter);
-  filterButtons.forEach((item) => {
-    item.classList.toggle('is-active', item.dataset.filter === initialFilter);
+  const decodeHash = (value) => {
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return '';
+    }
+  };
+
+  const scrollToProject = (work) => {
+    if (!work) return;
+    requestAnimationFrame(() => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById(work.projectSlug || work.slug)?.scrollIntoView({ block: 'start', behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+  };
+
+  const openFromQuery = () => {
+    const requestedSlug = new URLSearchParams(window.location.search).get('play');
+    const work = requestedSlug ? workBySlug.get(requestedSlug) : null;
+    if (!work?.driveId || !player) return;
+    requestAnimationFrame(() => {
+      const trigger = grid.querySelector(`[data-media-slug="${work.slug}"]`);
+      player.open(work, trigger);
+    });
+  };
+
+  const handleLocation = () => {
+    const hash = decodeHash(window.location.hash.replace(/^#/, ''));
+    if (historicalShowreelHashes[hash]) {
+      window.location.replace(`./showreel.html#${historicalShowreelHashes[hash]}`);
+      return;
+    }
+    setFilter(filters.includes(hash) ? hash : 'all');
+    if (!filters.includes(hash)) scrollToProject(projectBySlug.get(hash) || workBySlug.get(hash));
+  };
+
+  filterButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', button.classList.contains('is-active') ? 'true' : 'false');
+    button.addEventListener('click', () => setFilter(button.dataset.filter, { updateHash: true }));
   });
+  window.addEventListener('hashchange', handleLocation);
+
+  handleLocation();
+  openFromQuery();
 })();

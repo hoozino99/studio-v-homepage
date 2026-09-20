@@ -7,6 +7,8 @@ const localPathPattern = /["'`](\.\/(?:assets|[a-z0-9-]+\.html)[^"'`)]*)["'`]/gi
 const htmlFiles = readdirSync(root).filter((file) => file.endsWith('.html'));
 const jsFiles = [
   'assets/main.js',
+  'assets/media-catalog.js',
+  'assets/media-player.js',
   'assets/works.js',
   'assets/showreel.js',
   'assets/tour.js'

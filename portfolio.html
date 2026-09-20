@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects | Studio V</title>
-  <meta name="description" content="Studio V 참여 프로젝트를 대표 이미지와 촬영 기록으로 정리했습니다.">
-  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-portfolio-v17">
+  <meta name="description" content="Studio V 참여 프로젝트를 대표 이미지와 쇼릴에서 분리된 촬영 기록으로 정리했습니다.">
+  <link rel="stylesheet" href="./assets/styles.css?v=studio-v-archive-split-20260920-v1">
   <link rel="icon" href="data:,">
 </head>
 <body data-page="portfolio">
@@ -42,15 +42,15 @@
       <div class="works-top reveal">
         <div>
           <h1>Projects</h1>
-          <p class="portfolio-intro">프로젝트별 대표 이미지와 촬영 기록을 확인할 수 있습니다.</p>
+          <p class="portfolio-intro">프로젝트별 영상과 촬영 기록을 확인할 수 있습니다.</p>
         </div>
-        <div class="filter-bar" role="tablist" aria-label="포트폴리오 필터">
-          <button type="button" class="is-active" data-filter="all">All</button>
-          <button type="button" data-filter="film">Film</button>
-          <button type="button" data-filter="series">Series</button>
-          <button type="button" data-filter="ad">AD</button>
-          <button type="button" data-filter="music">Music Video</button>
-          <button type="button" data-filter="event">Event</button>
+        <div class="filter-bar" role="group" aria-label="포트폴리오 필터">
+          <button type="button" class="is-active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="film" aria-pressed="false">Film</button>
+          <button type="button" data-filter="series" aria-pressed="false">Series</button>
+          <button type="button" data-filter="ad" aria-pressed="false">AD</button>
+          <button type="button" data-filter="music" aria-pressed="false">Music Video</button>
+          <button type="button" data-filter="event" aria-pressed="false">Event</button>
         </div>
       </div>
       <div class="works-grid" data-works-grid></div>
@@ -70,7 +70,9 @@
     </div>
   </footer>
 
-  <script src="./assets/main.js?v=studio-v-lightfield-v13"></script>
-  <script src="./assets/works.js?v=studio-v-portfolio-v08"></script>
+  <script src="./assets/main.js?v=studio-v-archive-split-v01"></script>
+  <script src="./assets/media-catalog.js?v=studio-v-archive-split-20260920-v1"></script>
+  <script src="./assets/media-player.js?v=studio-v-archive-split-20260920-v2"></script>
+  <script src="./assets/works.js?v=studio-v-archive-split-20260920-v1"></script>
 </body>
 </html>
