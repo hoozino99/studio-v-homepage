@@ -138,7 +138,7 @@
       copy: 'Studio V에서 진행한 LE SSERAFIM x Overwatch 뮤직비디오 메이킹 기록입니다.',
       aspect: 'landscape',
       thumb: './assets/video/showreel-thumbs/le-sserafim-overwatch.jpg',
-      driveId: '19SkAhCLzqFXd9e2hfIRjtYsaBJv86ZkD'
+      driveId: '1N2QgK6_4nRTVe2lUIlwhOFGfL1VULuQ6'
     },
     {
       slug: 'beyond-the-set',
